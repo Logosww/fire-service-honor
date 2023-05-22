@@ -1,0 +1,85 @@
+<template>
+  <div ref="containerRef" class="chart-container"></div>
+</template>
+
+<script lang="ts" setup>
+import * as echarts from 'echarts/core';
+import {
+  BarChart,
+  LineChart,
+  PieChart,
+  RadarChart
+} from 'echarts/charts';
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  DataZoomComponent
+} from 'echarts/components';
+import { LabelLayout, UniversalTransition } from 'echarts/features';
+import { CanvasRenderer } from 'echarts/renderers';
+import type {
+  BarSeriesOption, 
+  LineSeriesOption,
+  PieSeriesOption,
+  RadarSeriesOption
+} from 'echarts/charts';
+import type {
+  TitleComponentOption,
+  TooltipComponentOption,
+  GridComponentOption,
+  LegendComponentOption,
+  DataZoomComponentOption
+} from 'echarts/components';
+import type { 
+  ComposeOption,
+  ECharts
+} from 'echarts/core';
+
+type ECSeriesOption = 
+  | BarSeriesOption
+  | LineSeriesOption
+  | PieSeriesOption
+  | RadarSeriesOption;
+
+export type ECOption = ComposeOption<
+  | ECSeriesOption
+  | TitleComponentOption
+  | TooltipComponentOption
+  | GridComponentOption
+  | LegendComponentOption
+  | DataZoomComponentOption
+>;
+
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  DataZoomComponent,
+  BarChart,
+  LineChart,
+  PieChart,
+  RadarChart,
+  LabelLayout,
+  UniversalTransition,
+  CanvasRenderer
+]);
+
+const props = defineProps<{
+  option: ECOption
+}>();
+
+const containerRef = ref<HTMLDivElement>();
+let chart: ECharts;
+
+useResizeObserver(containerRef, () => chart!.resize());
+
+onMounted(() => {
+  const dom = containerRef.value!
+  chart = echarts.init(dom);
+
+  chart.setOption(props.option);
+});
+</script>

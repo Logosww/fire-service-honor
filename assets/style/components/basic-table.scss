@@ -1,0 +1,18 @@
+.basic-table-title {
+  display: flex;
+  align-items: center;
+  line-height: 20px;
+
+  &__bar {
+    float: left;
+    background-color: var(--el-color-primary);
+    width: 4px;
+    height: 16px;
+    border-radius: 8px;
+    margin-right: 8px;
+  }
+
+  &__content {
+    margin-right: 8px;
+  }
+}
