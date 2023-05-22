@@ -15,7 +15,7 @@
       <el-descriptions-item label="证件照">
         <el-image :src="profile.employeeAvatar" :preview-src-list="picList" style="border-radius: 4px;" fit="cover" />
       </el-descriptions-item>
-      <el-descriptions-item label="生活照">
+      <el-descriptions-item label="典型风采">
         <el-image v-for="(item, index) in profile.employeeLifePhoto" :src="item" :preview-src-list="picList" :initial-index="index + 1" style="margin-right: 15px; border-radius: 4px;" fit="cover" />
       </el-descriptions-item>
     </el-descriptions>
