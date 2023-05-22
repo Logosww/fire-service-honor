@@ -1,6 +1,8 @@
-# Nuxt 3 Minimal Starter
+# 杭州消防救援支队典型事迹管理系统
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## 描述
+
+<缺省>
 
 ## Setup
 
