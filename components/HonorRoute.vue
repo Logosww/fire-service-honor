@@ -2,7 +2,18 @@
   <el-timeline v-if="data.length">
     <el-timeline-item v-for="(item, index) in data" :key="index" :timestamp="item.issueDate" placement="top">
       <el-card style="margin-right: 20px;">
-        <h2>{{ item.honorName }}</h2>
+        <template #header>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1 style="margin: .4em 0;">{{ item.honorName }}</h1>
+            <el-image
+              style="width: 96px; height: 96px; border-radius: 8px;"
+              :src="item.honorPhoto"
+              :preview-src-list="[item.honorPhoto]"
+              fit="cover"
+              v-if="item.honorPhoto"
+            />
+          </div>
+        </template>
         <el-descriptions>
           <el-descriptions-item label="级别">{{ item.honorLevel }}</el-descriptions-item>
           <el-descriptions-item label="颁发单位">{{ item.issueUnit }}</el-descriptions-item>
