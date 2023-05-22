@@ -14,8 +14,7 @@ import {
   TitleComponent,
   TooltipComponent,
   GridComponent,
-  LegendComponent,
-  DataZoomComponent
+  LegendComponent
 } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -29,8 +28,7 @@ import type {
   TitleComponentOption,
   TooltipComponentOption,
   GridComponentOption,
-  LegendComponentOption,
-  DataZoomComponentOption
+  LegendComponentOption
 } from 'echarts/components';
 import type { 
   ComposeOption,
@@ -49,7 +47,6 @@ export type ECOption = ComposeOption<
   | TooltipComponentOption
   | GridComponentOption
   | LegendComponentOption
-  | DataZoomComponentOption
 >;
 
 echarts.use([
@@ -57,7 +54,6 @@ echarts.use([
   TooltipComponent,
   GridComponent,
   LegendComponent,
-  DataZoomComponent,
   BarChart,
   LineChart,
   PieChart,

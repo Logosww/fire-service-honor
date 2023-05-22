@@ -75,9 +75,6 @@ const lineChartOption = {
   ],
   tooltip: {
     trigger: 'axis',
-  },
-  dataZoom: {
-    type: 'inside'
   }
 };
 
@@ -106,10 +103,7 @@ const barChartOption = {
       type: 'bar',
       data: Object.values(honorTypeData.value)
     }
-  ],
-  dataZoom: {
-    type: 'inside'
-  }
+  ]
 };
 
 const pieChartOption = {

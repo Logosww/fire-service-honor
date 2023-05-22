@@ -132,6 +132,7 @@ const {
 } = await useFetchTableData(paramsForPadingFetch, props.composablePath);
 
 await fetchDataMethod();
+
 tableLoading.value = false;
 
 </script>
