@@ -1,7 +1,8 @@
 import COS from 'cos-js-sdk-v5';
 
-import type { ProgressInfo } from 'cos-js-sdk-v5';
 import { nanoid } from 'nanoid';
+import { COSBucketBaseUrl } from '@/constants';
+import type { ProgressInfo } from 'cos-js-sdk-v5';
 
 const config = {
   bucketName: 'pams-1318030356',
@@ -11,7 +12,8 @@ const config = {
 const cos = ref<COS>();
 
 export const useCOSUpload = async (
-  onProgress?: (params: ProgressInfo) => void
+  onProgress?: (params: ProgressInfo) => void,
+  returnUrl?: boolean
 ) => {
   const { data: bucketSecret, refresh: getCOSSecret } = await useGetCOSSecret();
 
@@ -35,7 +37,7 @@ export const useCOSUpload = async (
     const extension = file.name.split('.').at(-1);
     const generateKey = () => {
       const { type } = file;
-      return `${ type === 'image/png' ? 'image' : 'temp' }/${nanoid()}.${extension}`
+      return `${ type.startsWith('image') ? 'image' : 'temp' }/${nanoid()}.${extension}`
     };
     return new Promise<string>(async (resolve, reject) => {
       try {
@@ -49,7 +51,7 @@ export const useCOSUpload = async (
             onProgress
           }
         );
-        resolve(key);
+        resolve(returnUrl ? `${COSBucketBaseUrl}/${key}` : key);
       } catch(err) {
         reject(err)
       }

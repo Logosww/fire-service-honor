@@ -319,3 +319,12 @@ export const useGetMemberHonorTypeData = (params: { employeeId: number }) =>
 
 export const useGetMemberHonorLevelData = (params: { employeeId: number }) =>
   get('/employeeOverview/countEmployeeHonorByHonorLevel', params) as HttpResponse<Record<string, number>>;
+
+export const useGetPersonalDeed = (params: { employeeId: number }) =>
+  get('/employeeDeed/queryEmployeeDeed', params) as HttpResponse<string>;
+
+export const useModifyPersonalDeed = (params: { employeeId: number; content: string }) =>
+  nativeFetch('/employeeDeed/editEmployeeDeed', 'post', params) as Promise<null>;
+
+export const useDeletePersonalDeed = (params: { employeeId: number }) =>
+  del('/employeeDeed/deleteEmployeeDeed', params) as Promise<null>;

@@ -22,10 +22,7 @@
     </el-col>
   </el-row>
   <el-row :gutter="30">
-    <el-col :span="8">
-      <Chart :option="radarOption" />
-    </el-col>
-    <el-col :span="16">
+    <el-col>
       <Chart :option="lineChartOption" />
     </el-col>
   </el-row>
@@ -53,7 +50,6 @@ const { data: trainingCount } = await useGetMemberTrainingCount({ employeeId: id
 const { data: honorTrendData } = await useGetMemberHonorTrendData({ employeeId: id });
 const { data: honorTypeData } = await useGetMemberHonorTypeData({ employeeId: id });
 const { data: honorLevelData } = await useGetMemberHonorLevelData({ employeeId: id });
-const { data: radarData } = await useGetMemberRadarData({ employeeId: id });
 
 const lineChartOption = {
   title: {
@@ -133,32 +129,5 @@ const pieChartOption = {
       }
     }
   ]
-};
-
-const radarOption = {
-  title: {
-    text: '个人维度数据'
-  },
-  radar: {
-    // shape: 'circle',
-    indicator: Object.keys(radarData.value).map(key => ({ name: key }))
-  },
-  series: [
-    {
-      type: 'radar',
-      data: [
-        {
-          value: Object.values(radarData.value),
-          label: {
-            show: true,
-          },
-          areaStyle: {
-            color: 'rgba(116, 142, 222, .5)'
-          }
-        }
-      ]
-    }
-  ],
-  tooltip: {}
 };
 </script>

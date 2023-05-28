@@ -13,11 +13,12 @@
     "@vueuse/core": "^10.1.2",
     "@vueuse/nuxt": "^10.1.2",
     "normalize.css": "^8.0.1",
-    "nuxt": "^3.5.0",
+    "nuxt": "^3.5.1",
     "sass": "^1.62.1"
   },
   "dependencies": {
     "@element-plus/nuxt": "^1.0.5",
+    "@tinymce/tinymce-vue": "^5.1.0",
     "cos-js-sdk-v5": "^1.4.17",
     "echarts": "^5.4.2",
     "nanoid": "^4.0.2"

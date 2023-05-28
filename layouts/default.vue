@@ -9,7 +9,7 @@
       </el-aside>
       <el-main ref="mainContainerRef" style="padding-right: 0;">
         <el-scrollbar :max-height="height">
-          <el-page-header @back="handleGoBack">
+          <el-page-header @back="handleGoBack" title="返回">
             <template #breadcrumb v-if="!isIndex">
               <div class="breadcrumb">
                 <el-breadcrumb :separator-icon="ElIconArrowRight">

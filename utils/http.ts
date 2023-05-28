@@ -100,7 +100,7 @@ const fetch = (
 
     // skip the error handling process when set option immediate to false;
     if(options?.immediate === false) 
-      return resolve({ data: computed(() => _data.value?.data), refresh, pending });
+      return resolve({ data: ref(_data.value?.data), refresh, pending });
 
     // error handling for fetch failures
     if(error.value) {
@@ -119,7 +119,7 @@ const fetch = (
       message?.({ type: 'error', message: _data.value.msg });
       return reject(_data.value.msg);
     }
-    return resolve({ data: computed(() => _data.value!.data), refresh, pending });
+    return resolve({ data: ref(_data.value!.data), refresh, pending });
   });
 };
 

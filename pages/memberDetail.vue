@@ -17,6 +17,9 @@
       <el-tab-pane label="典型路线">
         <Typical :id="id" @append="handleAppend" @modify="handleModify" @delete="handleDelete" />
       </el-tab-pane>
+      <el-tab-pane label="个人事迹">
+        <PersonalDeed :id="id" />
+      </el-tab-pane>
       <el-tab-pane label="综合展示">
         <Summary :id="id" />
       </el-tab-pane>

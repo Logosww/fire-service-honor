@@ -7,6 +7,7 @@
       placeholder="请选择" 
       :multiple="multiple"
       :filterable="filterable"
+      :disabled="disabled"
       allow-create
       clearable
       v-if="!isTree"
@@ -25,6 +26,7 @@
       :data="options"
       :multiple="multiple"
       :filterable="filterable"
+      :disabled="disabled"
       :props="treeProps"
       :render-after-expand="false"
       placeholder="请选择"
@@ -43,6 +45,7 @@ const props = defineProps<{
   isTree?: boolean;
   multiple?: boolean;
   filterable?: boolean;
+  disabled?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -75,7 +78,7 @@ const resolveDepartmentString = (val: string) =>
 
 watchEffect(() => {
   const { modelValue } = props;
-  const val = resolveDepartmentString(modelValue as string);
+  const val = modelValue && resolveDepartmentString(modelValue as string);
   input.value = val;
 });
 

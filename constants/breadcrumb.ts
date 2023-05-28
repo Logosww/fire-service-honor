@@ -103,12 +103,12 @@ export const breadcrumbMap: BreadcrumbMap = {
     },
     { title: '人员信息' }
   ],
-  '/setPassword': [
+  '/personalDeeds': [
     {
-      title: '管理员',
-      to: '/setPassword',
+      title: '人员',
+      to: '/addPersonalDeeds',
       replace: true
     },
-    { title: '管理员密码修改' }
+    { title: '添加个人事迹' }
   ]
 };

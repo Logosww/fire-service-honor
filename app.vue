@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import zhCN from 'element-plus/dist/locale/zh-cn.min.mjs'
+import zhCN from 'element-plus/dist/locale/zh-cn.min.mjs';
 import { COSBucketBaseUrl } from '@/constants';
 
 import 'normalize.css';
