@@ -6,7 +6,7 @@
       <el-divider />
     </div>
     <div v-html="content" v-if="content"></div>
-    <el-empty :image-size="240" v-else>
+    <el-empty :image-size="150" v-else>
       <el-button type="primary" :icon="ElIconPlus" @click="navigateTo(`/personalDeed?id=${id}`)">新增</el-button>
     </el-empty>
   </div>

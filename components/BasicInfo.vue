@@ -20,7 +20,7 @@
           <el-descriptions-item label="典型风采">
             <el-carousel height="300px" style="border-radius: 4px;" autoplay>
               <el-carousel-item v-for="(item, index) in profile.employeeLifePhoto" :key="index">
-                <el-image :src="item" fit="cover" style="width: 100%; height: 100%;" />
+                <el-image :src="item" fit="cover" style="width: 100%; height: 100%;" :preview-src-list="profile.employeeLifePhoto" :initial-index="index" preview-teleported />
               </el-carousel-item>
             </el-carousel>
           </el-descriptions-item>
@@ -31,9 +31,27 @@
       </el-col>
     </el-row>
   </div>
+  <teleport to='#is-awarded-wrapper'>
+    <el-text tag="span" style="user-select: none; margin-right: 10px;"><el-icon style="margin-right: 5px;"><ElIconTrophy/></el-icon>设为典型人物</el-text>
+    <el-switch style="margin-right: 30px;" v-model="isAwarded" :before-change="handleIsAwardedChange" />
+  </teleport>
+  <ClientOnly>
+    <el-dialog title="设为典型人物" width="400" v-model="dialogVisible" align-center>
+      <el-form ref="formRef" :model="form" :rules="{ typicalHonor: { required: true, message: '请选择典型荣誉' }}">
+        <el-form-item label="典型荣誉" prop="typicalHonor">
+          <Select v-model="form.typicalHonor" select-target="#" :options="memberHonors" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button type="primary" @click="handleConfirm">确认</el-button>
+        <el-button @click="handleCancel">取消</el-button>
+      </template>
+    </el-dialog>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>
+import type { FormInstance } from 'element-plus';
 
 const props = defineProps<{
   id: number;
@@ -43,6 +61,48 @@ const { id } = props;
 
 const { data: profile } = await useGetMemberProfile({ employeeId: id });
 const { data: radarData } = await useGetMemberRadarData({ employeeId: id });
+
+const dialogVisible = ref(false);
+const isAwarded = ref(profile.value.isTypical);
+
+const form = reactive({ typicalHonor: '' });
+
+const formRef = ref<FormInstance>();
+
+const { data: memberHonors } = await useGetMemberHonors({ employeeId: id });
+
+let handleConfirm: () => void, handleCancel: () => void;
+
+const handleIsAwardedChange = () => {
+  if(isAwarded.value) {
+    return new Promise<boolean>((resolve, reject) => {
+      ElMessageBox.confirm('确认取消典型人物吗？', '警告', { type: 'warning' }).then(async () => {
+        await useCancelMemberAwarded({ employeeId: id });
+        ElMessage({ type: 'success', message: '取消成功' });
+        resolve(true);
+      }).catch(() => reject());
+    });
+  } else {
+    return new Promise<boolean>((resolve, reject) => {
+      dialogVisible.value = true;
+      handleConfirm = async () => {
+        formRef.value?.validate(async valid => {
+          if(!valid) return;
+
+          await useSetMemberAwarded({ employeeId: id, typicalHonor: form.typicalHonor });
+          ElMessage({ type: 'success', message: '设置成功' });
+          dialogVisible.value = false;
+          resolve(true);
+        });
+      };
+      handleCancel = () => {
+        dialogVisible.value = false;
+        reject();
+      };
+    });
+  }
+};
+
 
 const radarOption = {
   title: {

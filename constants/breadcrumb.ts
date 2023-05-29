@@ -103,12 +103,20 @@ export const breadcrumbMap: BreadcrumbMap = {
     },
     { title: '人员信息' }
   ],
-  '/personalDeeds': [
+  '/personalDeed': [
     {
       title: '人员',
       to: '/addPersonalDeeds',
       replace: true
     },
     { title: '添加个人事迹' }
+  ],
+  '/typicalCharactor': [
+    {
+      title: '人员',
+      to: '/typicalCharactor',
+      replace: true
+    },
+    { title: '典型人物管理' }
   ]
 };

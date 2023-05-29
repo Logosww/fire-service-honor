@@ -60,7 +60,7 @@ const handleLogin = () => {
     ElNotification({ type: 'success', message: '登录成功' });
     localStorage.setItem('username', form.username);
     form.rememberMe && localStorage.setItem('keep-auth', 'true');
-    return navigateTo('/');
+    return navigateTo('/admin');
   });
 };
 

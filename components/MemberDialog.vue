@@ -180,7 +180,7 @@ watch(
       const { memberId: employeeId } = props;
       if(!employeeId) return;
       isLoading.value = true;
-      const { data } = await useGetMemberDetail({ employeeId });
+      const { data } = await useGetMemberProfile({ employeeId });
       setFormValue(form, data);
       if(form.employeeLifePhoto.length) {
         let uid = 0;

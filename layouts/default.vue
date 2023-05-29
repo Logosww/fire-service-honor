@@ -28,6 +28,9 @@
             <template #content>
               <span class="content-title">{{ breadcrumbs?.at(-1)?.title ?? '首页' }}</span>
             </template>
+            <template #extra>
+              <div id="is-awarded-wrapper"></div>
+            </template>
           </el-page-header>
           <div class="page-content">
             <slot />
@@ -50,7 +53,7 @@ const router = useRouter();
 
 const mainContainerRef = ref<HTMLElement>();
 
-const isIndex = computed(() => route.path === '/');
+const isIndex = computed(() => route.path === '/admin');
 const breadcrumbs = computed(() => breadcrumbMap[route.path]);
 
 const { height } = useElementSize(mainContainerRef);

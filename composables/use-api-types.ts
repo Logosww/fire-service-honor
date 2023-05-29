@@ -1,4 +1,4 @@
-import type { Ref, UnwrapNestedRefs } from 'vue';
+import type { Ref } from 'vue';
 import type { HttpResponse } from '@/utils';
 
 export interface PagingTableData {
@@ -32,22 +32,6 @@ export interface TreeNodeData {
   label: string;
   children?: TreeNodeData[];
   focusOnSpawn?: boolean;
-};
-
-export interface MemberDetail extends Record<string, any> {
-  id: number;
-  employeeName: string;
-  employeeDepartment: string;
-  employeePositionRank: string;
-  employeeTypeName: string;
-  employeeAvatar: string;
-  employeeLifePhoto: string[];
-  employeeSex: string;
-  employeeBirthdayDate: string;
-  employeeJoinDate: string;
-  employeeTitleRank: string[];
-  employeeStatus: string[];
-  employeeQuitDate: string[];
 };
 
 export interface DepartmentDetail {
@@ -100,18 +84,20 @@ export interface HonorApplication {
 };
 
 export interface MemberProfile {
+  id: number;
   employeeName: string;
   employeeDepartment: string;
   employeePositionRank: string;
-  employeeTypeName: string,
-  employeeAvatar: string,
-  employeeLifePhoto: string[],
-  employeeSex: string,
-  employeeBirthdayDate: string,
-  employeeJoinDate: string,
-  employeeTitleRank: string[],
-  employeeStatus: string,
-  employeeQuitDate: string
+  employeeTypeName: string;
+  employeeAvatar: string;
+  employeeLifePhoto: string[];
+  employeeSex: string;
+  employeeBirthdayDate: string;
+  employeeJoinDate: string;
+  employeeTitleRank: string[];
+  employeeStatus: string;
+  employeeQuitDate: string;
+  isTypical: boolean;
 };
 
 export interface JobHitory {
@@ -167,6 +153,34 @@ export interface ElTableRowScope {
   $index: number;
   cellIndex: number;
   row: Record<string, any> & { id: number };
+};
+
+export interface AwardedMemberDetail {
+  employeeId: number;
+  typicalEmployeePhoto: string;
+  employeeName: string;
+  employeePosition: string;
+  employeeDepartmentName: string;
+  typicalHonor: string;
+  radarMap: {
+    '劳': number;
+    '绩': number;
+    '基': number;
+    '纪': number;
+    '能': number;
+    '政': number;
+  };
+};
+
+export interface LogDetail {
+  operaUsername: string;
+  departmentName: string;
+  isAdmin: boolean;
+  operaModule: string;
+  operaType: string;
+  operaDescription: string;
+  result: boolean;
+  operaTime: string
 };
 
 export type FetchTableDataComposable = (params: ParamsForPagingFetch) => HttpResponse<PagingTableData>;

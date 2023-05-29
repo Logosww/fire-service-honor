@@ -13,9 +13,9 @@
       v-if="!isTree"
     >
       <el-option
-        v-for="(item, index) in options"
+        v-for="(item, index) in resolvedOptions"
         :key="index"
-        :value="item.label"
+        :value="(item as any).label ?? item"
         clearable
       />
     </el-select>
@@ -23,7 +23,7 @@
       :modelValue="input"
       @update:modelValue="handleInputChange"
       @clear="handleClear"
-      :data="options"
+      :data="resolvedOptions"
       :multiple="multiple"
       :filterable="filterable"
       :disabled="disabled"
@@ -32,6 +32,7 @@
       placeholder="请选择"
       check-on-click-node
       check-strictly
+      clearable
       v-else
     />
   </ClientOnly>
@@ -42,6 +43,7 @@
 const props = defineProps<{
   modelValue: string | string[];
   selectTarget: string;
+  options?: any[];
   isTree?: boolean;
   multiple?: boolean;
   filterable?: boolean;
@@ -52,7 +54,7 @@ const emit = defineEmits<{
   (event: 'update:modelValue', val: string | string[]): void;
 }>();
 
-const { data: options } = await useGetSelectOptions(props.selectTarget);
+const resolvedOptions = props.options ?? (await useGetSelectOptions(props.selectTarget)).data;
 
 const treeProps = {
   value: 'label',

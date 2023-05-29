@@ -71,7 +71,7 @@ const handleLogout = async () => {
   await useLogout();
   useAuth().value = false;
   useAdmin().value = false;
-  navigateTo('/login');
+  navigateTo('/');
   ElNotification({ type: 'success', message: '登出成功' });
 };
 
@@ -92,7 +92,7 @@ const handleModifyPwd = () => {
 };
 
 onMounted(() => {
-  username.value = localStorage.getItem('username');
+  username.value = localStorage.getItem('username') ?? '';
 })
 </script>
 

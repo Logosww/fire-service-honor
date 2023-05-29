@@ -36,25 +36,58 @@
     <template #tableOperationColumn>
       <el-table-column label="操作" width="150" align="center">
         <template #default="scope">
-          <el-button :icon="ElIconView" type="primary" @click="handleView(scope)" text round>查看详情</el-button>
+          <el-button :icon="ElIconView" type="primary" @click="e => handleView(e, scope)" text round>查看详情</el-button>
         </template>
       </el-table-column>
     </template>
   </Manage>
+  <ClientOnly>
+    <el-popover
+      ref="detailRef"
+      width="500"
+      :visible="detailVisible"
+      popper-class="log-detail"
+      placement="bottom-end"
+      transition="slide-up"
+      :hide-after="0"
+      :virtual-ref="detailTriggerRef"
+      @hide="detailTriggerRef = undefined"
+      virtual-triggering
+    >
+     <el-descriptions :column="2" v-loading="isLoading" border>
+      <el-descriptions-item label="操作用户名">{{ detail?.operaUsername }}</el-descriptions-item>
+      <el-descriptions-item label="部门名称">{{ detail?.departmentName }}</el-descriptions-item>
+      <el-descriptions-item label="是否超级管理员权限">{{ detail?.isAdmin }}</el-descriptions-item>
+      <el-descriptions-item label="操作模块">{{ detail?.operaModule }}</el-descriptions-item>
+      <el-descriptions-item label="操作类型">{{ detail?.operaType }}</el-descriptions-item>
+      <el-descriptions-item label="操作描述">{{ detail?.operaDescription }}</el-descriptions-item>
+      <el-descriptions-item label="操作结果">{{ detail?.result }}</el-descriptions-item>
+      <el-descriptions-item label="操作时间">{{ detail?.operaTime }}</el-descriptions-item>
+     </el-descriptions>
+    </el-popover>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>
 import { datePickerShortcuts, tableColumnPropsMap } from '@/constants';
 import Manage from '@/components/Manage.vue';
 
-import type { ElTableRowScope } from '@/composables/use-api-types';
+import type { ElTableRowScope, LogDetail } from '@/composables/use-api-types';
 
 definePageMeta({
   middleware: 'auth'
 });
 
 const tableColumnProps = tableColumnPropsMap['/log'];
+
+const isLoading = ref(false);
+const detailVisible = ref(false);
+const detailRef = ref();
+const detail = ref<LogDetail>();
+const detailTriggerRef = ref();
 const manageRef = ref<InstanceType<typeof Manage>>();
+
+onClickOutside(detailRef, () => detailVisible.value && (detailVisible.value = false));
 
 const queryForm = reactive({
   datetimeRange: '',
@@ -72,8 +105,17 @@ const handleQuery = () => {
   manageRef.value?.queryData(form);
 };
 
-const handleView = (scope: ElTableRowScope) => {
+const handleView = async (e: MouseEvent, scope: ElTableRowScope) => {
+  const { target } = e;
   const { row: { id } } = scope;
-  
+  detailTriggerRef.value = target!;
+  setTimeout(() => detailVisible.value = true);
+  isLoading.value = true;
+  detail.value = await useGetLogDetail({ logId: id });
+  isLoading.value = false;
 };
 </script>
+
+<style lang="scss">
+  @use '@/assets/style/log' as *;
+</style>

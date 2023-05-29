@@ -4,7 +4,6 @@ import type {
   PagingTableData,
   COSBucketSecret,
   TreeNodeData,
-  MemberDetail,
   DepartmentDetail,
   Honor,
   HonorDetail,
@@ -15,7 +14,9 @@ import type {
   Event,
   Contest,
   Training,
-  Typical
+  Typical,
+  AwardedMemberDetail,
+  LogDetail
 } from './use-api-types';
 import type { SearchParameters } from 'ofetch';
 import { AnnualAssessment } from './use-api-types';
@@ -61,9 +62,6 @@ export const useGetMembers = (params: ParamsForPagingFetch) =>
 
 export const useQueryMemebers = (params: Record<string, any>) =>
   nativeFetch('/employee/queryListEmployByCondition', 'post', params) as Promise<any[]>;
-
-export const useGetMemberDetail = (parmas: { employeeId: number }) =>
-  get('/employee/queryEmployeeDetailById', parmas) as HttpResponse<MemberDetail>;
 
 export const useDeleteMember = (params: { employeeId: number }) =>
   del('/employee/deleteEmployee', params) as Promise<null>;
@@ -328,3 +326,21 @@ export const useModifyPersonalDeed = (params: { employeeId: number; content: str
 
 export const useDeletePersonalDeed = (params: { employeeId: number }) =>
   del('/employeeDeed/deleteEmployeeDeed', params) as Promise<null>;
+
+export const useGetMemberHonors = (params: { employeeId: number }) =>
+  get('/selection/queryListEmployeeTypicalHonor', params) as HttpResponse<Record<string, any>[]>;
+
+export const useSetMemberAwarded = (params: { employeeId: number; typicalHonor: string }) =>
+  nativeFetch('/typicalCharacter/confirm', 'post', params) as Promise<null>;
+
+export const useCancelMemberAwarded = (params: { employeeId: number }) =>
+  del('/typicalCharacter/cancel', params) as Promise<null>;
+
+export const useGetAwardedMembers = () =>
+  get('/typicalCharacter/list') as HttpResponse<AwardedMemberDetail[]>;
+
+export const useQueryAwardedMember = (params: Record<string, any>) =>
+  nativeFetch('/typicalCharacter/listByCondition', 'post', params) as Promise<AwardedMemberDetail[]>;
+
+export const useGetLogDetail = (params: { logId: number }) =>
+  nativeFetch('/operaLog/queryOperaLogDetailById', 'get', params) as Promise<LogDetail>;

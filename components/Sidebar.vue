@@ -15,6 +15,7 @@
         </template>
         <el-menu-item index="/member">人员管理</el-menu-item>
         <el-menu-item index="/department">集体管理</el-menu-item>
+        <el-menu-item index="/typicalCharactor">典型人物管理</el-menu-item>
       </el-sub-menu>
       <el-sub-menu index="2">
         <template #title>
