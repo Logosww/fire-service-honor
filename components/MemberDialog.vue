@@ -164,7 +164,6 @@ const handleLifePicUploaded = (key: string) => {
 };
 
 const handleLifePicRemove = (file: UploadFile, files: UploadFiles) => {
-  debugger
   const { uid } = file;
   const index = files.findIndex(file => file.uid === uid);
   if(index < 0) return false;

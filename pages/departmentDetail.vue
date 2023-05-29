@@ -4,6 +4,13 @@
       <el-descriptions-item label="名称">{{ data.departmentName }}</el-descriptions-item>
       <el-descriptions-item label="上级部门">{{ data.departmentParent }}</el-descriptions-item>
       <el-descriptions-item label="负责人">{{ data.departmentLeader }}</el-descriptions-item>
+      <el-descriptions-item label="集体照片">
+        <el-carousel v-if="data.departmentPhoto.length">
+          <el-carousel-item v-for="(item, index) in data.departmentPhoto">
+            <el-image :src="item" fit="cover" style="width: 100%; height: 100%;" :preview-src-list="data.departmentPhoto" :initial-index="index" preview-teleported />
+          </el-carousel-item>
+        </el-carousel>
+      </el-descriptions-item>
       <el-descriptions-item label="联系电话">{{ data.departmentPhone }}</el-descriptions-item>
       <el-descriptions-item label="简介">{{ data.departmentDescription }}</el-descriptions-item>
     </el-descriptions>

@@ -30,8 +30,8 @@
   </Manage>
   <ClientOnly v-if="isAdmin">
     <el-dialog
-      width="420"
-      :style="{ paddingRight: '30px' }"
+      width="540"
+      :style="{ paddingRight: '50px' }"
       :title="departmentId ? '编辑集体' : '添加集体'"
       v-model="dialogVisible"
       align-center
@@ -49,6 +49,18 @@
         <el-form-item prop="departmentPhone" label="联系电话">
           <el-input v-model="departmentForm.departmentPhone" placeholder="请输入" />
         </el-form-item>
+        <el-form-item prop="departmentPhoto" label="集体照片">
+          <el-upload
+            accept="image/png, image/jpeg"
+            :file-list="fileList"
+            list-type="picture-card"
+            :http-request="options => doUpload(options)"
+            :before-remove="handlePhothoRemove"
+            :limit="3"
+          >
+            <el-icon><ElIconPlus /></el-icon>
+          </el-upload>
+        </el-form-item>
         <el-form-item prop="departmentDescription" label="集体简介">
           <el-input v-model="departmentForm.departmentDescription" type="textarea" :autosize="{ minRows: 3 }" />
         </el-form-item>
@@ -62,11 +74,17 @@
 </template>
 
 <script lang="ts" setup>
-import { tableColumnPropsMap } from '@/constants';
+import { tableColumnPropsMap, COSBucketBaseUrl } from '@/constants';
 
 import Manage from '@/components/Manage.vue';
 
-import type { FormInstance, FormRules } from 'element-plus';
+import type { 
+  FormInstance,
+  FormRules,
+  UploadFiles,
+  UploadRequestOptions,
+  UploadFile
+} from 'element-plus';
 import type { DepartmentDetail, ElTableRowScope } from '@/composables/use-api-types';
 
 definePageMeta({
@@ -93,7 +111,8 @@ const departmentForm =
   departmentDescription: '',
   departmentLeader: '',
   departmentPhone: '',
-  departmentParent: ''
+  departmentParent: '',
+  departmentPhoto: []
 });
 
 const departmentFormRef = ref<FormInstance>();
@@ -120,6 +139,28 @@ const rules: FormRules = {
     message: '请选择上级部门',
     trigger: 'blur'
   }
+};
+
+const fileList = ref<UploadFiles>([]);
+
+const { upload } = await useCOSUpload();
+
+const doUpload = async (
+  options: UploadRequestOptions
+) => {
+  const { file } = options;
+  const key = await upload(file);
+  const url = `${COSBucketBaseUrl}/${key}`;
+  departmentForm.departmentPhoto.push(url);
+  ElMessage({ type: 'success', message: '上传成功' });
+};
+
+const handlePhothoRemove = (file: UploadFile, files: UploadFiles) => {
+  const { uid } = file;
+  const index = files.findIndex(file => file.uid === uid);
+  if(index < 0) return false;
+  departmentForm.departmentPhoto.splice(index, 1);
+  return true;
 };
 
 const handleConfirm = () => {
@@ -170,6 +211,7 @@ watch(
       isLoading.value = false;
     } else {
       restoreForm(departmentForm, departmentFormRef);
+      fileList.value = [];
       departmentId.value = 0;
     }
   }

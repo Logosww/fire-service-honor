@@ -42,6 +42,7 @@ export interface DepartmentDetail {
   departmentParent: string;
   departmentDescription: string;
   departmentHonorList: Honor[];
+  departmentPhoto: string[];
 };
 
 export interface Honor {
