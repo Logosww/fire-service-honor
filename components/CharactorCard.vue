@@ -1,9 +1,9 @@
 <template>
-  <el-card class="charactor-card" shadow="hover" :style="{ width: width }">
+  <el-card :class="['charactor-card', clickable ? 'is-clickable' : '']" shadow="hover" :style="{ width: width }" @click="clickable && emit('open', detail)">
     <el-row>
       <el-col :span="11">
         <div class="charactor-pic">
-          <el-image style="height: 100%;" :src="detail.typicalEmployeePhoto" fit="cover" :preview-src-list="[detail.typicalEmployeePhoto]" preview-teleported />
+          <el-image style="height: 100%;" :src="detail.typicalEmployeePhoto" fit="cover" :preview-src-list="[detail.typicalEmployeePhoto]" preview-teleported @click.stop />
         </div>
       </el-col>
       <el-col :span="13">
@@ -27,7 +27,11 @@ import type { AwardedMemberDetail } from '@/composables/use-api-types';
 
 const props = defineProps<{
   detail: AwardedMemberDetail;
+  clickable?: boolean;
   width?: string;
+}>();
+const emit = defineEmits<{
+  open: [member: AwardedMemberDetail];
 }>();
 
 const { detail } = props;

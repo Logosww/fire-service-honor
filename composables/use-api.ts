@@ -16,7 +16,8 @@ import type {
   Training,
   Typical,
   AwardedMemberDetail,
-  LogDetail
+  LogDetail,
+  TypicalHonor
 } from './use-api-types';
 import type { SearchParameters } from 'ofetch';
 import { AnnualAssessment } from './use-api-types';
@@ -344,3 +345,15 @@ export const useQueryAwardedMember = (params: Record<string, any>) =>
 
 export const useGetLogDetail = (params: { logId: number }) =>
   nativeFetch('/operaLog/queryOperaLogDetailById', 'get', params) as Promise<LogDetail>;
+
+export const useGetLifePhotos = () =>
+  get('/portal/listLifePhoto') as HttpResponse<string[]>;
+
+export const useGetAwardedMembersAll = () =>
+  get('/portal/listTypicalCharacter') as HttpResponse<(AwardedMemberDetail & { isTypicalDeed: boolean })[]>
+
+export const useGetTypicalHonors = () =>
+  get('/portal/listTypicalHonor') as HttpResponse<TypicalHonor[]>;
+
+export const useGetDepartmentPhotos = () => 
+  get('/portal/listBrigade') as HttpResponse<{ departmentId: number; departmentPhoto: string; departmentName: string; }[]>;

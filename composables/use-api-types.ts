@@ -184,6 +184,13 @@ export interface LogDetail {
   operaTime: string
 };
 
+export interface TypicalHonor {
+  honorName: string;
+  honorPerson: string;
+  honorLevel: string;
+  issueDate: string;
+};
+
 export type FetchTableDataComposable = (params: ParamsForPagingFetch) => HttpResponse<PagingTableData>;
 export type QueryTableDataMethod = (params: Record<string, any>) => Promise<any[]>;
 

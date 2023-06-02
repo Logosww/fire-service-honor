@@ -2,7 +2,7 @@
   <div>
     <el-button :icon="ElIconSelect" style="margin-bottom: 10px;" type="primary" @click="handleSave">保存</el-button>
     <Editor
-      v-model="editContent"
+      v-model="content"
       api-key="qkzruwok1b2w0xv38p723m9rjdtl8lcfaj7yiegxks5wdmx2"
       :init="editInit"
     />
@@ -18,8 +18,9 @@ definePageMeta({
 
 const route = useRoute();
 const id = parseInt(route.query.id as unknown as string);
-const content = ref('')
-const { data: editContent } = await useGetPersonalDeed({ employeeId: id });
+const { data: initContent } = await useGetPersonalDeed({ employeeId: id });
+const content = ref(initContent.value)
+
 
 let progressHandler: (percent: number) => void;
 
@@ -61,7 +62,7 @@ const editInit = {
 };
 
 const handleSave = async () => {
-  await useModifyPersonalDeed({ employeeId: id, content: editContent.value });
+  await useModifyPersonalDeed({ employeeId: id, content: content.value });
   ElMessage({ type: 'success', message: '保存成功' });
   await navigateTo(`/memberDetail?id=${id}`);
 };

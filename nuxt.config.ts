@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
   vite: {
     ssr: {
-      noExternal: ['@popperjs/core']
+      noExternal: ['@popperjs/core', 'echarts']
     }
   }
 })

@@ -30,6 +30,9 @@ definePageMeta({
   layout: false
 });
 
+const auth = useAuth().value;
+if(auth) await navigateTo('/admin');
+
 const form = reactive({
   username: '',
   password: '',
