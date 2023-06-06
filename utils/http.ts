@@ -4,7 +4,7 @@ import type {
   AsyncData,
   UseFetchOptions as _UseFetchOptions
 } from 'nuxt/dist/app/composables';
-import type { ComputedRef } from 'vue';
+import type { WritableComputedRef } from 'vue';
 import type { MaybeRef } from '@vueuse/core';
 import type { SearchParameters } from 'ofetch';
 
@@ -25,7 +25,7 @@ export type HttpResponse<T> =
     Pick<
       AsyncData<T, Error>,
       'refresh' | 'pending'
-    > & Record<'data', ComputedRef<T>>
+    > & Record<'data', WritableComputedRef<T>>
   >;
 
 const baseURL = 'https://api.pams.ishortv.top';
@@ -100,7 +100,10 @@ const fetch = (
 
     // skip the error handling process when set option immediate to false;
     if(options?.immediate === false) 
-      return resolve({ data: computed(() => _data.value?.data), refresh, pending });
+      return resolve({ data: computed({
+        get: () => _data.value?.data,
+        set: val => _data.value!.data = val
+      }), refresh, pending });
 
     // error handling for fetch failures
     if(error.value) {
@@ -119,7 +122,10 @@ const fetch = (
       message?.({ type: 'error', message: _data.value.msg });
       return reject(_data.value.msg);
     }
-    return resolve({ data: computed(() => _data.value!.data), refresh, pending });
+    return resolve({ data: computed({
+      get: () => _data.value!.data,
+      set: val => _data.value!.data = val
+    }), refresh, pending });
   });
 };
 

@@ -18,8 +18,7 @@ definePageMeta({
 
 const route = useRoute();
 const id = parseInt(route.query.id as unknown as string);
-const { data: initContent } = await useGetPersonalDeed({ employeeId: id });
-const content = ref(initContent.value)
+const { data: content } = await useGetPersonalDeed({ employeeId: id });
 
 
 let progressHandler: (percent: number) => void;
