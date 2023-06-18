@@ -3,9 +3,9 @@
     <div class="query-container">
       <slot name="query" />
     </div>
-    <el-skeleton :loading="tableLoading" :throttle="500" animated>
+    <el-skeleton :loading="tableLoading" animated>
       <template #template>
-        <div class="table-skeleton" v-for="n in 11">
+        <div class="table-skeleton" v-for="n in 16">
           <el-skeleton-item variant="rect" />
         </div>
       </template>
@@ -77,10 +77,10 @@ const paramsForPadingFetch: ParamsForPagingFetch = ref({
 
 const result = ref<any[]>([]);
 const isQueryed = ref(false);
-const resolvedData = computed(() => isQueryed.value ? result.value : data.value.records);
+const resolvedData = computed(() => isQueryed.value ? result.value : data.value?.records);
 const resolvedPaginationProps = computed(() => ({
-  total: isQueryed.value ? result.value.length : data.value.total,
-  pageCount: isQueryed.value ? undefined : data.value.pages,
+  total: isQueryed.value ? result.value.length : data.value?.total,
+  pageCount: isQueryed.value ? undefined : data.value?.pages,
   pageSize: paramsForPadingFetch.value.size,
   currentPage: isQueryed.value 
     ? queryResultCurrentPage.value 
@@ -131,9 +131,9 @@ const {
   queryTableData
 } = await useFetchTableData(paramsForPadingFetch, props.composablePath);
 
-await fetchDataMethod();
-
-tableLoading.value = false;
+onMounted(() => {
+  fetchDataMethod().then(() => setTimeout(() => tableLoading.value = false, 500));
+});
 
 </script>
 

@@ -59,7 +59,7 @@ export const useGetCOSSecret = () =>
   get('/cos/querySecret', undefined, undefined, { immediate: false }) as HttpResponse<COSBucketSecret>;
 
 export const useGetMembers = (params: ParamsForPagingFetch) =>
-  get('/employee/queryPageEmployeeList', params) as HttpResponse<PagingTableData>;
+  get('/employee/queryPageEmployeeList', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
 
 export const useQueryMemebers = (params: Record<string, any>) =>
   nativeFetch('/employee/queryListEmployByCondition', 'post', params) as Promise<any[]>;
@@ -74,7 +74,7 @@ export const useModifyMember = (params: Record<string, any> & { id: number }) =>
   put('/employee/modifyEmployee', params) as Promise<null>;
 
 export const useGetDepartments = (params: ParamsForPagingFetch) =>
-  get('/department/queryPageDepartment', params) as HttpResponse<PagingTableData>;
+  get('/department/queryPageDepartment', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
 
 export const useQueryDepartments = (params: Record<string, any>) =>
   nativeFetch('/department/queryListDepartmentByCondition', 'get', params) as Promise<any[]>;
@@ -92,13 +92,13 @@ export const useModifyDepartment = (params: Record<string, any> & { id: number }
   put('/department/modifyDepartment', params) as Promise<null>;
 
 export const useGetLogs = (params: ParamsForPagingFetch) =>
-  get('/operaLog/queryPageOperaLog', params) as HttpResponse<PagingTableData>;
+  get('/operaLog/queryPageOperaLog', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
 
 export const useQueryLogs = (params: Record<string, any>) =>
   nativeFetch('/operaLog/queryListOperaLogByCondition', 'post', params) as Promise<any[]>;
 
 export const useGetUsers = (params: ParamsForPagingFetch) =>
-  get('/user/queryPageUser', params) as HttpResponse<PagingTableData>;
+  get('/user/queryPageUser', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
 
 export const useQueryUsers = (params: Record<string, any>) =>
   nativeFetch('/user/queryListUserByCondition', 'post', params) as Promise<any[]>;
@@ -134,7 +134,7 @@ export const useModifyDictionary = (params: {
   put('/dict/modifyDict', params) as Promise<null>;
 
 export const useGetHonors = (params: ParamsForPagingFetch) =>
-  get('/honor/queryPageHonor', params) as HttpResponse<PagingTableData>;
+  get('/honor/queryPageHonor', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
 
 export const useQueryHonors = (params: Record<string, any>) =>
   nativeFetch('/honor/queryListHonorByCondition', 'post', params) as Promise<Honor[]>;
@@ -152,7 +152,7 @@ export const useModifyHonor = (params: Record<string, any> & { id: number }) =>
   put('/honor/modifyHonor', params) as Promise<null>;
 
 export const useGetHonorProjects = (params: ParamsForPagingFetch) => 
-  get('/honorProject/queryPageHonorProject', params) as HttpResponse<PagingTableData>;
+  get('/honorProject/queryPageHonorProject', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
 
 export const useQueryHonorProjects = (params: Record<string, any>) =>
   nativeFetch('/honorProject/queryListHonorProject', 'post', params) as Promise<HonorProject[]>;
@@ -167,7 +167,7 @@ export const useModifyHonorProject = (params: Record<string, any> & { id: number
   put('/honorProject/modifyHonorProject', params) as Promise<null>;
 
 export const useGetUndealtApplications = (params: ParamsForPagingFetch) =>
-  get('/honorAuditApply/queryPageHonorAuditApply', params) as HttpResponse<PagingTableData>;
+  get('/honorAuditApply/queryPageHonorAuditApply', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
 
 export const useGetDealtApplications = (params: ParamsForPagingFetch) =>
   get('/honorAuditApply/queryPageHonorAuditApplyDone', params) as HttpResponse<PagingTableData>;

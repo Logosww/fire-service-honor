@@ -1,5 +1,6 @@
 .manage-container {
   .query-container {
+    animation: fade-in .3s;
     margin: 20px 50px;
   }
   
@@ -15,4 +16,17 @@
       border-radius: 8px;
     }
   }
+
+  .table-container {
+    animation: fade-in .3s;
+  }
+}
+
+@keyframes fade-in {
+ from {
+  opacity: 0;
+ } 
+ to {
+  opacity: 1;
+ }
 }

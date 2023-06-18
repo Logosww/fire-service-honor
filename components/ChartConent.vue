@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import * as echarts from 'echarts/core';
+import { echarts } from '@/utils/echarts';
 import {
   BarChart,
   LineChart,
@@ -34,6 +34,7 @@ import type {
   ComposeOption,
   ECharts
 } from 'echarts/core';
+import { isDarkInjectionKey } from '@/tokens';
 
 type ECSeriesOption = 
   | BarSeriesOption
@@ -72,10 +73,18 @@ let chart: ECharts;
 
 useResizeObserver(containerRef, () => chart!.resize());
 
+const isDark = inject(isDarkInjectionKey)!;
+
 onMounted(() => {
-  const dom = containerRef.value!
+  const dom = containerRef.value!;
   chart = echarts.init(dom);
 
+  chart.setOption(props.option);
+});
+
+watch(isDark, val => {
+  chart.dispose();
+  chart = echarts.init(containerRef.value!, val ? 'myDark' : undefined);
   chart.setOption(props.option);
 });
 </script>
