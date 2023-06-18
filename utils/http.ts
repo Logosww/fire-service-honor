@@ -77,15 +77,15 @@ const fetch = (
 
     // only use response error interceptor when set option immediate to false,
     // cause those request on take place on client-side
-    const onResponseError: UseFetchOptions['onResponseError'] | undefined =
-      options?.immediate === false
-      ? async ({ response }) => {
-        const { status } = response;
-        if(status === 401 || status === 409) redirectToLogin();
-        else if(status === 403) 
-          message!({ type: 'error', message: '你的权限不足' });
-      }
-      : undefined
+    // const onResponseError: UseFetchOptions['onResponseError'] | undefined =
+    //   options?.immediate === false
+    //   ? async ({ response }) => {
+    //     const { status } = response;
+    //     if(status === 401 || status === 409) redirectToLogin();
+    //     else if(status === 403) 
+    //       message!({ type: 'error', message: '你的权限不足' });
+    //   }
+    //   : undefined
     const { data: _data, error, refresh, pending } = await useFetch(
       url,
       { 
@@ -93,7 +93,7 @@ const fetch = (
         headers: customHeaders,
         baseURL,
         // onResponse,
-        onResponseError,
+        // onResponseError,
         ...options
       }
     );

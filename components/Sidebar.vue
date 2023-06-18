@@ -2,7 +2,7 @@
   <ClientOnly>
     <el-menu
       active-text-color="#5eaeff"
-      background-color="#495c6e"
+      :background-color="isDark ? '#262727' : '#495c6e'"
       text-color="#fff"
       :default-openeds="['1', '2', '3']"
       :default-active="activeMenu"
@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { breadcrumbsKey } from '@/tokens';
+import { breadcrumbsKey, isDarkInjectionKey } from '@/tokens';
 
 const breadcumbs = inject(breadcrumbsKey);
 const activeMenu = breadcumbs?.value?.length
@@ -54,4 +54,5 @@ const activeMenu = breadcumbs?.value?.length
   : undefined;
 
 const isAdmin = useAdmin();
+const isDark = inject(isDarkInjectionKey);
 </script>

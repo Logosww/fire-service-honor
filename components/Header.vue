@@ -7,6 +7,7 @@
   </div>
   <div class="header-operation">
     <span class="header-welcome">{{ username }} 您好！</span>
+    <ThemeToggler class="header-theme-toggler" />
     <el-button-group>
       <el-button :icon="ElIconLock" @click="dialogVisible = true" round>修改密码</el-button>
       <ClientOnly>
@@ -93,7 +94,7 @@ const handleModifyPwd = () => {
 
 onMounted(() => {
   username.value = localStorage.getItem('username') ?? '';
-})
+});
 </script>
 
 <style lang="scss">

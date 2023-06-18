@@ -1,5 +1,5 @@
 <template>
-  <el-form inline>
+  <el-form style="margin-top: 20px;" inline>
     <el-form-item label="姓名"><AutoComplete v-model="queryForm.employeeName" query-target="EmployeeName" /></el-form-item>
     <el-form-item label="部门"><Select v-model="queryForm.departmentName" select-target="DepartmentTree" is-tree /></el-form-item>
     <el-form-item label="排序维度"><Select v-model="queryForm.regular" select-target="#" :options="['劳', '绩', '基', '纪', '能', '政']" /></el-form-item>
