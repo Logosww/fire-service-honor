@@ -41,7 +41,7 @@
           :page-count="resolvedPaginationProps.pageCount"
           :page-size="resolvedPaginationProps.pageSize"
           :current-page="resolvedPaginationProps.currentPage"
-          @current-change="page => paramsForPadingFetch.page = page"
+          @current-change="handlePageChange"
           hide-on-single-page
         />
       </div>
@@ -77,15 +77,20 @@ const paramsForPadingFetch: ParamsForPagingFetch = ref({
 
 const result = ref<any[]>([]);
 const isQueryed = ref(false);
-const resolvedData = computed(() => isQueryed.value ? result.value : data.value?.records);
+const resolvedData = computed(() => isQueryed.value ? resolvedResult.value : data.value?.records);
 const resolvedPaginationProps = computed(() => ({
   total: isQueryed.value ? result.value.length : data.value?.total,
   pageCount: isQueryed.value ? undefined : data.value?.pages,
-  pageSize: paramsForPadingFetch.value.size,
+  pageSize: paramsForPadingFetch.value.size!,
   currentPage: isQueryed.value 
     ? queryResultCurrentPage.value 
     : paramsForPadingFetch.value.page
 }));
+const resolvedResult = computed(() => {
+  const { pageSize, currentPage } = resolvedPaginationProps.value;
+  const offset = pageSize * (currentPage - 1);
+  return result.value.slice(offset, offset + pageSize);
+});
 
 const doQuery = ref<(params?: any) => void>();
 
@@ -130,6 +135,11 @@ const {
   fetchDataMethod,
   queryTableData
 } = await useFetchTableData(paramsForPadingFetch, props.composablePath);
+
+const handlePageChange = (page: number) => {
+  if(isQueryed.value) queryResultCurrentPage.value = page;
+  else paramsForPadingFetch.value.page = page;
+};
 
 onMounted(() => {
   fetchDataMethod().then(() => setTimeout(() => tableLoading.value = false, 500));

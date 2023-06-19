@@ -2,8 +2,6 @@ import { fetchTableDataComposablesMap } from "@/constants";
 
 import type { ParamsForPagingFetch } from "./use-api-types";
 
-const noop = () => {};
-
 export const useFetchTableData = async (
   params: ParamsForPagingFetch,
   path?: string
