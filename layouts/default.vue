@@ -13,7 +13,7 @@
             <template #breadcrumb v-if="!isIndex">
               <div class="breadcrumb">
                 <el-breadcrumb :separator-icon="ElIconArrowRight">
-                  <el-breadcrumb-item to="/">首页</el-breadcrumb-item>
+                  <el-breadcrumb-item to="/admin">首页</el-breadcrumb-item>
                   <el-breadcrumb-item
                     v-for="(item, index) in breadcrumbs"
                     :key="index"

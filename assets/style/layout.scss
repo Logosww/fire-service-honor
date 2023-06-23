@@ -97,12 +97,20 @@
   }
 }
 
-@at-root .dark .footer {
+@at-root .dark {
+  .footer  {
     background-color: #213d5b;
-}
+  }
 
-@at-root .dark .header {
-  --color-primary: #3375b9;
+  .header {
+    --color-primary: #3375b9;
+  }
+
+  .form-pic-uploader {
+    .el-upload {
+      background-color: #262727 !important;
+    }
+  }
 }
 
 @include respond-to('xxl') {

@@ -54,4 +54,16 @@ export const fetchTableDataComposablesMap: Record<
     fetchComposable: useGetMembers,
     queryMethod: useQueryMemebers
   },
+  'typicalCharactor-level-0': {
+    fetchComposable: useGetLevel0AwardedMembers,
+    queryMethod: useQueryAwardedMember
+  },
+  'typicalCharactor-level-1': {
+    fetchComposable: useGetLevel1AwardedMembers,
+    queryMethod: useQueryAwardedMember
+  },
+  'typicalCharactor-level-2': {
+    fetchComposable: useGetLevel2AwardedMembers,
+    queryMethod: useQueryAwardedMember
+  },
 };

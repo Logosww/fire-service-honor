@@ -98,7 +98,15 @@ export interface MemberProfile {
   employeeTitleRank: string[];
   employeeStatus: string;
   employeeQuitDate: string;
-  isTypical: boolean;
+  typicalLevel: -1 | 0 | 1 | 2;
+  radar: {
+    '劳': number;
+    '绩': number;
+    '基': number;
+    '纪': number;
+    '能': number;
+    '政': number;
+  }
 };
 
 export interface JobHitory {
@@ -158,19 +166,9 @@ export interface ElTableRowScope {
 
 export interface AwardedMemberDetail {
   employeeId: number;
-  typicalEmployeePhoto: string;
   employeeName: string;
   employeePosition: string;
   employeeDepartmentName: string;
-  typicalHonor: string;
-  radarMap: {
-    '劳': number;
-    '绩': number;
-    '基': number;
-    '纪': number;
-    '能': number;
-    '政': number;
-  };
 };
 
 export interface LogDetail {
@@ -189,6 +187,12 @@ export interface TypicalHonor {
   honorPerson: string;
   honorLevel: string;
   issueDate: string;
+};
+
+export interface AwardedMemberDisplay {
+  employeeName: string;
+  displayImgUrl: string;
+  displayContent: string;
 };
 
 export type FetchTableDataComposable = (params: ParamsForPagingFetch) => HttpResponse<PagingTableData>;

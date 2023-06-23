@@ -328,5 +328,19 @@ export const tableColumnPropsMap: TableColumnPropsMap = {
       prop: 'typeDescription',
       label: '典型描述'
     }
-  ]
+  ],
+  '/typicalCharactor': [
+    {
+      prop: 'employeeName',
+      label: '姓名'
+    },
+    {
+      prop: 'employeeDepartmentName',
+      label: '部门'
+    },
+    {
+      prop: 'employeePosition',
+      label: '职级'
+    }
+  ],
 };

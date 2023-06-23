@@ -32,26 +32,12 @@
     </el-row>
   </div>
   <teleport to='#is-awarded-wrapper'>
-    <el-text tag="span" style="user-select: none; margin-right: 10px;"><el-icon style="margin-right: 5px;"><ElIconTrophy/></el-icon>设为典型人物</el-text>
-    <el-switch style="margin-right: 30px;" v-model="isAwarded" :before-change="handleIsAwardedChange" />
+    <el-text tag="span" style="user-select: none; margin-right: 10px;"><el-icon style="margin-right: 5px;"><ElIconTrophy/></el-icon>设为大队典型</el-text>
+    <el-switch style="margin-right: 30px;" v-model="isAwarded" :loading="isSwitching" :before-change="handleIsAwardedChange" inline-prompt :active-icon="ElIconCheck" :inactive-icon="ElIconClose" />
   </teleport>
-  <ClientOnly>
-    <el-dialog title="设为典型人物" width="400" v-model="dialogVisible" align-center>
-      <el-form ref="formRef" :model="form" :rules="{ typicalHonor: { required: true, message: '请选择典型荣誉' }}">
-        <el-form-item label="典型荣誉" prop="typicalHonor">
-          <Select v-model="form.typicalHonor" select-target="#" :options="memberHonors" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <el-button type="primary" @click="handleConfirm">确认</el-button>
-        <el-button @click="handleCancel">取消</el-button>
-      </template>
-    </el-dialog>
-  </ClientOnly>
 </template>
 
 <script lang="ts" setup>
-import type { FormInstance } from 'element-plus';
 
 const props = defineProps<{
   id: number;
@@ -60,49 +46,30 @@ const props = defineProps<{
 const { id } = props;
 
 const { data: profile } = await useGetMemberProfile({ employeeId: id });
-const { data: radarData } = await useGetMemberRadarData({ employeeId: id });
+const { radar: radarData } = profile.value;
 
-const dialogVisible = ref(false);
-const isAwarded = ref(profile.value.isTypical);
-
-const form = reactive({ typicalHonor: '' });
-
-const formRef = ref<FormInstance>();
-
-const { data: memberHonors } = await useGetMemberHonors({ employeeId: id });
-
-let handleConfirm: () => void, handleCancel: () => void;
+const isSwitching = ref(false);
+const isAwarded = ref(profile.value.typicalLevel >= 0);
 
 const handleIsAwardedChange = () => {
+  isSwitching.value = true;
   if(isAwarded.value) {
-    return new Promise<boolean>((resolve, reject) => {
-      ElMessageBox.confirm('确认取消典型人物吗？', '警告', { type: 'warning' }).then(async () => {
-        await useCancelMemberAwarded({ employeeId: id });
-        ElMessage({ type: 'success', message: '取消成功' });
-        resolve(true);
-      }).catch(() => reject());
-    });
-  } else {
-    return new Promise<boolean>((resolve, reject) => {
-      dialogVisible.value = true;
-      handleConfirm = async () => {
-        formRef.value?.validate(async valid => {
-          if(!valid) return;
-
-          await useSetMemberAwarded({ employeeId: id, typicalHonor: form.typicalHonor });
-          ElMessage({ type: 'success', message: '设置成功' });
-          dialogVisible.value = false;
-          resolve(true);
-        });
-      };
-      handleCancel = () => {
-        dialogVisible.value = false;
-        reject();
-      };
-    });
+    if(profile.value.typicalLevel) 
+      return ElMessageBox.alert('此人已被设为更高等级的典型人物，请在典型管理中进行降级和取消。', '提示', { icon: markRaw(ElIconInfoFilled) })
+        .then(() => false)
+        .finally(() => isSwitching.value = false);
+    else return ElMessageBox.confirm('确定取消大队典型吗？', '提示').then(async() => {
+      await useDemoteAwardedMemberLevel({ employeeId: id });
+      ElMessage({ type: 'success', message: '取消成功' });
+      return true;
+    }).finally(() => isSwitching.value = false);
   }
+  else return ElMessageBox.confirm('确定将其设为大队典型吗?', '提示').then(async () => {
+    await useSetMemberAwarded({ employeeId: id });
+    ElMessage({ type: 'success', message: '设置成功' });
+    return true;
+  }).finally(() => isSwitching.value = false);
 };
-
 
 const radarOption = {
   title: {
@@ -110,7 +77,7 @@ const radarOption = {
   },
   radar: {
     // shape: 'circle',
-    indicator: Object.keys(radarData.value).map(key => ({ name: key }))
+    indicator: Object.keys(radarData).map(key => ({ name: key }))
   },
   series: [
     {
@@ -118,7 +85,7 @@ const radarOption = {
       name: '个人维度数据',
       data: [
         {
-          value: Object.values(radarData.value),
+          value: Object.values(radarData),
           label: {
             show: true,
           },

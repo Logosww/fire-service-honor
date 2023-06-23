@@ -122,7 +122,12 @@ const restoreQuery = (form: Record<string, any>) => {
 };
 
 const refreshData = 
-  computed(() => isQueryed.value ? doQuery.value! : fetchDataMethod);
+  computed(() => isQueryed.value 
+    ? doQuery.value! 
+    : () => {
+      isQuerying.value = true;
+      fetchDataMethod().finally(() => isQuerying.value = false)
+    });
 
 defineExpose({
   queryData,

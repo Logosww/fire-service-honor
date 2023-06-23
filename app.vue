@@ -1,12 +1,12 @@
 <template>
-  <div id="app">
-    <NuxtLayout>
+  <NuxtLayout>
+    <div id="app">
       <NuxtLoadingIndicator />
       <el-config-provider :button="{ autoInsertSpace: true }" :locale="zhCN">
         <NuxtPage />
       </el-config-provider>
-    </NuxtLayout>
-  </div>
+    </div>
+  </NuxtLayout>
 </template>
 
 <script setup>

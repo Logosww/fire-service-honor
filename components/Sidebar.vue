@@ -26,7 +26,6 @@
         <el-menu-item index="/honorProject" v-if="isAdmin">荣誉项目管理</el-menu-item>
         <el-menu-item index="/honorAudit" v-if="isAdmin">荣誉审核</el-menu-item>
         <el-menu-item index="/honorApply" v-else>荣誉申请</el-menu-item>
-        <el-menu-item index="/honorStatistics" v-if="isAdmin">荣誉统计</el-menu-item>
       </el-sub-menu>
       <el-menu-item index="/serviceChange" v-if="isAdmin">
         <el-icon><ElIconSwitch /></el-icon>

@@ -6,7 +6,7 @@ import type {
 } from 'nuxt/dist/app/composables';
 import type { WritableComputedRef } from 'vue';
 import type { MaybeRef } from '@vueuse/core';
-import type { SearchParameters } from 'ofetch';
+import type { SearchParameters, FetchError } from 'ofetch';
 
 interface ResOptions<T> {
   data: T;
@@ -112,8 +112,8 @@ const fetch = (
         redirectToLogin();
       else if(statusCode === 403) 
         message!({ type: 'error', message: '你的权限不足' });
+      else message?.({ type: 'error', message: '网络异常' }); 
       
-      message?.({ type: 'error', message: '网络异常' }); 
       reject(error.value);
     };
 
@@ -156,19 +156,21 @@ export const nativeFetch = async (
         return reject(data.msg);
       }
       return resolve(data.data);
-    }).catch(err => {
+    }).catch((err: FetchError<ResOptions<any>>) => {
       if(!err.data) {
         message?.({ type: 'error', message: '网络异常' });
         return reject(err);
       }
-      const { status } = err.data as Response;
+      const { status } = err;
       if(status === 401 || status === 409) {
         message?.({ type: 'error', message: '登录信息过期，请重新登录' });
         navigateTo('/login', { redirectCode: 302 });
       } else if (status === 403)
         message?.({ type: 'error', message: '你的权限不足' });
-      
-      message?.({ type: 'error', message: '网络异常' });
+      else if(status === 500)
+        message?.({ type: 'error', message: err.data.msg });
+      else message?.({ type: 'error', message: '网络异常' });
+
       return reject(err.data);
     })
   });

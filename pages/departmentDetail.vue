@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-top: 20px;">
     <el-descriptions title="基本信息" border>
       <el-descriptions-item label="名称">{{ data.departmentName }}</el-descriptions-item>
       <el-descriptions-item label="上级部门">{{ data.departmentParent }}</el-descriptions-item>

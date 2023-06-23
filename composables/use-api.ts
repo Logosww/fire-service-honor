@@ -17,7 +17,8 @@ import type {
   Typical,
   AwardedMemberDetail,
   LogDetail,
-  TypicalHonor
+  TypicalHonor,
+  AwardedMemberDisplay
 } from './use-api-types';
 import type { SearchParameters } from 'ofetch';
 import { AnnualAssessment } from './use-api-types';
@@ -307,9 +308,6 @@ export const useGetMemberContributionCount = (params: { employeeId: number }) =>
 export const useGetMemberTrainingCount = (params: { employeeId: number }) =>
   get('/employeeOverview/countEmployeeTrain', params) as HttpResponse<number>;
 
-export const useGetMemberRadarData = (params: { employeeId: number }) =>
-  get('/employeeOverview/countRadar', params) as HttpResponse<Record<string, number>>;
-
 export const useGetMemberHonorTrendData = (params: { employeeId: number }) =>
   get('/employeeOverview/countEmployeeHonorTrendByYear', params) as HttpResponse<Record<string, number>>;
 
@@ -331,17 +329,36 @@ export const useDeletePersonalDeed = (params: { employeeId: number }) =>
 export const useGetMemberHonors = (params: { employeeId: number }) =>
   get('/selection/queryListEmployeeTypicalHonor', params) as HttpResponse<Record<string, any>[]>;
 
-export const useSetMemberAwarded = (params: { employeeId: number; typicalHonor: string }) =>
+export const useSetMemberAwarded = (params: { employeeId: number }) =>
   nativeFetch('/typicalCharacter/confirm', 'post', params) as Promise<null>;
 
-export const useCancelMemberAwarded = (params: { employeeId: number }) =>
-  del('/typicalCharacter/cancel', params) as Promise<null>;
+export const useGetLevel0AwardedMembers = (parmas: ParamsForPagingFetch) =>
+  post('/typicalCharacter/page', ref({ typicalLevel: 0, ...unref(parmas) }), undefined, { key: 'level-0' }) as HttpResponse<PagingTableData>;
 
-export const useGetAwardedMembers = () =>
-  get('/typicalCharacter/list') as HttpResponse<AwardedMemberDetail[]>;
+export const useGetLevel1AwardedMembers = (parmas: ParamsForPagingFetch) =>
+  post('/typicalCharacter/page', ref({ typicalLevel: 1, ...unref(parmas) }), undefined, { key: 'level-1' }) as HttpResponse<PagingTableData>;
+
+export const useGetLevel2AwardedMembers = (parmas: ParamsForPagingFetch) =>
+  post('/typicalCharacter/page', ref({ typicalLevel: 2, ...unref(parmas) }), undefined, { key: 'level-2' }) as HttpResponse<PagingTableData>;
 
 export const useQueryAwardedMember = (params: Record<string, any>) =>
   nativeFetch('/typicalCharacter/listByCondition', 'post', params) as Promise<AwardedMemberDetail[]>;
+
+export const usePromoteAwardedMemberLevel = (params: { employeeId: number }) =>
+  put('/typicalCharacter/promote', params) as Promise<null>;
+
+export const useDemoteAwardedMemberLevel = (params: { employeeId: number }) =>
+  del('/typicalCharacter/cancel', params) as Promise<null>;
+
+export const useGetAwardedMemberDisplay = (params: { employeeId: number }) =>
+  get('/queryTypicalDisplay', params) as HttpResponse<AwardedMemberDisplay>;
+
+export const useModifyAwardedMemberDisplay = (params: {
+  employeeId: number;
+  displayImgUrl: string;
+  displayContent: string;
+}) =>
+  put('/editTypicalDisplay', params) as Promise<null>;
 
 export const useGetLogDetail = (params: { logId: number }) =>
   nativeFetch('/operaLog/queryOperaLogDetailById', 'get', params) as Promise<LogDetail>;

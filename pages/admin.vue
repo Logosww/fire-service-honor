@@ -1,35 +1,37 @@
 <template>
-  <el-row style="margin-top: 20px;" :gutter="50">
-    <el-col :span="6">
-      <el-card shadow="hover">
-        <el-statistic title="人员总数" value-style="font-size: 20px;" :value="memberCount" />
-      </el-card>
-    </el-col>
-    <el-col :span="6">
-      <el-card shadow="hover">
-        <el-statistic title="单位总数" :value="departmentCount" />
-      </el-card>
-    </el-col>
-    <el-col :span="6">
-      <el-card shadow="hover">
-        <el-statistic title="荣誉总数" :value="honorCount" />
-      </el-card>
-    </el-col>
-    <el-col :span="6">
-      <el-card shadow="hover">
-        <el-statistic title="系统登录次数" :value="loginCount" />
-      </el-card>
-    </el-col>
+  <div style="animation: fade-in .3s;">
+    <el-row style="margin-top: 20px;" :gutter="50">
+      <el-col :span="6">
+        <el-card shadow="hover">
+          <el-statistic title="人员总数" value-style="font-size: 20px;" :value="memberCount" />
+        </el-card>
+      </el-col>
+      <el-col :span="6">
+        <el-card shadow="hover">
+          <el-statistic title="单位总数" :value="departmentCount" />
+        </el-card>
+      </el-col>
+      <el-col :span="6">
+        <el-card shadow="hover">
+          <el-statistic title="荣誉总数" :value="honorCount" />
+        </el-card>
+      </el-col>
+      <el-col :span="6">
+        <el-card shadow="hover">
+          <el-statistic title="系统登录次数" :value="loginCount" />
+        </el-card>
+      </el-col>
+      </el-row>
+    <Chart :option="lineChartOption" />
+    <el-row :gutter="30">
+      <el-col :span="16">
+        <Chart :option="barChartOption" />
+      </el-col>
+      <el-col :span="8">
+        <Chart :option="pieChartOption" />
+      </el-col>
     </el-row>
-  <Chart :option="lineChartOption" />
-  <el-row :gutter="30">
-    <el-col :span="16">
-      <Chart :option="barChartOption" />
-    </el-col>
-    <el-col :span="8">
-      <Chart :option="pieChartOption" />
-    </el-col>
-  </el-row>
+  </div>
 </template>
 
 <script setup>
