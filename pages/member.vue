@@ -3,7 +3,6 @@
     ref="manageRef"
     :table-column-props="tableColumnsProps"
     :query-form="queryForm"
-    :multiple-select="isAdmin"
   >
     <template #query>
       <el-form inline>
@@ -16,27 +15,22 @@
         <el-form-item>
           <el-button :icon="ElIconSearch" type="primary" @click="manageRef?.queryData(queryForm)">查询</el-button>
           <el-button :icon="ElIconRefresh" @click="manageRef?.restoreQuery(queryForm)">重置</el-button>
-          <el-button type="primary" :icon="ElIconPlus" @click="(dialogVisible = true) && (memberId = 0)" text round v-if="isAdmin">添加成员</el-button>
+          <el-button type="primary" :icon="ElIconPlus" @click="(dialogVisible = true) && (memberId = 0)" text round>添加成员</el-button>
         </el-form-item>
       </el-form>
     </template>
 
     <template #tableOperationColumn>
-      <el-table-column width="330" label="操作" align="center" v-if="isAdmin">
+      <el-table-column width="330" label="操作" align="center">
         <template #default="scope">
           <el-button :icon="ElIconDelete" type="danger" @click="handleDelete(scope)">删除</el-button>
           <el-button :icon="ElIconEdit" type="primary" @click="handleModify(scope)">编辑</el-button>
           <el-button :icon="ElIconView" type="primary" @click="handleView(scope)" text round>查看详情</el-button>
         </template>
       </el-table-column>
-      <el-table-column width="150" label="操作" align="center" v-else>
-        <template #default="scope">
-          <el-button :icon="ElIconView" type="primary" @click="handleView(scope)" text round>查看详情</el-button>
-        </template>
-      </el-table-column>
     </template>
   </Manage>
-  <MemberDialog :member-id="memberId" v-model="dialogVisible" @submit="handleSubmit" v-if="isAdmin" />
+  <MemberDialog :member-id="memberId" v-model="dialogVisible" @submit="handleSubmit" />
 </template>
 
 <script lang="ts" setup>
@@ -51,8 +45,6 @@ definePageMeta({
 });
 
 const tableColumnsProps = tableColumnPropsMap['/member'];
-
-const isAdmin = useAdmin();
 
 const dialogVisible = ref(false);
 const memberId = ref(0);

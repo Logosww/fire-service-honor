@@ -20,7 +20,7 @@
         <template #tableOperationColumn>
           <el-table-column label="操作" align="center" width="480px">
             <template #default="scope">
-              <el-popconfirm  title="确定升级为支队典型吗" width="240px" @confirm="handlePromote(scope)">
+              <el-popconfirm  title="确定升级为支队典型吗" width="240px" @confirm="handlePromote(scope)" v-if="isAdmin">
                 <template #reference>
                   <el-button type="success" :icon="ElIconArrowUpBold" round text>升级</el-button>
                 </template>

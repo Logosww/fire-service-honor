@@ -3,7 +3,6 @@
     ref="manageRef"
     :table-column-props="tableColumnsProps"
     :query-form="queryForm"
-    :multiple-select="isAdmin"
   >
     <template #query>
       <el-form inline>
@@ -13,12 +12,12 @@
         <el-form-item>
           <el-button :icon="ElIconSearch" type="primary" @click="manageRef?.queryData(queryForm)">查询</el-button>
           <el-button :icon="ElIconRefresh" @click="manageRef?.restoreQuery(queryForm)">重置</el-button>
-          <el-button :icon="ElIconPlus" type="primary" @click="(dialogVisible = true) && (departmentId = 0)" text round v-if="isAdmin">添加部门</el-button>
+          <el-button :icon="ElIconPlus" type="primary" @click="(dialogVisible = true) && (departmentId = 0)" text round>添加部门</el-button>
         </el-form-item>
       </el-form>
     </template>
 
-    <template #tableOperationColumn v-if="isAdmin">
+    <template #tableOperationColumn>
       <el-table-column width="330" label="操作" align="center">
         <template #default="scope">
           <el-button :icon="ElIconDelete" type="danger" @click="handleDelete(scope)">删除</el-button>
@@ -28,7 +27,7 @@
       </el-table-column>
     </template>
   </Manage>
-  <ClientOnly v-if="isAdmin">
+  <ClientOnly>
     <el-dialog
       width="540"
       :style="{ paddingRight: '50px' }"
@@ -92,8 +91,6 @@ definePageMeta({
 });
 
 const tableColumnsProps = tableColumnPropsMap['/department'];
-
-const isAdmin = useAdmin();
 
 const dialogVisible = ref(false);
 const isSubmit = ref(false);
