@@ -35,20 +35,20 @@ export const fetchTableDataComposablesMap: Record<
     queryMethod: useQueryHonorProjects
   },
   '/honorAudit/undealt': {
-    fetchComposable: useGetUndealtApplications,
-    queryMethod: useQueryUndealtApplications
+    fetchComposable: useGetApplications,
+    queryMethod: useQueryApplications
   },
   '/honorAudit/dealt': {
-    fetchComposable: useGetDealtApplications,
-    queryMethod: useQueryDealtApplications
+    fetchComposable: useGetReturnedApplications,
+    queryMethod: useQueryReturnedApplications
   },
   '/honorApply/undealt': {
-    fetchComposable: useGetUndealtApplications,
-    queryMethod: useQueryUndealtApplications
+    fetchComposable: useGetApplications,
+    queryMethod: useQueryApplications
   },
   '/honorApply/dealt': {
-    fetchComposable: useGetDealtApplications,
-    queryMethod: useQueryDealtApplications
+    fetchComposable: useGetReturnedApplications,
+    queryMethod: useQueryReturnedApplications
   },
   '/serviceChange': {
     fetchComposable: useGetMembers,

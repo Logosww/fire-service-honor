@@ -1,8 +1,8 @@
 <template>
   <el-tabs v-model="activeTab" @tab-change="handleTabChange">
-    <el-tab-pane label="待审核">
+    <el-tab-pane label="提交记录">
       <Manage
-        ref="undealtManageRef"
+        ref="manageRef"
         composable-path="/honorApply/undealt"
         :table-column-props="undealtTableColumnProps"
         multiple-select
@@ -36,8 +36,8 @@
               </ClientOnly>
             </el-form-item>
             <el-form-item>
-              <el-button :icon="ElIconSearch" type="primary" @click="undealtManageRef?.queryData(undealtQueryForm)">查询</el-button>
-              <el-button :icon="ElIconRefresh" @click="undealtManageRef?.restoreQuery(undealtQueryForm)">重置</el-button>
+              <el-button :icon="ElIconSearch" type="primary" @click="manageRef?.queryData(undealtQueryForm)">查询</el-button>
+              <el-button :icon="ElIconRefresh" @click="manageRef?.restoreQuery(undealtQueryForm)">重置</el-button>
               <el-button :icon="ElIconPlus" type="primary" @click="(honorVisible = true) && (applicationId = 0)" text round>申请荣誉</el-button>
             </el-form-item>
           </el-form>
@@ -45,17 +45,20 @@
         <template #tableOperationColumn>
           <el-table-column label="操作" width="350" align="center">
             <template #default="scope">
-              <el-button :icon="ElIconCloseBold" type="danger" @click="handleCancel(scope)">撤销</el-button>
-              <el-button :icon="ElIconEdit" type="primary" @click="handleModify(scope)">编辑</el-button>
+              <el-popconfirm title="确认撤销该申请吗？" width="200px" @confirm="handleCancel(scope)">
+                <template #reference>
+                  <el-button :icon="ElIconCloseBold" type="danger" text round>撤销</el-button>
+                </template>
+              </el-popconfirm>
               <el-button :icon="ElIconView" type="primary" @click="handleView(scope)" text round>查看详情</el-button>
             </template>
           </el-table-column>
         </template>
       </Manage>
     </el-tab-pane>
-    <el-tab-pane label="已审核">
+    <el-tab-pane label="退回记录">
       <Manage
-        ref="dealtManageRef"
+        ref="returnedManageRef"
         composable-path="/honorApply/dealt"
         :table-column-props="dealtTableColumnProps"
         multiple-select
@@ -89,8 +92,8 @@
               </ClientOnly>
             </el-form-item>
             <el-form-item>
-              <el-button :icon="ElIconSearch" type="primary" @click="dealtManageRef?.queryData(dealtQueryForm)">查询</el-button>
-              <el-button :icon="ElIconRefresh" @click="dealtManageRef?.restoreQuery(dealtQueryForm)">重置</el-button>
+              <el-button :icon="ElIconSearch" type="primary" @click="returnedManageRef?.queryData(dealtQueryForm)">查询</el-button>
+              <el-button :icon="ElIconRefresh" @click="returnedManageRef?.restoreQuery(dealtQueryForm)">重置</el-button>
             </el-form-item>
           </el-form>
         </template>
@@ -125,12 +128,10 @@ const activeTab = ref('0');
 const applicationVisible = ref(false);
 const honorVisible = ref(false);
 const applicationId = ref(0);
-const applicationStatus = ref<
-  '待处理' | '通过' | '退回'
->('待处理');
+const applicationStatus = ref<'通过' | '退回'>('通过');
 
-const undealtManageRef = ref<InstanceType<typeof Manage>>();
-const dealtManageRef = ref<InstanceType<typeof Manage>>();
+const manageRef = ref<InstanceType<typeof Manage>>();
+const returnedManageRef = ref<InstanceType<typeof Manage>>();
 
 const undealtQueryForm = reactive({
   honorPersonType: '',
@@ -149,9 +150,9 @@ const dealtQueryForm = reactive({
   timeRange: ''
 });
 
-const handleTabChange = (tab: string) => {
-  const manageRef = tab === '0' ? undealtManageRef : dealtManageRef;
-  manageRef.value?.refreshData();
+const handleTabChange = (tab: string | number) => {
+  const ref = tab === '0' ? manageRef : returnedManageRef;
+  ref.value?.refreshData();
 };
 
 const handleView = (scope: ElTableRowScope) => {
@@ -165,24 +166,15 @@ const handleCancel = (scope: ElTableRowScope) => {
   const { row: { id: honorApplyId } } = scope;
   ConfirmDelete('荣誉申请', async () => {
     await useCancelApplication({ honorApplyId });
-    undealtManageRef.value?.refreshData();
+    manageRef.value?.refreshData();
     ElMessage({ type: 'success', message: '删除成功' });
   })
 };
 
-const handleModify = (scope: ElTableRowScope) => {
-  const { row: { id, auditStatus: status } } = scope;
-  applicationId.value = id;
-  honorVisible.value = true;
-};
-
 const handleSubmit = async (form: Record<string, any>) => {
-  const { value: id } = applicationId;
-  id
-    ? await useModifyApplication({ id, ...form })
-    : await useSubmitApplication(form);
-  undealtManageRef.value?.refreshData();
-  ElMessage({ type: 'success', message: id ? '编辑成功' : '申请成功' });
+  await useSubmitApplication(form);
+  manageRef.value?.refreshData();
+  ElMessage({ type: 'success', message: '申请成功' });
   honorVisible.value = false;
 };
 </script>

@@ -7,7 +7,7 @@
             class="form-pic-uploader"
             accept="image/png, image/jpeg"
             :show-file-list="false"
-            :http-request="options => doUpload(options)"
+            :http-request="doUpload"
           >
             <el-icon v-if="!form.displayImgUrl"><ElIconPlus /></el-icon>
             <img :src="form.displayImgUrl" class="form-pic-uploader__pic" v-else>

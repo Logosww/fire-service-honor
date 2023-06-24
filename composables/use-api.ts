@@ -167,32 +167,32 @@ export const useAddHonorProject = (params: Record<string, any>) =>
 export const useModifyHonorProject = (params: Record<string, any> & { id: number }) =>
   put('/honorProject/modifyHonorProject', params) as Promise<null>;
 
-export const useGetUndealtApplications = (params: ParamsForPagingFetch) =>
+export const useGetApplications = (params: ParamsForPagingFetch) =>
   get('/honorAuditApply/queryPageHonorAuditApply', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
 
-export const useGetDealtApplications = (params: ParamsForPagingFetch) =>
+export const useGetReturnedApplications = (params: ParamsForPagingFetch) =>
   get('/honorAuditApply/queryPageHonorAuditApplyDone', params) as HttpResponse<PagingTableData>;
 
-export const useQueryUndealtApplications = (params: Record<string, any>) =>
+export const useQueryApplications = (params: Record<string, any>) =>
   nativeFetch('/honorAuditApply/queryListHonorAuditApply', 'post', params) as Promise<HonorApplication[]>;
 
-export const useQueryDealtApplications = (params: Record<string, any>) =>
+export const useQueryReturnedApplications = (params: Record<string, any>) =>
   nativeFetch('/honorAuditApply/queryPageHonorAuditApplyDone', 'post', params) as Promise<HonorApplication[]>;
 
 export const useGetApplicationDetail = (params: { honorApplyId: number }) =>
   get('/honorAuditApply/queryHonorDetail', params) as HttpResponse<HonorDetail>;
 
-export const useDealApplication = (params: { id: number; auditStatus: string }) =>
+export const useReturnApplication = (params: { honorApplyId: number }) =>
   put('/honorAuditApply/auditHonorApply', params) as Promise<null>;
+
+export const useRecoverApplication = (params: { honorApplyId: number }) =>
+  put('/honorAuditApply/recoverHonorApply', params) as Promise<null>;
 
 export const useCancelApplication = (params: { honorApplyId: number }) =>
   del('/honorAuditApply/deleteHonorApply', params) as Promise<null>;
 
 export const useSubmitApplication = (params: Record<string, any>) =>
   nativeFetch('/honorAuditApply/applyHonor', 'post', params) as Promise<null>;
-
-export const useModifyApplication = (params: Record<string, any> & { id: number }) =>
-  put('/honorAuditApply/modifyHonorApply', params) as Promise<null>;
 
 export const useSwitchService = (params: Record<string, any> & { id: number }) =>
   put('/employeeChange/changeDepartment', params) as Promise<null>;

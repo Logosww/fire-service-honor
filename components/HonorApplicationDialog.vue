@@ -4,23 +4,19 @@
       <el-steps style="padding: 0 50px;" :space="200" :active="1" align-center>
         <el-step title="提交申请" status="success" />
         <el-step 
-          :title="status === '待处理' ? '待审核' : '已审核'"
-          :status="status === '待处理' ? 'process' : 'success'"
+          title='已处理'
+          status="success"
         />
         <el-step 
           :title="
-            status === '待处理'
-              ? '结果'
-              : status === '通过'
-                ? '审核通过'
-                : '审核未通过'
+            status === '通过'
+              ? '审核通过'
+              : '申请被退回'
           "
           :status="
-            status === '待处理'
-              ? 'wait'
-              : status === '通过'
-                ? 'success'
-                : 'error'
+            status === '通过'
+              ? 'success'
+              : 'error'
           "
         />
       </el-steps>
@@ -38,11 +34,6 @@
         </el-descriptions-item>
         <el-descriptions-item label="荣誉简介">{{ data.honorDesc }}</el-descriptions-item>
       </el-descriptions>
-      <template #footer>
-        <el-button :icon="ElIconSelect" type="primary" @click="handleDealt('通过')" v-if="!isResolved">通过</el-button>
-        <el-button :icon="ElIconCloseBold" type="danger" @click="handleDealt('退回')" v-if="!isResolved">退回</el-button>
-        <el-button type="primary" @click="dialogVisible = false" v-else>关闭窗口</el-button>
-      </template>
     </el-dialog>
   </ClientOnly>
 </template>
@@ -53,17 +44,15 @@ import { HonorDetail } from '@/composables/use-api-types';
 const props = defineProps<{
   modelValue: boolean;
   id: number;
-  status: '待处理' | '通过' | '退回';
+  status: '通过' | '退回';
 }>();
 
 const emit = defineEmits<{
   (event: 'update:modelValue', val: boolean): void;
-  (event: 'update:status', val: '待处理' | '通过' | '退回'): void;
 }>();
 
 const isLoading = ref(false);
 
-const isResolved = computed(() => props.status !== '待处理');
 const dialogVisible = computed({
   get: () => props.modelValue,
   set(val) {
@@ -85,12 +74,6 @@ const data = reactive<Omit<HonorDetail, 'id'>>({
   issueNumber: '',
   issueUnit: ''
 });
-
-const handleDealt = async (auditStatus: '待处理' | '通过' | '退回') => {
-  const { id } = props;
-  await useDealApplication({ id, auditStatus });
-  emit('update:status', auditStatus);
-};
 
 watch(
   () => props.id,

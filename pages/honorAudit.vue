@@ -1,8 +1,8 @@
 <template>
   <el-tabs v-model="activeTab" @tab-change="handleTabChange">
-    <el-tab-pane label="待审核">
+    <el-tab-pane label="提交记录">
       <Manage
-        ref="undealtManageRef"
+        ref="manageRef"
         composable-path="/honorAudit/undealt"
         :table-column-props="undealtTableColumnProps"
         multiple-select
@@ -36,23 +36,28 @@
               </ClientOnly>
             </el-form-item>
             <el-form-item>
-              <el-button :icon="ElIconSearch" type="primary" @click="handleQuery(undealtQueryForm, undealtManageRef!)">查询</el-button>
-              <el-button :icon="ElIconRefresh" @click="undealtManageRef?.restoreQuery(undealtQueryForm)">重置</el-button>
+              <el-button :icon="ElIconSearch" type="primary" @click="handleQuery(undealtQueryForm, manageRef!)">查询</el-button>
+              <el-button :icon="ElIconRefresh" @click="manageRef?.restoreQuery(undealtQueryForm)">重置</el-button>
             </el-form-item>
           </el-form>
         </template>
         <template #tableOperationColumn>
-          <el-table-column label="操作" width="120" align="center">
+          <el-table-column label="操作" width="300" align="center">
             <template #default="scope">
-              <el-button :icon="ElIconView" type="primary" @click="handleView(scope)" text round>审核</el-button>
+              <el-popconfirm title="确认退回该申请吗？" width="200px" @confirm="handleReturn(scope)">
+                <template #reference>
+                  <el-button :icon="ElIconCloseBold" type="danger" text round>退回</el-button>
+                </template>
+              </el-popconfirm>
+              <el-button :icon="ElIconView" type="primary" @click="handleView(scope)" text round>查看详情</el-button>
             </template>
           </el-table-column>
         </template>
       </Manage>
     </el-tab-pane>
-    <el-tab-pane label="已审核">
+    <el-tab-pane label="退回记录">
       <Manage
-        ref="dealtManageRef"
+        ref="returnManageRef"
         composable-path="/honorAudit/dealt"
         :table-column-props="dealtTableColumnProps"
         multiple-select
@@ -86,14 +91,19 @@
               </ClientOnly>
             </el-form-item>
             <el-form-item>
-              <el-button :icon="ElIconSearch" type="primary" @click="handleQuery(dealtQueryForm, dealtManageRef!)">查询</el-button>
-              <el-button :icon="ElIconRefresh" @click="dealtManageRef?.restoreQuery(dealtQueryForm)">重置</el-button>
+              <el-button :icon="ElIconSearch" type="primary" @click="handleQuery(dealtQueryForm, returnManageRef!)">查询</el-button>
+              <el-button :icon="ElIconRefresh" @click="returnManageRef?.restoreQuery(dealtQueryForm)">重置</el-button>
             </el-form-item>
           </el-form>
         </template>
         <template #tableOperationColumn>
-          <el-table-column label="操作" width="150" align="center">
+          <el-table-column label="操作" width="300" align="center">
             <template #default="scope">
+              <el-popconfirm title="确认恢复该申请吗？" width="200px" @confirm="handleRecover(scope)">
+                <template #reference>
+                  <el-button :icon="ElIconRefreshLeft" type="warning" text round>恢复</el-button>
+                </template>
+              </el-popconfirm>
               <el-button :icon="ElIconView" type="primary" @click="handleView(scope)" text round>查看详情</el-button>
             </template>
           </el-table-column>
@@ -101,7 +111,7 @@
       </Manage>
     </el-tab-pane>
   </el-tabs>
-  <HonorApplicationDialog v-model="dialogVisible" :status="applicationStatus" @update:status="handleSubmit" :id="applicationId"/>
+  <HonorApplicationDialog v-model="dialogVisible" :status="applicationStatus" :id="applicationId"/>
 </template>
 
 <script lang="ts" setup>
@@ -120,12 +130,10 @@ const dealtTableColumnProps = tableColumnPropsMap['/honorAudit/dealt'];
 const activeTab = ref('0');
 const dialogVisible = ref(false);
 const applicationId = ref(0);
-const applicationStatus = ref<
-  '待处理' | '通过' | '退回'
->('待处理');
+const applicationStatus = ref<'通过' | '退回'>('通过');
 
-const undealtManageRef = ref<InstanceType<typeof Manage>>();
-const dealtManageRef = ref<InstanceType<typeof Manage>>();
+const manageRef = ref<InstanceType<typeof Manage>>();
+const returnManageRef = ref<InstanceType<typeof Manage>>();
 
 const undealtQueryForm = reactive({
   honorPersonType: '',
@@ -144,9 +152,9 @@ const dealtQueryForm = reactive({
   timeRange: ''
 });
 
-const handleTabChange = (tab: string) => {
-  const manageRef = tab === '0' ? undealtManageRef : dealtManageRef;
-  manageRef.value?.refreshData();
+const handleTabChange = (tab: string | number) => {
+  const ref = tab === '0' ? manageRef : returnManageRef;
+  ref.value?.refreshData();
 };
 
 const handleQuery = (
@@ -169,9 +177,18 @@ const handleView = (scope: ElTableRowScope) => {
   dialogVisible.value = true;
 };
 
-const handleSubmit = (status: '待处理' | '通过' | '退回') => {
-  applicationStatus.value = status;
-  undealtManageRef.value?.refreshData();
+const handleReturn = async (scope: ElTableRowScope) => {
+  const { row: { id } } = scope;
+  await useReturnApplication({ honorApplyId: id });
+  manageRef.value?.refreshData();  
+  ElMessage({ type: 'success', message: '退回成功' });
+};
+
+const handleRecover = async (scope: ElTableRowScope) => {
+  const { row: { id } } = scope;
+  await useRecoverApplication({ honorApplyId: id });
+  returnManageRef.value?.refreshData(); 
+  ElMessage({ type: 'success', message: '恢复成功' });
 };
 </script>
 
