@@ -329,6 +329,37 @@ export const tableColumnPropsMap: TableColumnPropsMap = {
       label: '典型描述'
     }
   ],
+  'honorRoute': [
+    {
+      prop: 'honorName',
+      label: '荣誉名称'
+    },
+    {
+      prop: 'honorLevel',
+      label: '级别'
+    },
+    {
+      prop: 'issueDate',
+      label: '颁发日期'
+    },
+    {
+      prop: 'issueUnit',
+      label: '颁发单位'
+    },
+    {
+      prop: 'issueNumber',
+      label: '发文号'
+    },
+    {
+      prop: 'honorDepartment',
+      label: '获奖时所在部门'
+    },
+    {
+      prop: 'honorDesc',
+      label: '描述',
+      width: '240'
+    },
+  ],
   '/typicalCharactor': [
     {
       prop: 'employeeName',

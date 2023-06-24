@@ -2,7 +2,7 @@
   <div class="basic-table-title">
     <span class="basic-table-title__bar" v-if="title"></span>
     <h3 class="basic-table-title__content" v-if="title">{{ title }}</h3>
-    <el-button :icon="ElIconPlus" @click="emit('append')" type="primary" round text v-if="isAdmin && data.length">新增</el-button>
+    <el-button :icon="ElIconPlus" @click="emit('append')" type="primary" round text v-if="isAdmin && data.length && !readOnly">新增</el-button>
   </div>
   <el-table style="margin-bottom: 20px" table-layout="auto" :data="data" stripe border>
     <el-table-column 
@@ -10,16 +10,22 @@
       :key="index"
       :prop="item.prop"
       :label="item.label"
+      :width="item.width"
     />
-    <el-table-column label="操作" width="120" v-if="isAdmin && data.length">
+    <el-table-column label="操作" width="120" v-if="isAdmin && data.length && !readOnly && !slots.customOperations">
       <template #default="scope">
         <el-button :icon="ElIconEdit" type="primary" alt="编辑" @click="emit('modify', scope.row)" link />
         <el-button :icon="ElIconDelete" type="danger" alt="删除" @click="emit('delete', scope.row.id)" link />
       </template>
     </el-table-column>
+    <el-table-column label="操作" v-if="slots.customOperations">
+      <template #default="scope">
+        <slot name="customOperations" :scope="scope"  />
+      </template>
+    </el-table-column>
     <template #empty>
       <el-empty :image-size="150">
-        <el-button type="primary" @click="emit('append')" v-if="isAdmin">新增数据</el-button>
+        <el-button type="primary" @click="emit('append')" v-if="isAdmin && !readOnly">新增数据</el-button>
       </el-empty>
     </template>
   </el-table>
@@ -34,6 +40,7 @@ defineProps<{
   tableColumnProps: TableColumnProps[];
   data: Record<string, any>[];
   title: string;
+  readOnly?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -41,6 +48,8 @@ const emit = defineEmits<{
   delete: [id: number];
   append: [void];
 }>();
+
+const slots = useSlots();
 
 const isAdmin = useAdmin();
 </script>

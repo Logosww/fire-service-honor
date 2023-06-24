@@ -1,38 +1,38 @@
 <template>
-  <el-timeline v-if="data.length">
-    <el-timeline-item v-for="(item, index) in data" :key="index" :timestamp="item.issueDate" placement="top">
-      <el-card style="margin-right: 20px;">
-        <template #header>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h1 style="margin: .4em 0;">{{ item.honorName }}</h1>
-            <el-image
-              style="width: 96px; height: 96px; border-radius: 8px;"
-              :src="item.honorPhoto"
-              :preview-src-list="[item.honorPhoto]"
-              fit="cover"
-              v-if="item.honorPhoto"
-            />
-          </div>
-        </template>
-        <el-descriptions>
-          <el-descriptions-item label="级别">{{ item.honorLevel }}</el-descriptions-item>
-          <el-descriptions-item label="颁发单位">{{ item.issueUnit }}</el-descriptions-item>
-          <el-descriptions-item label="发文号">{{ item.issueNumber }}</el-descriptions-item>
-          <el-descriptions-item label="获奖时所在部门">{{ item.honorDepartment }}</el-descriptions-item>
-          <el-descriptions-item label="描述">{{ item.honorDesc }}</el-descriptions-item>
-        </el-descriptions>
-      </el-card>
-    </el-timeline-item>
-  </el-timeline>
-  <el-empty :image-size="150" v-else />
+  <BasicTable
+    :tableColumnProps="honorRouteColumnProps"
+    :data="honorRouteData"
+    title="荣耀之路"
+    read-only
+  >
+    <template #customOperations="{ scope }">
+      <el-button type="primary" :icon="ElIconView" :disabled="!scope.row.honorPhoto" @click="handleViewImage(scope)" text round >查看图片</el-button>
+    </template>
+  </BasicTable>
+  <el-image-viewer v-if="showImageViewer" :url-list="picList" @close="showImageViewer = false" />
 </template>
 
 <script lang="ts" setup>
+import { tableColumnPropsMap } from '@/constants';
+
+import type { ElTableRowScope } from '@/composables/use-api-types';
+
+
+const honorRouteColumnProps = tableColumnPropsMap['honorRoute'];
 
 const props = defineProps<{ id: number }>();
-
 const { id } = props;
 
-const { data } = await useGetHonorRoute({ employeeId: id });
+const { data: honorRouteData } = await useGetHonorRoute({ employeeId: id });
+
+const showImageViewer= ref(false);
+const picList = ref<string[]>([]);
+
+const handleViewImage = (scope: ElTableRowScope) => {
+  const { row: { honorPhoto } } = scope;
+  console.log(scope, honorPhoto)
+  picList.value[0] = honorPhoto as string;
+  showImageViewer.value = true;
+};
 
 </script>
