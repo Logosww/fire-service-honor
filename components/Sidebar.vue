@@ -39,6 +39,7 @@
         <el-menu-item index="/log">日志管理</el-menu-item>
         <el-menu-item index="/administrator" v-if="isAdmin">管理员管理</el-menu-item>
         <el-menu-item index="/dictionary" v-if="isAdmin">字典管理</el-menu-item>
+        <el-menu-item index="/homePageManage" v-if="isAdmin">首页管理</el-menu-item>
       </el-sub-menu>
     </el-menu>
   </ClientOnly>

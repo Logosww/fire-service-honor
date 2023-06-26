@@ -44,3 +44,7 @@
     display: block;
   }
 }
+
+@at-root .dark .login-wrapper {
+  filter: brightness(90%);
+}

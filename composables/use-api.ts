@@ -18,7 +18,8 @@ import type {
   AwardedMemberDetail,
   LogDetail,
   TypicalHonor,
-  AwardedMemberDisplay
+  AwardedMemberDisplay,
+  AwardedMemberDisPlayDetail
 } from './use-api-types';
 import type { SearchParameters } from 'ofetch';
 import { AnnualAssessment } from './use-api-types';
@@ -374,3 +375,18 @@ export const useGetTypicalHonors = () =>
 
 export const useGetDepartmentPhotos = () => 
   get('/portal/listBrigade') as HttpResponse<{ departmentId: number; departmentPhoto: string; departmentName: string; }[]>;
+
+export const useGetAwardedMembers = () =>
+  get('/listTypicalCharacterVos') as HttpResponse<AwardedMemberDetail[]>;
+
+export const useGetSelectedAwardedMembers = () =>
+  get('/listDisplayTypicalCharacterVos') as HttpResponse<AwardedMemberDetail[]>;
+
+export const useSortAwardedMemberDisplay = (params: number[]) =>
+  put('/editTypicalSort', params) as Promise<null>;
+
+export const useGetLevel1AwardedMembersDiplay = () =>
+  get('/public/listTypicalCharacterCardVos', { typicalLevel: 1 }, undefined, { key: 'typical-level-1' }) as HttpResponse<AwardedMemberDisPlayDetail[]>;
+
+export const useGetLevel2AwardedMembersDiplay = () =>
+  get('/public/listTypicalCharacterCardVos', { typicalLevel: 2 }, undefined, { key: 'typical-level-2' }) as HttpResponse<AwardedMemberDisPlayDetail[]>;

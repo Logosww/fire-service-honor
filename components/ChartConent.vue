@@ -77,7 +77,7 @@ const isDark = inject(isDarkInjectionKey)!;
 
 onMounted(() => {
   const dom = containerRef.value!;
-  chart = echarts.init(dom);
+  chart = echarts.init(dom, isDark.value ? 'myDark' : undefined);
 
   chart.setOption(props.option);
 });

@@ -11,7 +11,7 @@
           <h1 class="charactor-name">{{ detail.employeeName }}</h1>
           <span>{{ detail.employeePosition }}</span>
           <h4><el-icon style="margin-right: 10px;"><ElIconHouse /></el-icon>{{ detail.employeeDepartmentName }}</h4>
-          <h4><el-icon style="margin-right: 10px;"><ElIconTrophy /></el-icon>{{ detail.typicalHonor }}</h4>
+          <h4><el-icon style="margin-right: 10px;"><ElIconTrophy /></el-icon>{{ detail.typicalHonors.slice(0, 3).join(' ') }}</h4>
           <div class="charactor-radar">
             <ChartConent :option="radarOption" />
           </div>
@@ -23,15 +23,15 @@
 
 <script lang="ts" setup>
 
-import type { AwardedMemberDetail } from '@/composables/use-api-types';
+import type { AwardedMemberDisPlayDetail } from '@/composables/use-api-types';
 
 const props = defineProps<{
-  detail: AwardedMemberDetail;
+  detail: AwardedMemberDisPlayDetail;
   clickable?: boolean;
   width?: string;
 }>();
 const emit = defineEmits<{
-  open: [member: AwardedMemberDetail];
+  open: [member: AwardedMemberDisPlayDetail];
 }>();
 
 const { detail } = props;

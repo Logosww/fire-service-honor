@@ -118,5 +118,13 @@ export const breadcrumbMap: BreadcrumbMap = {
       replace: true
     },
     { title: '典型人物管理' }
+  ],
+  '/homePageManage': [
+    {
+      title: '系统',
+      to: '/homePageManage',
+      replace: true
+    },
+    { title: '游客首页管理' }
   ]
 };

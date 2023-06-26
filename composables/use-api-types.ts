@@ -165,7 +165,7 @@ export interface ElTableRowScope {
 };
 
 export interface AwardedMemberDetail {
-  employeeId: number;
+  id: number;
   employeeName: string;
   employeePosition: string;
   employeeDepartmentName: string;
@@ -194,6 +194,22 @@ export interface AwardedMemberDisplay {
   displayImgUrl: string;
   displayContent: string;
 };
+
+export interface AwardedMemberDisPlayDetail extends AwardedMemberDisplay {
+  employeeId: number;
+  employeePosition: string;
+  employeeDepartmentName: string;
+  typicalEmployeePhoto: string;
+  typicalHonors: string[];
+  radarMap: {
+    '劳': number;
+    '绩': number;
+    '基': number;
+    '纪': number;
+    '能': number;
+    '政': number;
+  }
+}
 
 export type FetchTableDataComposable = (params: ParamsForPagingFetch) => HttpResponse<PagingTableData>;
 export type QueryTableDataMethod = (params: Record<string, any>) => Promise<any[]>;
