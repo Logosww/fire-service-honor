@@ -20,8 +20,8 @@
       <el-tab-pane label="个人事迹">
         <PersonalDeed :id="id" />
       </el-tab-pane>
-      <el-tab-pane label="综合展示">
-        <Summary :id="id" />
+      <el-tab-pane label="视频集锦">
+        <VideoCollection :id="id" />
       </el-tab-pane>
     </el-tabs>
     <ClientOnly>

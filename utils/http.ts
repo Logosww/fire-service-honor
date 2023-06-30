@@ -156,7 +156,7 @@ export const nativeFetch = async (
         return reject(data.msg);
       }
       return resolve(data.data);
-    }).catch((err: FetchError<ResOptions<any>>) => {
+    }).catch(async (err: FetchError<ResOptions<any>>) => {
       if(!err.data) {
         message?.({ type: 'error', message: '网络异常' });
         return reject(err);
@@ -164,7 +164,7 @@ export const nativeFetch = async (
       const { status } = err;
       if(status === 401 || status === 409) {
         message?.({ type: 'error', message: '登录信息过期，请重新登录' });
-        navigateTo('/login', { redirectCode: 302 });
+        await navigateTo('/login', { redirectCode: 302 });
       } else if (status === 403)
         message?.({ type: 'error', message: '你的权限不足' });
       else if(status === 500)

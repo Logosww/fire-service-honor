@@ -103,6 +103,14 @@ export const breadcrumbMap: BreadcrumbMap = {
     },
     { title: '人员信息' }
   ],
+  '/departmentDetail': [
+    {
+      title: '集体',
+      to: '/departmentDetail',
+      replace: true
+    },
+    { title: '集体详情' }
+  ],
   '/personalDeed': [
     {
       title: '人员',

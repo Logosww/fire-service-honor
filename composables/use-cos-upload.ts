@@ -15,6 +15,7 @@ export const useCOSUpload = async (
   onProgress?: (params: ProgressInfo) => void,
   returnUrl?: boolean
 ) => {
+  let globalOnProgress = onProgress;
   const { data: bucketSecret, refresh: getCOSSecret } = await useGetCOSSecret();
 
   if(!cos.value) cos.value = new COS({
@@ -33,7 +34,7 @@ export const useCOSUpload = async (
     }
   );
 
-  const upload = (file: File, path?: string) => {
+  const upload = (file: File, path?: string, onProgress?: (params: ProgressInfo) => void,) => {
     const extension = file.name.split('.').at(-1);
     const generateKey = () => {
       const { type } = file;
@@ -48,7 +49,7 @@ export const useCOSUpload = async (
             Region: config.bucketRegion,
             Key: key,
             Body: file,
-            onProgress
+            onProgress: onProgress ?? globalOnProgress
           }
         );
         resolve(returnUrl ? `${COSBucketBaseUrl}/${key}` : key);

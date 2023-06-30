@@ -1,5 +1,5 @@
 <template>
-  <el-card :class="['charactor-card', clickable ? 'is-clickable' : '']" shadow="hover" :style="{ width: width }" @click="clickable && emit('open', detail)">
+  <el-card :class="['charactor-card', clickable ? 'is-clickable' : '']" :style="{ height }">
     <el-row>
       <el-col :span="11">
         <div class="charactor-pic">
@@ -8,12 +8,14 @@
       </el-col>
       <el-col :span="13">
         <div class="charactor-info">
-          <h1 class="charactor-name">{{ detail.employeeName }}</h1>
-          <span>{{ detail.employeePosition }}</span>
-          <h4><el-icon style="margin-right: 10px;"><ElIconHouse /></el-icon>{{ detail.employeeDepartmentName }}</h4>
-          <h4><el-icon style="margin-right: 10px;"><ElIconTrophy /></el-icon>{{ detail.typicalHonors.slice(0, 3).join(' ') }}</h4>
+          <div class="charactor-info-top">
+            <h1 class="charactor-name">{{ detail.employeeName }}</h1>
+            <span>{{ detail.employeePosition }}</span>
+            <h4><el-icon style="margin-right: 10px;"><ElIconHouse /></el-icon>{{ detail.employeeDepartmentName }}</h4>
+            <h4><el-icon style="margin-right: 10px;"><ElIconTrophy /></el-icon>{{ detail.typicalHonors.slice(0, 3).join(' ') }}</h4>
+          </div>
           <div class="charactor-radar">
-            <ChartConent :option="radarOption" />
+            <ChartContent :option="radarOption" />
           </div>
         </div>
       </el-col>
@@ -23,17 +25,13 @@
 
 <script lang="ts" setup>
 
-import type { AwardedMemberDisPlayDetail } from '@/composables/use-api-types';
+import type { AwardedMemberDisplayDetail } from '@/composables/use-api-types';
 
 const props = defineProps<{
-  detail: AwardedMemberDisPlayDetail;
+  detail: AwardedMemberDisplayDetail;
   clickable?: boolean;
-  width?: string;
+  height?: string;
 }>();
-const emit = defineEmits<{
-  open: [member: AwardedMemberDisPlayDetail];
-}>();
-
 const { detail } = props;
 
 const radarOption = {

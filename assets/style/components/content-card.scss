@@ -1,0 +1,56 @@
+.content-card {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  background-color: rgb(255, 255, 255, .35);
+  margin-bottom: 40px;
+  box-shadow:
+    0px 0px 2.2px rgba(0, 0, 0, 0.008),
+    0px 0px 5.3px rgba(0, 0, 0, 0.012),
+    0px 0px 10px rgba(0, 0, 0, 0.015),
+    0px 0px 17.9px rgba(0, 0, 0, 0.018),
+    0px 0px 33.4px rgba(0, 0, 0, 0.022),
+    0px 0px 80px rgba(0, 0, 0, 0.03)
+  ;
+
+  .content-card-header {
+    padding: 15px 30px;
+    background-color: rgb(243,7,8, .85);
+    color: rgb(252,229,56);
+    font-size: 1.2em;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .content-card-main {
+    padding: 20px;
+    padding-bottom: 40px;
+
+    &.is-grid {
+      display: grid;
+      gap: var(--content-card-grid-gap);
+      grid-template-columns: repeat(var(--content-card-grid-column), 1fr);
+      justify-items: center;
+    }
+  }
+
+  .play-btn {
+    display: flex;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+    transition: color .3s;
+    
+    &:hover {
+      color: rgb(252, 255, 80);
+    }
+
+    .el-icon {
+      font-size: 22px;
+      margin-right: 5px;
+    }
+  }
+}

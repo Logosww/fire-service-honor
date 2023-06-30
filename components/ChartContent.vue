@@ -68,6 +68,8 @@ const props = defineProps<{
   option: ECOption
 }>();
 
+const isIndex = useRoute().path === '/';
+
 const containerRef = ref<HTMLDivElement>();
 let chart: ECharts;
 
@@ -77,12 +79,15 @@ const isDark = inject(isDarkInjectionKey)!;
 
 onMounted(() => {
   const dom = containerRef.value!;
-  chart = echarts.init(dom, isDark.value ? 'myDark' : undefined);
+  chart = echarts.init(dom,
+    isIndex
+      ? 'customed'
+      : isDark.value ? 'myDark' : undefined);
 
   chart.setOption(props.option);
 });
 
-watch(isDark, val => {
+!isIndex && watch(isDark, val => {
   chart.dispose();
   chart = echarts.init(containerRef.value!, val ? 'myDark' : undefined);
   chart.setOption(props.option);

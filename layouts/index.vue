@@ -1,56 +1,26 @@
 <template>
   <div class="wrapper">
-    <div :class="['header-wrapper', scrollY > 40 ? 'transparent' : '']">
-      <div class="header">
-        <div class="header-inner">
-          <div class="logo">
-            <img src="https://pams-1318030356.cos.ap-shanghai.myqcloud.com/logo.png" alt="">
-            <h1 class="title">杭州市消防救援支队</h1>
-            <h3 id="department"></h3>
-          </div>
-          <div class="login-container">
-            <el-button :icon="ElIconUserFilled" type="primary" @click="navigateTo('/login')" plain round>登录</el-button>
-          </div>
-        </div>
+    <img src="https://pams-1318030356.cos.ap-shanghai.myqcloud.com/bg_head.png" class="bg-image">
+    <header class="header">
+      <div class="logo">
+        <img src="https://pams-1318030356.cos.ap-shanghai.myqcloud.com/logo.png" alt="">
+        <h1 class="title">杭州市消防救援支队</h1>
       </div>
-      <div class="navbar">
-        <div class="navbar-inner">
-          <a 
-            :class="['navbar-item', activeNav === index ? 'active' : '']"
-            v-for="(item, index) in navs"
-            :key="index" :href="`#${item}`"
-            @click="activeNav = index"
-          >
-            {{ item }}
-          </a>
-        </div>
-      </div>
-    </div>
-    <section class="main">
-      <main>
-        <slot />
-      </main>
-    </section>
-    <div class="footer">
+      <a class="login-btn" href="/login" target="_self">
+        <el-icon><ElIconUserFilled /></el-icon>
+      </a>
+      <h3 class="sub-title">支队先锋典型库</h3>
+    </header>
+    <main class="main">
+      <slot />
+    </main>
+    <footer class="footer">
+      <div class="footer-mask"></div>
       <div class="footer-img"></div>
-    </div>
+    </footer>
   </div>
 </template>
 
-<script lang="ts" setup>
-import { navsKey } from '@/tokens';
-
-
-const navs = ref<string[]>([]);
-const activeNav = ref(-1);
-
-const wrapperRef = ref<HTMLElement>();
-
-const { y: scrollY } = useWindowScroll();
-
-provide(navsKey, navs);
-</script>
-
 <style lang="scss">
-  @use '@/assets/style/index' as *;
+  @use '@/assets/style/layouts/index' as *;
 </style>

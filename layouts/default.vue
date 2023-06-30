@@ -39,7 +39,7 @@
       </el-main>
     </el-container>
     <el-footer class="footer">
-      <p>©2012-2023 杭州消防救援支队/技术支持：qikuo</p>
+      <p>© 2012-2023 杭州消防救援支队/技术支持：qikuo</p>
     </el-footer>
   </el-container>
 </template>
@@ -67,5 +67,5 @@ provide(containerHeightKey, height);
 </script>
 
 <style lang="scss">
-@use '@/assets/style/layout' as *;
+@use '@/assets/style/layouts/default' as *;
 </style>

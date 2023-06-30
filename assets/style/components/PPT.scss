@@ -1,0 +1,68 @@
+.ppt-container {
+  position: fixed;
+  width: 100%;
+  user-select: none;
+  background-image: url('https://pams-1318030356.cos.ap-shanghai.myqcloud.com/display.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  color: rgb(240,228,178);
+  text-shadow:
+    0px 0px 40px rgba(0, 0, 0, 0.23)
+  ;
+
+  .ppt-item {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .ppt-bg {
+      position: absolute;
+      width: 100%;
+    }
+
+    .ppt-name {
+      position: relative;
+      text-align: center;
+      margin-top: 7%;
+      font-size: 2.5vw;
+    }
+
+    .ppt-body {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .ppt-pic {
+        width: 22vw;
+        aspect-ratio: 3 / 4;
+      }
+
+      .ppt-introduction {
+        margin-left: 2vw;
+        box-sizing: border-box;
+        padding: 1.8vw;
+        width: 45vw;
+        text-indent: 2em;
+        font-size: 1.7vw;
+        line-height: 1.5;
+      }
+    }
+  }
+}
+
+.ppt-fade-in {
+
+  &-enter-from, &-leave-to {
+    opacity: 0;
+  }
+
+  &-enter-to, &-leave-from {
+    opacity: 1;
+  }
+
+  &-enter-active, &-leave-active {
+    transition: opacity 1s;
+  }
+}

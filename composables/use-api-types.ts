@@ -195,7 +195,7 @@ export interface AwardedMemberDisplay {
   displayContent: string;
 };
 
-export interface AwardedMemberDisPlayDetail extends AwardedMemberDisplay {
+export interface AwardedMemberDisplayDetail extends AwardedMemberDisplay {
   employeeId: number;
   employeePosition: string;
   employeeDepartmentName: string;
@@ -209,7 +209,15 @@ export interface AwardedMemberDisPlayDetail extends AwardedMemberDisplay {
     '能': number;
     '政': number;
   }
-}
+};
+
+export interface Video {
+  id: number;
+  videoUrl: string;
+  videoName: string;
+  videoCoverUrl: string;
+  videoDuration: string;
+};
 
 export type FetchTableDataComposable = (params: ParamsForPagingFetch) => HttpResponse<PagingTableData>;
 export type QueryTableDataMethod = (params: Record<string, any>) => Promise<any[]>;

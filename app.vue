@@ -28,6 +28,6 @@ useHead({
 });
 
 
-const isDark = useDark();
+const isDark = useDark({ disableTransition: false });
 provide(isDarkInjectionKey, isDark);
 </script>

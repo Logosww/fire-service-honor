@@ -19,7 +19,8 @@ import type {
   LogDetail,
   TypicalHonor,
   AwardedMemberDisplay,
-  AwardedMemberDisPlayDetail
+  AwardedMemberDisplayDetail,
+  Video
 } from './use-api-types';
 import type { SearchParameters } from 'ofetch';
 import { AnnualAssessment } from './use-api-types';
@@ -386,7 +387,26 @@ export const useSortAwardedMemberDisplay = (params: number[]) =>
   put('/editTypicalSort', params) as Promise<null>;
 
 export const useGetLevel1AwardedMembersDiplay = () =>
-  get('/public/listTypicalCharacterCardVos', { typicalLevel: 1 }, undefined, { key: 'typical-level-1' }) as HttpResponse<AwardedMemberDisPlayDetail[]>;
+  get('/public/listTypicalCharacterCardVos', { typicalLevel: 1 }, undefined, { key: 'typical-level-1' }) as HttpResponse<AwardedMemberDisplayDetail[]>;
 
 export const useGetLevel2AwardedMembersDiplay = () =>
-  get('/public/listTypicalCharacterCardVos', { typicalLevel: 2 }, undefined, { key: 'typical-level-2' }) as HttpResponse<AwardedMemberDisPlayDetail[]>;
+  get('/public/listTypicalCharacterCardVos', { typicalLevel: 2 }, undefined, { key: 'typical-level-2' }) as HttpResponse<AwardedMemberDisplayDetail[]>;
+
+export const useGetDepartmentsDisplay = () =>
+  get('/public/listPortalDepartmentVos') as HttpResponse<{ departmentId: number; departmentName: string; }[]>;
+
+export const useGetDepartmentAwardedMebers = (params: { departmentId: number }) =>
+  get('/public/listDepartmentTypicalCharacterCardVos', params) as HttpResponse<AwardedMemberDisplayDetail[]>;
+
+export const useGetVideos = (params: { employeeId: number }) =>
+  get('/public/queryEmployeeVideoList', params) as HttpResponse<Video[]>;
+
+export const useAddVideo = (params: {
+  employeeId: number;
+  videoName: string;
+  videoUrl: string;
+  videoCoverUrl: string;
+}) => nativeFetch('/addEmployeeVideo', 'post', params) as Promise<null>;
+
+export const useDeleteVideos = (ids: number[]) => 
+  put('/deleteEmployeeVideo', ids) as Promise<null>;
