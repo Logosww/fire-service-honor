@@ -48,6 +48,8 @@
 import { breadcrumbMap } from '@/constants';
 import { breadcrumbsKey, containerHeightKey } from '@/tokens';
 
+import { ElButton } from 'element-plus';
+
 const route = useRoute();
 const router = useRouter();
 
@@ -58,12 +60,44 @@ const breadcrumbs = computed(() => breadcrumbMap[route.path]);
 
 const { height } = useElementSize(mainContainerRef);
 
+let es: EventSource;
+
 const handleGoBack = () => {
   router.back();
 };
 
 provide(breadcrumbsKey, breadcrumbs);
 provide(containerHeightKey, height);
+
+onMounted(() => {
+  if(!useAdmin().value) {
+    const proceedMessage = (message: string) => {
+      console.log(message);
+      const notification = ElNotification.info({
+        title: '消息',
+        message: h('div', [
+          h('span', message),
+          h(ElButton, { 
+            type: 'primary',
+            text: true,
+            round: true,
+            style: 'float: right; margin-top: 10px;',
+            onClick: () => {
+              notification.close();
+              return navigateTo('/honorApply');
+            }
+          }, () => '查看详情')
+        ])
+      })
+    };
+
+    es = new EventSource('https://api.pams.ishortv.top/sse/connect', { withCredentials: true });
+    es.addEventListener('returnHonor', e => proceedMessage(e.data));
+    es.addEventListener('recoverHonor', e => proceedMessage(e.data));
+  }
+});
+
+onUnmounted(() => es && es.close());
 </script>
 
 <style lang="scss">
