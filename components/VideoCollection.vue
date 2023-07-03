@@ -41,6 +41,7 @@
       :title="videos[currIndex].videoName"
       v-model="dialogVisible"
       @open="handleOpen"
+      @closed="player?.pause();"
       draggable
     >
       <video
@@ -79,6 +80,7 @@ const uploadInput = shallowRef<HTMLInputElement>();
 const { data: videos, refresh } = await useGetVideos({ employeeId: props.id });
 
 let player: Player;
+let videoIndexCache: number;
 
 const { upload: doUpload } = await useCOSUpload(undefined, true);
 
@@ -102,7 +104,9 @@ const handleOpen = () => {
     controls: true, 
     responsive: true
   }));
-  player.src(videos.value[currIndex.value].videoUrl);
+
+  const { value } = currIndex;
+  videoIndexCache !== value && player.src(videos.value[value].videoUrl);
 };
 
 const handleDelete = async () => {
