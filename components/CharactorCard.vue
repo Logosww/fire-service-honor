@@ -1,18 +1,22 @@
 <template>
   <el-card :class="['charactor-card', clickable ? 'is-clickable' : '']" :style="{ height }">
     <el-row>
-      <el-col :span="11">
+      <el-col :span="10">
         <div class="charactor-pic">
           <el-image style="height: 100%;" :src="detail.typicalEmployeePhoto" fit="cover" :preview-src-list="[detail.typicalEmployeePhoto]" preview-teleported @click.stop />
         </div>
       </el-col>
-      <el-col :span="13">
+      <el-col :span="14">
         <div class="charactor-info">
           <div class="charactor-info-top">
             <h1 class="charactor-name">{{ detail.employeeName }}</h1>
-            <span>{{ detail.employeePosition }}</span>
+            <h4><el-icon style="margin-right: 10px;"><ElIconCollectionTag /></el-icon>{{ detail.employeePosition }}</h4>
             <h4><el-icon style="margin-right: 10px;"><ElIconHouse /></el-icon>{{ detail.employeeDepartmentName }}</h4>
-            <h4><el-icon style="margin-right: 10px;"><ElIconTrophy /></el-icon>{{ detail.typicalHonors.slice(0, 3).join(' ') }}</h4>
+            <h4 v-if="detail.typicalHonors.length"><el-icon style="margin-right: 10px;"><ElIconTrophy /></el-icon>
+              <ul class="charactor-honors">
+                <li v-for="(item, index) in detail.typicalHonors.slice(0, 3)" :key="index">{{ item }}</li>
+              </ul>
+            </h4>
           </div>
           <div class="charactor-radar">
             <ChartContent :option="radarOption" />

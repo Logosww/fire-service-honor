@@ -1,60 +1,110 @@
-.department-list {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+.display-container {
+  height: calc(100vh - 6vw - 122px);
+  animation: display .6s;
 
-  .department-item {
-    position: relative;
-    flex-basis: 11.1%;
-    cursor: pointer;
-    transition: transform .3s;
+  .department-list {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  
+    .department-item {
+      position: relative;
+      flex-basis: 11.1%;
+      cursor: pointer;
+      transition: transform .3s;
+  
+      &:hover {
+        transform: scale(1.05);
+      }
 
-    &:hover {
-      transform: scale(1.05);
+      .department-bg {
+        width: 100%;
+      }
+
+      .department-cover {
+        position: absolute;
+        width: 50%;
+        left: 30%;
+        top: 50%;
+      }
+  
+      .department-name {
+        position: absolute;
+        text-align: center;
+        left: 35%;
+        width: 5em;
+        top: 20%;
+        color: #fff;
+      }
     }
+  }
 
-    img {
-      width: 100%;
+  @keyframes display {
+    from {
+      opacity: 0;
+      transform: translateY(5%);
     }
-
-    .department-name {
-      position: absolute;
-      user-select: none;
-      top: 50%;
-      left: 50%;
-      transform: translate(-40%, -50%);
-      width: 2em;
-      writing-mode: vertical-lr;
-      color: #fff;
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }
 
-.statistics {
-  background-image: url('https://pams-1318030356.cos.ap-shanghai.myqcloud.com/red_bannner.png');
-  background-repeat: no-repeat;
-  background-size: cover;
+.scroll-bar {
+  position: fixed;
+  left: calc(100% - var(--padding-horzontal));
+  top: 0;
+  height: 100%;
+  margin-left: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-  .statistics-inner {
-    padding-right: 50px;
-    padding-bottom: 40px;
-    background-color: rgb(255, 255, 255, .3);
+  .scroll-bar__thumb {
+    margin: 10px 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, .4);
+    backdrop-filter: blur(6px);
+    transition: all .3s;
+    cursor: pointer;
 
-    .counts {
-      display: flex;
-      flex-direction: column;
+    &:hover {
+      transform: scale(1.4);
     }
 
-    .el-statistic {
-      --el-statistic-title-color: #fff;
-      --el-statistic-content-color: #fff;
-
-      flex-basis: 25%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
+    &.active {
+      background-color: #fce08a;
     }
   }
+}
+
+.scroll-tip {
+  position: fixed;
+  bottom: 60px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+  color: #fce08a;
+  animation: bounce 2s infinite;
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(-50%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: translateY(0);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+}
+
+body {
+  overflow: hidden;
 }

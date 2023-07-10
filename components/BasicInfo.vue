@@ -15,7 +15,7 @@
           <el-descriptions-item label="人员状态">{{ profile.employeeStatus }}</el-descriptions-item>
           <el-descriptions-item label="离伍时间" v-if="profile.employeeStatus === '离职'">{{ profile.employeeQuitDate }}</el-descriptions-item>
           <el-descriptions-item label="证件照">
-            <el-image :src="profile.employeeAvatar" :preview-src-list="[profile.employeeAvatar]" style="border-radius: 4px;" fit="cover" />
+            <el-image :src="profile.employeeAvatar" :preview-src-list="[profile.employeeAvatar]" style="border-radius: 4px; display: block; margin: 0 auto;" fit="contain" />
           </el-descriptions-item>
           <el-descriptions-item label="典型风采">
             <el-carousel height="300px" style="border-radius: 4px;" autoplay>

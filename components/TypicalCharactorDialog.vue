@@ -14,7 +14,7 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="人物简介">
-          <el-input type="textarea" placeholder="请输入" maxlength="200" v-model="form.displayContent" :autosize="{ minRows: 4 }" show-word-limit />
+          <el-input type="textarea" placeholder="请输入" maxlength="350" v-model="form.displayContent" :autosize="{ minRows: 4 }" show-word-limit />
         </el-form-item>
       </el-form>
       <template #footer>

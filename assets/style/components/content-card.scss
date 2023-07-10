@@ -35,6 +35,43 @@
       grid-template-columns: repeat(var(--content-card-grid-column), 1fr);
       justify-items: center;
     }
+
+    &.statistics {
+      padding: 30px 40px;
+    
+      .counts {
+        border: 1px solid #fff;
+        display: flex;
+        flex-wrap: wrap;
+        height: 100%;
+        box-sizing: border-box;
+        border-radius: 4px;
+        padding: 40px;
+        justify-content: center;
+      }
+    
+      .el-statistic {
+        --el-statistic-title-color: #fff;
+        --el-statistic-content-color: #fff;
+        --el-statistic-title-font-size: 18px;
+        --el-statistic-content-font-size: 24px;
+        --el-statistic-content-font-weight: 600;
+    
+        flex-basis: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      .chart-wrapper {
+        margin: 0;
+      }
+
+      .el-row + .el-row {
+        margin-top: 20px;
+      }
+    }
   }
 
   .play-btn {

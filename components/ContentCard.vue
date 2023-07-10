@@ -24,7 +24,7 @@ const props = defineProps<{
   isGrid?: boolean;
   gridColumn?: number;
   gridGap?: number;
-  contentHeight?: number;
+  contentHeight?: number | string;
   contentStyle?: string;
   contentClass?: string;
 }>();

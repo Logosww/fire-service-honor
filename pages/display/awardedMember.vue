@@ -1,5 +1,5 @@
 <template>
-  <ContentCard title="人员详情" style="margin-bottom: 600px;" content-style="background-color: rgba(255, 255, 255, .8); min-height: 1300px;">
+  <ContentCard title="人员详情" style="margin-bottom: 150px;" content-style="background-color: rgba(255, 255, 255, .8); min-height: 1300px;">
     <div class="member-detail-container">
       <BasicInfo :id="id" />
       <el-tabs v-model="activeTab">
@@ -43,4 +43,10 @@ const activeTab = ref('0');
 
 <style lang="scss">
   @use '@/assets/style/member-detail' as *;
+</style>
+
+<style>
+body {
+  overflow: auto;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="hover" class="chart-wrapper" :body-style="{ width: '100%', height: '100%' }">
+  <el-card shadow="hover" class="chart-wrapper" :style="{ height }" :body-style="{ width: '100%', height: '100%' }">
     <ClientOnly>
       <ChartContent :option="option" />
     </ClientOnly>
@@ -11,6 +11,7 @@ import type { ECOption } from './ChartConent.vue';
 
 defineProps<{
   option: ECOption;
+  height?: string;
 }>();
 
 </script>

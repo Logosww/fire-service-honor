@@ -68,7 +68,8 @@ const props = defineProps<{
   option: ECOption
 }>();
 
-const isIndex = useRoute().path === '/';
+const { path } = useRoute();
+const isIndex = path === '/' || path === '/display/department';
 
 const containerRef = ref<HTMLDivElement>();
 let chart: ECharts;

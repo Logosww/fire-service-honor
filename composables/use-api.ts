@@ -284,16 +284,16 @@ export const useModifyTraining = (params: Record<string, any> & { id: number }) 
   put('/employeeTrain/modifyEmployeeTrain', params) as Promise<null>;
 
 export const useGetTypical = (params: { employeeId: number }) =>
-  get('/employeeTypical/queryListEmployeeTypical', params) as HttpResponse<Typical[]>;
+  get('/public/listTypicalRoute', params) as HttpResponse<Typical[]>;
 
 export const useDeleteTypical = (params: { id: number }) =>
-  del('/employeeTypical/deleteEmployeeTypical', params) as Promise<null>;
+  del('/deleteTypicalRoute', params) as Promise<null>;
 
 export const useAddTypical = (params: Record<string, any> & { employeeId: number }) =>
-  nativeFetch('/employeeTypical/addEmployeeTypical', 'post', params) as Promise<null>;
+  nativeFetch('/addTypicalRoute', 'post', params) as Promise<null>;
 
 export const useModifyTypical = (params: Record<string, any> & { id: number }) =>
-  put('/employeeTypical/modifyEmployeeTypical', params) as Promise<null>;
+  put('/modifyTypicalRoute', params) as Promise<null>;
 
 export const useGetHonorRoute = (params: { employeeId: number }) =>
   get('/employeeHonor/queryListEmployeeHonor', params) as HttpResponse<HonorDetail[]>;
@@ -318,6 +318,24 @@ export const useGetMemberHonorTypeData = (params: { employeeId: number }) =>
 
 export const useGetMemberHonorLevelData = (params: { employeeId: number }) =>
   get('/employeeOverview/countEmployeeHonorByHonorLevel', params) as HttpResponse<Record<string, number>>;
+
+export const useGetDepartmentMemberCount = (params: { departmentId: number }) =>
+  get('/homeOverview/countEmployeeByDepartmentId', params) as HttpResponse<number>;
+
+export const useGetDepartmentHonorCount = (params: { departmentId: number }) =>
+  get('/homeOverview/countHonorByDepartmentId', params) as HttpResponse<number>;
+
+export const useGetDepartmentSubCount = (params: { departmentId: number }) =>
+  get('/homeOverview/countDepartmentByDepartmentId', params) as HttpResponse<number>;
+
+export const useGetDepartmentHonorTrendData = (params: { departmentId: number }) =>
+  get('/homeOverview/countDepartmentHonorTrendByYear', params) as HttpResponse<Record<string, number>>;
+
+export const useGetDepartmentSubHonorData = (params: { departmentId: number }) =>
+  get('/homeOverview/countDepartmentHonorByDepartmentId', params) as HttpResponse<Record<string, number>>;
+
+export const useGetDepartmentHonorLevelData = (params: { departmentId: number }) =>
+  get('/homeOverview/countDepartmentHonorByLevel', params) as HttpResponse<Record<string, number>>;
 
 export const useGetPersonalDeed = (params: { employeeId: number }) =>
   get('/employeeDeed/queryEmployeeDeed', params) as HttpResponse<string>;

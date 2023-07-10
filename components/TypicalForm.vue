@@ -47,7 +47,6 @@ const eventBus = inject(eventBusContextKey);
 
 const unsubscribe = eventBus?.on(async ([e, employeeId]) => {
   if(e !== 'confirm') return;
-  console.log(id)
   if(id) await useModifyTypical(form);
   else await useAddTypical({ employeeId: employeeId! as number, ...filterFormNull(form) });
   eventBus.emit(['submit', 'typical']);

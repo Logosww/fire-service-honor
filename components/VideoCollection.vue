@@ -1,13 +1,17 @@
 <template>
-  <div class="video-btns" v-if="!isIndex && videos.length">
-    <el-button-group :disabled="uploadDisabled" v-show="!isSelecting">
-      <el-button type="primary" :icon="ElIconUpload" :loading="isUploading" @click="uploadInput?.click()" text round>上传视频</el-button>
-      <el-button type="warning" :icon="ElIconEdit" @click="(isSelecting = true) && (videosCopy = videos.map(() => false))" text round>编辑</el-button>
-    </el-button-group>
-    <el-button-group v-show="isSelecting">
-      <el-button type="danger" :icon="ElIconDelete" :disabled="!selectedVideos.length" @click="handleDelete" text bg round>删除</el-button>
-      <el-button type="primary" :icon="ElIconCloseBold" @click="(selectedVideos = []) && (isSelecting = false)" text bg round>取消</el-button>
-    </el-button-group>
+  <div class="basic-table-title">
+    <span class="basic-table-title__bar"></span>
+    <h3 class="basic-table-title__content">视频集锦</h3>
+    <div class="video-btns" v-if="!isIndex && videos.length">
+      <el-button-group :disabled="uploadDisabled" v-show="!isSelecting">
+        <el-button type="primary" :icon="ElIconUpload" :loading="isUploading" @click="uploadInput?.click()" text round>上传视频</el-button>
+        <el-button type="warning" :icon="ElIconEdit" @click="(isSelecting = true) && (videosCopy = videos.map(() => false))" text round>编辑</el-button>
+      </el-button-group>
+      <el-button-group v-show="isSelecting">
+        <el-button type="danger" :icon="ElIconDelete" :disabled="!selectedVideos.length" @click="handleDelete" text bg round>删除</el-button>
+        <el-button type="primary" :icon="ElIconCloseBold" @click="(selectedVideos = []) && (isSelecting = false)" text bg round>取消</el-button>
+      </el-button-group>
+    </div>
   </div>
   <div class="video-list" v-if="videos.length">
     <div :class="['video-item', videosCopy[index] ? 'is-selected' : '']" v-for="(item, index) in videos" :key="index" @click="handleVideoClick(index)">

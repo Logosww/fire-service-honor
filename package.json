@@ -9,11 +9,11 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@types/node": "^18.16.18",
+    "@types/node": "^18.16.19",
     "@vueuse/core": "^10.2.1",
     "@vueuse/nuxt": "^10.2.1",
     "normalize.css": "^8.0.1",
-    "nuxt": "^3.6.1",
+    "nuxt": "^3.6.2",
     "sass": "^1.63.6"
   },
   "dependencies": {
