@@ -88,6 +88,8 @@ const rules: FormRules = {
   }
 };
 
+const { copy, isSupported } = useClipboard();
+
 const handleConfirm = () => {
   addFormRef.value?.validate(async valid => {
     if(!valid) return;
@@ -122,8 +124,22 @@ const handleResetPwd = (scope: any) => {
       cancelButtonText: '取消'
     }
   ).then(async () => {
-    await useResetUserPwd({ userId });
-    ElMessage({ type: 'success', message: '重置成功' });
+    const password = await useResetUserPwd({ userId });
+    ElMessageBox.alert(
+      `新密码：${password}`,
+      '重置成功',
+      {
+        type: 'success',
+        center: true,
+        confirmButtonText: '点击复制'
+      }
+    ).then(async action => {
+      if(action === 'confirm') {
+        if(!isSupported.value) return ElMessage.error('复制失败');
+        await copy(password);
+        ElMessage.success('复制成功');
+      }
+    })
   });
 };
 

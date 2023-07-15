@@ -33,8 +33,8 @@
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button type="primary" @click="handleModifyPwd">确认</el-button>
-        <el-button @click="dialogVisible = false">取消</el-button>>
+        <el-button type="primary" :icon="ElIconCheck" @click="handleModifyPwd">确认</el-button>
+        <el-button :icon="ElIconClose" @click="dialogVisible = false">取消</el-button>>
       </template>
     </el-dialog>
   </ClientOnly>
@@ -57,7 +57,15 @@ const form = reactive({
 
 const rules: FormRules = {
   oldPassword: { required: true, trigger: 'blur', message: '请输入旧密码' },
-  newPassword: { required: true, trigger: 'blur', message: '请输入新密码'},
+  newPassword: { 
+    required: true, 
+    trigger: 'blur', 
+    validator(_rule: any, value: string, cb: (err: Error) => void) {
+      console.log(value)
+      const isValid = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&.^#]).{8,}$/.test(value);
+      !isValid && cb(new Error('至少为8位大小写字母、数字和特殊符号组合'));
+    }
+  },
   reNewPassword: { 
     required: true, 
     trigger: 'blur', 

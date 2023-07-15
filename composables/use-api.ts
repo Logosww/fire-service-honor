@@ -116,7 +116,7 @@ export const useDeleteUser = (params: { userId: number }) =>
   del('/user/deleteUser', params) as Promise<null>;
 
 export const useResetUserPwd = (params: { userId: number }) =>
-  put('/user/resetPasswd', params) as Promise<null>;
+  put('/user/resetPasswd', params) as Promise<string>;
 
 export const useGetDictionaries = () =>
   get('/dict/queryListDictTree') as HttpResponse<TreeNodeData[]>;
