@@ -9,21 +9,21 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@types/node": "^18.16.19",
-    "@vueuse/core": "^10.2.1",
-    "@vueuse/nuxt": "^10.2.1",
+    "@types/node": "^18.18.7",
+    "@vueuse/core": "^10.5.0",
+    "@vueuse/nuxt": "^10.5.0",
     "normalize.css": "^8.0.1",
-    "nuxt": "^3.6.2",
-    "sass": "^1.63.6"
+    "nuxt": "^3.8.0",
+    "sass": "^1.69.5"
   },
   "dependencies": {
-    "@element-plus/nuxt": "^1.0.5",
-    "@tinymce/tinymce-vue": "^5.1.0",
-    "@vueuse/integrations": "^10.2.1",
-    "cos-js-sdk-v5": "^1.4.18",
-    "echarts": "^5.4.2",
+    "@element-plus/nuxt": "^1.0.6",
+    "@tinymce/tinymce-vue": "^5.1.1",
+    "@vueuse/integrations": "^10.5.0",
+    "cos-js-sdk-v5": "^1.4.21",
+    "echarts": "^5.4.3",
     "nanoid": "^4.0.2",
     "sortablejs": "^1.15.0",
-    "video.js": "^8.3.0"
+    "video.js": "^8.6.1"
   }
 }

@@ -118,7 +118,7 @@
 import { datePickerShortcuts, tableColumnPropsMap } from '@/constants';
 
 import Manage from '@/components/Manage.vue';
-import { ElTableRowScope } from '@/composables/use-api-types';
+import type { ElTableRowScope } from '@/composables/use-api-types';
 
 definePageMeta({
   middleware: ['auth', 'admin']

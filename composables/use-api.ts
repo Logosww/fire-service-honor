@@ -1,4 +1,3 @@
-import type { HttpResponse } from '@/utils';
 import type { 
   ParamsForPagingFetch,
   PagingTableData,
@@ -23,7 +22,7 @@ import type {
   Video
 } from './use-api-types';
 import type { SearchParameters } from 'ofetch';
-import { AnnualAssessment } from './use-api-types';
+import type { AnnualAssessment } from './use-api-types';
 
 export const useLogin = (
   params: {
@@ -31,25 +30,25 @@ export const useLogin = (
     password: string;
     rememberMe: boolean;
   }
-) => nativeFetch('/user/login', 'post', params) as Promise<boolean>;
+) => nativeFetch<boolean>('/user/login', 'post', params);
 
 export const useLogout = () =>
-  nativeFetch('/user/logout', 'post') as Promise<boolean>;
+  nativeFetch<boolean>('/user/logout', 'post');
 
 export const useModifyPassword = (params: { oldPasswd: string; newPasswd: string }) => 
-  nativeFetch('/user/modifyPasswd', 'post', params) as Promise<boolean>;
+  nativeFetch<boolean>('/user/modifyPasswd', 'post', params);
 
 export const useGetAutoCompleteItems = (url: string, params: SearchParameters) => 
-  nativeFetch(url, 'get', params) as Promise<string[]>;
+  nativeFetch<string[]>(url, 'get', params);
 
 export const useGetDepartmentTree = () =>
-  get('/selection/queryListDepartmentTree') as HttpResponse<Record<string, any>[]>;
+  get<Record<string, any>[]>('/selection/queryListDepartmentTree');
 
 export const useGetEmployeeNames = () =>
-  get('/selection/queryListEmployeeName') as HttpResponse<any[]>;
+  get<any[]>('/selection/queryListEmployeeName');
 
 export const useGetSelectOptionsByDict = (dictType: string) =>
-  get('/selection/queryListDictTreeByType', { dictType }) as HttpResponse<Record<string, any>[]>
+  get<Record<string, any>[]>('/selection/queryListDictTreeByType', { dictType })
 
 export const useGetSelectOptions = (selectTarget: string) =>
   selectTarget === 'DepartmentTree'
@@ -59,372 +58,372 @@ export const useGetSelectOptions = (selectTarget: string) =>
     : useGetSelectOptionsByDict(selectTarget);
 
 export const useGetCOSSecret = () =>
-  get('/cos/querySecret', undefined, undefined, { immediate: false }) as HttpResponse<COSBucketSecret>;
+  get<COSBucketSecret>('/cos/querySecret', undefined, undefined, { immediate: false });
 
 export const useGetMembers = (params: ParamsForPagingFetch) =>
-  get('/employee/queryPageEmployeeList', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
+  get<PagingTableData>('/employee/queryPageEmployeeList', params, undefined, { immediate: false });
 
 export const useQueryMemebers = (params: Record<string, any>) =>
-  nativeFetch('/employee/queryListEmployByCondition', 'post', params) as Promise<any[]>;
+  nativeFetch<any[]>('/employee/queryListEmployByCondition', 'post', params);
 
 export const useDeleteMember = (params: { employeeId: number }) =>
-  del('/employee/deleteEmployee', params) as Promise<null>;
+  del('/employee/deleteEmployee', params);
 
 export const useAddMember = (pararms: Record<string, any>) =>
-  nativeFetch('/employee/addEmployee', 'post', pararms) as Promise<null>;
+  nativeFetch('/employee/addEmployee', 'post', pararms);
 
 export const useModifyMember = (params: Record<string, any> & { id: number }) =>
-  put('/employee/modifyEmployee', params) as Promise<null>;
+  put('/employee/modifyEmployee', params);
 
 export const useGetDepartments = (params: ParamsForPagingFetch) =>
-  get('/department/queryPageDepartment', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
+  get<PagingTableData>('/department/queryPageDepartment', params, undefined, { immediate: false });
 
 export const useQueryDepartments = (params: Record<string, any>) =>
-  nativeFetch('/department/queryListDepartmentByCondition', 'get', params) as Promise<any[]>;
+  nativeFetch<any[]>('/department/queryListDepartmentByCondition', 'get', params);
 
 export const useGetDepartmentDetail = (params: { departmentId: number }) =>
-  get('/department/queryDepartmentDetail', params) as HttpResponse<DepartmentDetail>;
+  get<DepartmentDetail>('/department/queryDepartmentDetail', params);
 
 export const useDeleteDepartment = (params: { departmentId: number }) =>
-  del('/department/deleteDepartment', params) as Promise<null>;
+  del('/department/deleteDepartment', params);
 
 export const useAddDepartment = (params: Record<string, any>) =>
-  nativeFetch('/department/addDepartment', 'post', params) as Promise<null>;
+  nativeFetch('/department/addDepartment', 'post', params);
 
 export const useModifyDepartment = (params: Record<string, any> & { id: number }) =>
-  put('/department/modifyDepartment', params) as Promise<null>;
+  put('/department/modifyDepartment', params);
 
 export const useGetLogs = (params: ParamsForPagingFetch) =>
-  get('/operaLog/queryPageOperaLog', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
+  get<PagingTableData>('/operaLog/queryPageOperaLog', params, undefined, { immediate: false });
 
 export const useQueryLogs = (params: Record<string, any>) =>
-  nativeFetch('/operaLog/queryListOperaLogByCondition', 'post', params) as Promise<any[]>;
+  nativeFetch<any[]>('/operaLog/queryListOperaLogByCondition', 'post', params);
 
 export const useGetUsers = (params: ParamsForPagingFetch) =>
-  get('/user/queryPageUser', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
+  get<PagingTableData>('/user/queryPageUser', params, undefined, { immediate: false });
 
 export const useQueryUsers = (params: Record<string, any>) =>
-  nativeFetch('/user/queryListUserByCondition', 'post', params) as Promise<any[]>;
+  nativeFetch<any[]>('/user/queryListUserByCondition', 'post', params);
 
 export const useAddUser = (parmas: {
   username: string,
   departmentName: string
 }) =>
-  nativeFetch('/user/addUser', 'post', parmas) as Promise<null>;
+  nativeFetch('/user/addUser', 'post', parmas);
 
 export const useDeleteUser = (params: { userId: number }) =>
-  del('/user/deleteUser', params) as Promise<null>;
+  del('/user/deleteUser', params);
 
 export const useResetUserPwd = (params: { userId: number }) =>
-  put('/user/resetPasswd', params) as Promise<string>;
+  put<string>('/user/resetPasswd', params);
 
 export const useGetDictionaries = () =>
-  get('/dict/queryListDictTree') as HttpResponse<TreeNodeData[]>;
+  get<TreeNodeData[]>('/dict/queryListDictTree');
 
 export const useAddDictionary = (params: {
   parentId: number;
   dictName: string
 }) => 
-  nativeFetch('/dict/addDict', 'post', params) as Promise<number>;
+  nativeFetch<number>('/dict/addDict', 'post', params);
 
 export const useDeleteDictionary = (params: { dictId: number }) =>
-  del('/dict/deleteDict', params) as Promise<null>;
+  del('/dict/deleteDict', params);
 
 export const useModifyDictionary = (params: {
   dictId: number;
   dictNewName: string
 }) => 
-  put('/dict/modifyDict', params) as Promise<null>;
+  put('/dict/modifyDict', params);
 
 export const useGetHonors = (params: ParamsForPagingFetch) =>
-  get('/honor/queryPageHonor', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
+  get<PagingTableData>('/honor/queryPageHonor', params, undefined, { immediate: false });
 
 export const useQueryHonors = (params: Record<string, any>) =>
-  nativeFetch('/honor/queryListHonorByCondition', 'post', params) as Promise<Honor[]>;
+  nativeFetch<Honor[]>('/honor/queryListHonorByCondition', 'post', params);
 
 export const useGetHonorDetail = (params: { honorId: number }) =>
-  get('/honor/queryHonorDetailById', params) as HttpResponse<HonorDetail>
+  get<HonorDetail>('/honor/queryHonorDetailById', params);
 
 export const useDeleteHonor = (params: { honorId: number }) =>
-  del('/honor/deleteHonor', params) as Promise<null>;
+  del('/honor/deleteHonor', params);
 
 export const useAddHonor = (params: Record<string, any>) =>
-  nativeFetch('/honor/addHonor', 'post', params) as Promise<null>;
+  nativeFetch('/honor/addHonor', 'post', params);
 
 export const useModifyHonor = (params: Record<string, any> & { id: number }) =>
-  put('/honor/modifyHonor', params) as Promise<null>;
+  put('/honor/modifyHonor', params);
 
 export const useGetHonorProjects = (params: ParamsForPagingFetch) => 
-  get('/honorProject/queryPageHonorProject', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
+  get<PagingTableData>('/honorProject/queryPageHonorProject', params, undefined, { immediate: false });
 
 export const useQueryHonorProjects = (params: Record<string, any>) =>
   nativeFetch('/honorProject/queryListHonorProject', 'post', params) as Promise<HonorProject[]>;
 
 export const useDeleteHonorProject = (params: { honorProjectId: number }) =>
-  del('/honorProject/deleteHonorProject', params) as Promise<null>;
+  del('/honorProject/deleteHonorProject', params);
 
 export const useAddHonorProject = (params: Record<string, any>) =>
-  nativeFetch('/honorProject/addHonorProject', 'post', params) as Promise<null>;
+  nativeFetch('/honorProject/addHonorProject', 'post', params);
 
 export const useModifyHonorProject = (params: Record<string, any> & { id: number }) =>
-  put('/honorProject/modifyHonorProject', params) as Promise<null>;
+  put('/honorProject/modifyHonorProject', params);
 
 export const useGetApplications = (params: ParamsForPagingFetch) =>
-  get('/honorAuditApply/queryPageHonorAuditApply', params, undefined, { immediate: false }) as HttpResponse<PagingTableData>;
+  get<PagingTableData>('/honorAuditApply/queryPageHonorAuditApply', params, undefined, { immediate: false });
 
 export const useGetReturnedApplications = (params: ParamsForPagingFetch) =>
-  get('/honorAuditApply/queryPageHonorAuditApplyDone', params) as HttpResponse<PagingTableData>;
+  get<PagingTableData>('/honorAuditApply/queryPageHonorAuditApplyDone', params);
 
 export const useQueryApplications = (params: Record<string, any>) =>
-  nativeFetch('/honorAuditApply/queryListHonorAuditApply', 'post', params) as Promise<HonorApplication[]>;
+  nativeFetch<HonorApplication[]>('/honorAuditApply/queryListHonorAuditApply', 'post', params);
 
 export const useQueryReturnedApplications = (params: Record<string, any>) =>
-  nativeFetch('/honorAuditApply/queryPageHonorAuditApplyDone', 'post', params) as Promise<HonorApplication[]>;
+  nativeFetch<HonorApplication[]>('/honorAuditApply/queryPageHonorAuditApplyDone', 'post', params);
 
 export const useGetApplicationDetail = (params: { honorApplyId: number }) =>
-  get('/honorAuditApply/queryHonorDetail', params) as HttpResponse<HonorDetail>;
+  get<HonorDetail>('/honorAuditApply/queryHonorDetail', params);
 
 export const useReturnApplication = (params: { honorApplyId: number }) =>
-  put('/honorAuditApply/auditHonorApply', params) as Promise<null>;
+  put('/honorAuditApply/auditHonorApply', params);
 
 export const useRecoverApplication = (params: { honorApplyId: number }) =>
-  put('/honorAuditApply/recoverHonorApply', params) as Promise<null>;
+  put('/honorAuditApply/recoverHonorApply', params);
 
 export const useCancelApplication = (params: { honorApplyId: number }) =>
-  del('/honorAuditApply/deleteHonorApply', params) as Promise<null>;
+  del('/honorAuditApply/deleteHonorApply', params);
 
 export const useSubmitApplication = (params: Record<string, any>) =>
-  nativeFetch('/honorAuditApply/applyHonor', 'post', params) as Promise<null>;
+  nativeFetch('/honorAuditApply/applyHonor', 'post', params);
 
 export const useSwitchService = (params: Record<string, any> & { id: number }) =>
-  put('/employeeChange/changeDepartment', params) as Promise<null>;
+  put('/employeeChange/changeDepartment', params);
 
 export const useGetHonorCount = () =>
-  get('/homeOverview/countHonor') as HttpResponse<number>;
+  get<number>('/homeOverview/countHonor');
 
 export const useGetMemberCount = () =>
-  get('/homeOverview/countEmployee') as HttpResponse<number>;
+  get<number>('/homeOverview/countEmployee');
 
 export const useGetDepartmentCount = () =>
-  get('/homeOverview/countDepartment') as HttpResponse<number>;
+  get<number>('/homeOverview/countDepartment');
 
 export const useGetLoginCount = () =>
-  get('/homeOverview/countLogin') as HttpResponse<number>;
+  get<number>('/homeOverview/countLogin');
 
 export const useGetDeparmentHonorsCount = () =>
-  get('/homeOverview/countDepartmentHonor') as HttpResponse<Record<string, number>>;
+  get<Record<string, number>>('/homeOverview/countDepartmentHonor');
 
 export const useGetLastDecadeHonorData = () =>
-  get('/homeOverview/countHonorTrendByYear') as HttpResponse<Record<string, number>>;
+  get<Record<string, number>>('/homeOverview/countHonorTrendByYear');
 
 export const useGetHonorLevelsData = () =>
-  get('/homeOverview/countHonorByLevel') as HttpResponse<Record<string, number>>;
+  get<Record<string, number>>('/homeOverview/countHonorByLevel');
 
 export const useGetMemberProfile = (params: { employeeId: number }) =>
-  get('/employee/queryEmployeeDetailById', params) as HttpResponse<MemberProfile>;
+  get<MemberProfile>('/employee/queryEmployeeDetailById', params);
 
 export const useGetJobHistory = (params: { employeeId: number }) =>
-  get('/employeeWork/queryListEmployeeWork', params) as HttpResponse<JobHitory[]>;
+  get<JobHitory[]>('/employeeWork/queryListEmployeeWork', params);
 
 export const useDeleteJobHistory = (params: { id: number }) =>
-  del('/employeeWork/deleteEmployeeWork', params) as Promise<null>;
+  del('/employeeWork/deleteEmployeeWork', params);
 
 export const useAddJobHistory = (params: Record<string, any> & { employeeId: number }) =>
-  nativeFetch('/employeeWork/addEmployeeWork', 'post', params) as Promise<null>;
+  nativeFetch('/employeeWork/addEmployeeWork', 'post', params);
 
 export const useModifyJobHistory = (params: Record<string, any> & { id: number }) =>
-  put('/employeeWork/modifyEmployeeWork', params) as Promise<null>;
+  put('/employeeWork/modifyEmployeeWork', params);
 
 export const useGetAssessments = (params: { employeeId: number }) =>
-  get('/employeeAnnualAssessment/queryListEmployeeAnnualAssessment', params) as HttpResponse<AnnualAssessment[]>;
+  get<AnnualAssessment[]>('/employeeAnnualAssessment/queryListEmployeeAnnualAssessment', params);
 
 export const useDeleteAssessment = (params: { id: number }) =>
-  del('/employeeAnnualAssessment/deleteEmployeeAnnualAssessment', params) as Promise<null>;
+  del('/employeeAnnualAssessment/deleteEmployeeAnnualAssessment', params);
 
 export const useAddAssessment = (params: Record<string, any> & { employeeId: number }) =>
-  nativeFetch('/employeeAnnualAssessment/addEmployeeAnnualAssessment', 'post', params) as Promise<null>;
+  nativeFetch('/employeeAnnualAssessment/addEmployeeAnnualAssessment', 'post', params);
 
 export const useModifyAssessment = (params: Record<string, any> & { id: number }) =>
-  put('/employeeAnnualAssessment/modifyEmployeeAnnualAssessment', params) as Promise<null>;
+  put('/employeeAnnualAssessment/modifyEmployeeAnnualAssessment', params);
 
 export const useGetEvents= (params: { employeeId: number }) =>
-  get('/employeeEvent/queryListEmployeeEvent', params) as HttpResponse<Event[]>;
+  get<Event[]>('/employeeEvent/queryListEmployeeEvent', params);
 
 export const useDeleteEvent = (params: { id: number }) =>
-  del('/employeeEvent/deleteEmployeeEvent', params) as Promise<null>;
+  del('/employeeEvent/deleteEmployeeEvent', params);
 
 export const useAddEvent = (params: Record<string, any> & { employeeId: number }) =>
-  nativeFetch('/employeeEvent/addEmployeeEvent', 'post', params) as Promise<null>;
+  nativeFetch('/employeeEvent/addEmployeeEvent', 'post', params);
 
 export const useModifyEvent = (params: Record<string, any> & { id: number }) =>
-  put('/employeeEvent/modifyEmployeeEvent', params) as Promise<null>;
+  put('/employeeEvent/modifyEmployeeEvent', params);
 
 export const useGetContests = (params: { employeeId: number }) =>
-  get('/employeeCompetition/queryListEmployeeCompetition', params) as HttpResponse<Contest[]>;
+  get<Contest[]>('/employeeCompetition/queryListEmployeeCompetition', params);
 
 export const useDeleteContest = (params: { id: number }) =>
-  del('/employeeCompetition/deleteEmployeeCompetition', params) as Promise<null>;
+  del('/employeeCompetition/deleteEmployeeCompetition', params);
 
 export const useAddContest = (params: Record<string, any> & { employeeId: number }) =>
-  nativeFetch('/employeeCompetition/addEmployeeCompetition', 'post', params) as Promise<null>;
+  nativeFetch('/employeeCompetition/addEmployeeCompetition', 'post', params);
 
 export const useModifyContest = (params: Record<string, any> & { id: number }) =>
-  put('/employeeCompetition/modifyEmployeeCompetition', params) as Promise<null>;
+  put('/employeeCompetition/modifyEmployeeCompetition', params);
 
 export const useGetTraining = (params: { employeeId: number }) =>
-  get('/employeeTrain/queryListEmployeeTrain', params) as HttpResponse<Training[]>;
+  get<Training[]>('/employeeTrain/queryListEmployeeTrain', params);
 
 export const useDeleteTraining = (params: { id: number }) =>
-  del('/employeeTrain/deleteEmployeeTrain', params) as Promise<null>;
+  del('/employeeTrain/deleteEmployeeTrain', params);
 
 export const useAddTraining = (params: Record<string, any> & { employeeId: number }) =>
-  nativeFetch('/employeeTrain/addEmployeeTrain', 'post', params) as Promise<null>;
+  nativeFetch('/employeeTrain/addEmployeeTrain', 'post', params);
 
 export const useModifyTraining = (params: Record<string, any> & { id: number }) =>
-  put('/employeeTrain/modifyEmployeeTrain', params) as Promise<null>;
+  put('/employeeTrain/modifyEmployeeTrain', params);
 
 export const useGetTypical = (params: { employeeId: number }) =>
-  get('/public/listTypicalRoute', params) as HttpResponse<Typical[]>;
+  get<Typical[]>('/public/listTypicalRoute', params);
 
 export const useDeleteTypical = (params: { id: number }) =>
-  del('/deleteTypicalRoute', params) as Promise<null>;
+  del('/deleteTypicalRoute', params);
 
 export const useAddTypical = (params: Record<string, any> & { employeeId: number }) =>
-  nativeFetch('/addTypicalRoute', 'post', params) as Promise<null>;
+  nativeFetch('/addTypicalRoute', 'post', params);
 
 export const useModifyTypical = (params: Record<string, any> & { id: number }) =>
-  put('/modifyTypicalRoute', params) as Promise<null>;
+  put('/modifyTypicalRoute', params);
 
 export const useGetHonorRoute = (params: { employeeId: number }) =>
-  get('/employeeHonor/queryListEmployeeHonor', params) as HttpResponse<HonorDetail[]>;
+  get<HonorDetail[]>('/employeeHonor/queryListEmployeeHonor', params);
 
 export const useGetMemberHonorCount = (params: { employeeId: number }) =>
-  get('/employeeOverview/countEmployeeHonor', params) as HttpResponse<number>;
+  get<number>('/employeeOverview/countEmployeeHonor', params);
 
 export const useGetMemberContestCount = (params: { employeeId: number }) =>
-  get('/employeeOverview/countEmployeeCompetition', params) as HttpResponse<number>;
+  get<number>('/employeeOverview/countEmployeeCompetition', params);
 
 export const useGetMemberContributionCount = (params: { employeeId: number }) =>
-  get('/employeeOverview/countEmployeeContribute', params) as HttpResponse<number>;
+  get<number>('/employeeOverview/countEmployeeContribute', params);
 
 export const useGetMemberTrainingCount = (params: { employeeId: number }) =>
-  get('/employeeOverview/countEmployeeTrain', params) as HttpResponse<number>;
+  get<number>('/employeeOverview/countEmployeeTrain', params);
 
 export const useGetMemberHonorTrendData = (params: { employeeId: number }) =>
-  get('/employeeOverview/countEmployeeHonorTrendByYear', params) as HttpResponse<Record<string, number>>;
+  get<Record<string, number>>('/employeeOverview/countEmployeeHonorTrendByYear', params);
 
 export const useGetMemberHonorTypeData = (params: { employeeId: number }) =>
-  get('/employeeOverview/countEmployeeHonorByHonorType', params) as HttpResponse<Record<string, number>>;
+  get<Record<string, number>>('/employeeOverview/countEmployeeHonorByHonorType', params);
 
 export const useGetMemberHonorLevelData = (params: { employeeId: number }) =>
-  get('/employeeOverview/countEmployeeHonorByHonorLevel', params) as HttpResponse<Record<string, number>>;
+  get<Record<string, number>>('/employeeOverview/countEmployeeHonorByHonorLevel', params);
 
 export const useGetDepartmentMemberCount = (params: { departmentId: number }) =>
-  get('/homeOverview/countEmployeeByDepartmentId', params) as HttpResponse<number>;
+  get<number>('/homeOverview/countEmployeeByDepartmentId', params);
 
 export const useGetDepartmentHonorCount = (params: { departmentId: number }) =>
-  get('/homeOverview/countHonorByDepartmentId', params) as HttpResponse<number>;
+  get<number>('/homeOverview/countHonorByDepartmentId', params);
 
 export const useGetDepartmentSubCount = (params: { departmentId: number }) =>
-  get('/homeOverview/countDepartmentByDepartmentId', params) as HttpResponse<number>;
+  get<number>('/homeOverview/countDepartmentByDepartmentId', params);
 
 export const useGetDepartmentHonorTrendData = (params: { departmentId: number }) =>
-  get('/homeOverview/countDepartmentHonorTrendByYear', params) as HttpResponse<Record<string, number>>;
+  get<Record<string, number>>('/homeOverview/countDepartmentHonorTrendByYear', params);
 
 export const useGetDepartmentSubHonorData = (params: { departmentId: number }) =>
-  get('/homeOverview/countDepartmentHonorByDepartmentId', params) as HttpResponse<Record<string, number>>;
+  get<Record<string, number>>('/homeOverview/countDepartmentHonorByDepartmentId', params);
 
 export const useGetDepartmentHonorLevelData = (params: { departmentId: number }) =>
-  get('/homeOverview/countDepartmentHonorByLevel', params) as HttpResponse<Record<string, number>>;
+  get<Record<string, number>>('/homeOverview/countDepartmentHonorByLevel', params);
 
 export const useGetPersonalDeed = (params: { employeeId: number }) =>
-  get('/employeeDeed/queryEmployeeDeed', params) as HttpResponse<string>;
+  get<string>('/employeeDeed/queryEmployeeDeed', params);
 
 export const useModifyPersonalDeed = (params: { employeeId: number; content: string }) =>
-  nativeFetch('/employeeDeed/editEmployeeDeed', 'post', params) as Promise<null>;
+  nativeFetch('/employeeDeed/editEmployeeDeed', 'post', params);
 
 export const useDeletePersonalDeed = (params: { employeeId: number }) =>
-  del('/employeeDeed/deleteEmployeeDeed', params) as Promise<null>;
+  del('/employeeDeed/deleteEmployeeDeed', params);
 
 export const useGetMemberHonors = (params: { employeeId: number }) =>
-  get('/selection/queryListEmployeeTypicalHonor', params) as HttpResponse<Record<string, any>[]>;
+  get<Record<string, any>[]>('/selection/queryListEmployeeTypicalHonor', params);
 
 export const useSetMemberAwarded = (params: { employeeId: number }) =>
-  nativeFetch('/typicalCharacter/confirm', 'post', params) as Promise<null>;
+  nativeFetch('/typicalCharacter/confirm', 'post', params);
 
 export const useGetLevel0AwardedMembers = (parmas: ParamsForPagingFetch) =>
-  post('/typicalCharacter/page', ref({ typicalLevel: 0, ...unref(parmas) }), undefined, { key: 'level-0' }) as HttpResponse<PagingTableData>;
+  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 0, ...unref(parmas) }), undefined, { key: 'level-0' });
 
 export const useGetLevel1AwardedMembers = (parmas: ParamsForPagingFetch) =>
-  post('/typicalCharacter/page', ref({ typicalLevel: 1, ...unref(parmas) }), undefined, { key: 'level-1' }) as HttpResponse<PagingTableData>;
+  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 1, ...unref(parmas) }), undefined, { key: 'level-1' });
 
 export const useGetLevel2AwardedMembers = (parmas: ParamsForPagingFetch) =>
-  post('/typicalCharacter/page', ref({ typicalLevel: 2, ...unref(parmas) }), undefined, { key: 'level-2' }) as HttpResponse<PagingTableData>;
+  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 2, ...unref(parmas) }), undefined, { key: 'level-2' });
 
 export const useQueryAwardedMember = (params: Record<string, any>) =>
-  nativeFetch('/typicalCharacter/listByCondition', 'post', params) as Promise<AwardedMemberDetail[]>;
+  nativeFetch<AwardedMemberDetail[]>('/typicalCharacter/listByCondition', 'post', params);
 
 export const usePromoteAwardedMemberLevel = (params: { employeeId: number }) =>
-  put('/typicalCharacter/promote', params) as Promise<null>;
+  put('/typicalCharacter/promote', params);
 
 export const useDemoteAwardedMemberLevel = (params: { employeeId: number }) =>
-  del('/typicalCharacter/cancel', params) as Promise<null>;
+  del('/typicalCharacter/cancel', params);
 
 export const useGetAwardedMemberDisplay = (params: { employeeId: number }) =>
-  get('/queryTypicalDisplay', params) as HttpResponse<AwardedMemberDisplay>;
+  get<AwardedMemberDisplay>('/queryTypicalDisplay', params);
 
 export const useModifyAwardedMemberDisplay = (params: {
   employeeId: number;
   displayImgUrl: string;
   displayContent: string;
 }) =>
-  put('/editTypicalDisplay', params) as Promise<null>;
+  put('/editTypicalDisplay', params);
 
 export const useGetLogDetail = (params: { logId: number }) =>
-  nativeFetch('/operaLog/queryOperaLogDetailById', 'get', params) as Promise<LogDetail>;
+  nativeFetch<LogDetail>('/operaLog/queryOperaLogDetailById', 'get', params);
 
 export const useGetLifePhotos = () =>
-  get('/portal/listLifePhoto') as HttpResponse<string[]>;
+  get<string[]>('/portal/listLifePhoto');
 
 export const useGetAwardedMembersAll = () =>
-  get('/portal/listTypicalCharacter') as HttpResponse<(AwardedMemberDetail & { isTypicalDeed: boolean })[]>
+  get<(AwardedMemberDetail & { isTypicalDeed: boolean })[]>('/portal/listTypicalCharacter');
 
 export const useGetTypicalHonors = () =>
-  get('/portal/listTypicalHonor') as HttpResponse<TypicalHonor[]>;
+  get<TypicalHonor[]>('/portal/listTypicalHonor');
 
 export const useGetDepartmentPhotos = () => 
-  get('/portal/listBrigade') as HttpResponse<{ departmentId: number; departmentPhoto: string; departmentName: string; }[]>;
+  get<{ departmentId: number; departmentPhoto: string; departmentName: string; }[]>('/portal/listBrigade');
 
 export const useGetAwardedMembers = () =>
-  get('/listTypicalCharacterVos') as HttpResponse<AwardedMemberDetail[]>;
+  get<AwardedMemberDetail[]>('/listTypicalCharacterVos');
 
 export const useGetSelectedAwardedMembers = () =>
-  get('/listDisplayTypicalCharacterVos') as HttpResponse<AwardedMemberDetail[]>;
+  get<AwardedMemberDetail[]>('/listDisplayTypicalCharacterVos');
 
 export const useSortAwardedMemberDisplay = (params: number[]) =>
-  put('/editTypicalSort', params) as Promise<null>;
+  put('/editTypicalSort', params);
 
 export const useGetLevel1AwardedMembersDiplay = () =>
-  get('/public/listTypicalCharacterCardVos', { typicalLevel: 1 }, undefined, { key: 'typical-level-1' }) as HttpResponse<AwardedMemberDisplayDetail[]>;
+  get<AwardedMemberDisplayDetail[]>('/public/listTypicalCharacterCardVos', { typicalLevel: 1 }, undefined, { key: 'typical-level-1' });
 
 export const useGetLevel2AwardedMembersDiplay = () =>
-  get('/public/listTypicalCharacterCardVos', { typicalLevel: 2 }, undefined, { key: 'typical-level-2' }) as HttpResponse<AwardedMemberDisplayDetail[]>;
+  get<AwardedMemberDisplayDetail[]>('/public/listTypicalCharacterCardVos', { typicalLevel: 2 }, undefined, { key: 'typical-level-2' });
 
 export const useGetDepartmentsDisplay = () =>
-  get('/public/listPortalDepartmentVos') as HttpResponse<{ departmentId: number; departmentName: string; }[]>;
+  get<{ departmentId: number; departmentName: string; }[]>('/public/listPortalDepartmentVos');
 
 export const useGetDepartmentAwardedMebers = (params: { departmentId: number }) =>
-  get('/public/listDepartmentTypicalCharacterCardVos', params) as HttpResponse<AwardedMemberDisplayDetail[]>;
+  get<AwardedMemberDisplayDetail[]>('/public/listDepartmentTypicalCharacterCardVos', params);
 
 export const useGetVideos = (params: { employeeId: number }) =>
-  get('/public/queryEmployeeVideoList', params) as HttpResponse<Video[]>;
+  get<Video[]>('/public/queryEmployeeVideoList', params);
 
 export const useAddVideo = (params: {
   employeeId: number;
   videoName: string;
   videoUrl: string;
   videoCoverUrl: string;
-}) => nativeFetch('/addEmployeeVideo', 'post', params) as Promise<null>;
+}) => nativeFetch('/addEmployeeVideo', 'post', params);
 
 export const useDeleteVideos = (ids: number[]) => 
-  put('/deleteEmployeeVideo', ids) as Promise<null>;
+  put('/deleteEmployeeVideo', ids);

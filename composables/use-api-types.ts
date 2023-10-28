@@ -1,5 +1,5 @@
+import type { FetchResult } from '@/utils';
 import type { Ref } from 'vue';
-import type { HttpResponse } from '@/utils';
 
 export interface PagingTableData {
   page: number;
@@ -219,7 +219,7 @@ export interface Video {
   videoDuration: string;
 };
 
-export type FetchTableDataComposable = (params: ParamsForPagingFetch) => HttpResponse<PagingTableData>;
+export type FetchTableDataComposable = (params: ParamsForPagingFetch) => FetchResult<PagingTableData>;
 export type QueryTableDataMethod = (params: Record<string, any>) => Promise<any[]>;
 
 export type AutoCompleteQueryTarget

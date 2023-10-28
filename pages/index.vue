@@ -62,11 +62,12 @@
 </template>
 
 <script lang="ts" setup>
-
 import PPT from '@/components/PPT.vue';
 
+import type { ECOption } from '@/components/ChartContent.vue';
+
 definePageMeta({
-  layout: 'index'
+  layout: 'landing-page'
 });
 
 const currIndex = ref(0);
@@ -82,6 +83,7 @@ const { data: departmentCount } = await useGetDepartmentCount();
 const { data: loginCount } = await useGetLoginCount();
 
 const { data: lastDecadeHonorData } = await useGetLastDecadeHonorData();
+
 const { data: departmentHonorsCount } = await useGetDeparmentHonorsCount();
 const { data: honorLevelsData } = await useGetHonorLevelsData();
 
@@ -93,13 +95,13 @@ const filterCharactors = computed(() =>
   )
 );
 
-const lineChartOption = {
+const lineChartOption = computed<ECOption>(() => ({
   title: {
     text: '近十年荣誉数'
   },
   xAxis: {
     type: 'category',
-    data: Object.keys(lastDecadeHonorData.value)
+    data: lastDecadeHonorData.value && Object.keys(lastDecadeHonorData.value)
   },
   yAxis: {
     type: 'value'
@@ -107,16 +109,16 @@ const lineChartOption = {
   series: [
     {
       name: '荣誉数',
-      data: Object.values(lastDecadeHonorData.value),
+      data: lastDecadeHonorData.value && Object.values(lastDecadeHonorData.value),
       type: 'line'
     }
   ],
   tooltip: {
     trigger: 'axis',
   }
-};
+}));
 
-const barChartOption = {
+const barChartOption = computed<ECOption>(() => ({
   title: {
     text: '各大队荣誉数'
   },
@@ -131,18 +133,18 @@ const barChartOption = {
   },
   xAxis: {
     type: 'category',
-    data: Object.keys(departmentHonorsCount.value)
+    data: departmentHonorsCount.value && Object.keys(departmentHonorsCount.value)
   },
   series: [
     {
       name: '人数',
       type: 'bar',
-      data: Object.values(departmentHonorsCount.value)
+      data: departmentHonorsCount.value && Object.values(departmentHonorsCount.value)
     }
   ]
-};
+}));
 
-const pieChartOption = {
+const pieChartOption = computed<ECOption>(() => ({
   title: {
     text: '荣誉级别分布',
     left: 'center'
@@ -159,7 +161,7 @@ const pieChartOption = {
       name: '荣誉级别',
       type: 'pie',
       radius: '50%',
-      data: Object.entries(honorLevelsData.value).map(([key, value]) => ({ value: value, name: key })),
+      data: honorLevelsData.value && Object.entries(honorLevelsData.value).map(([key, value]) => ({ value: value, name: key })),
       emphasis: {
         itemStyle: {
           shadowBlur: 10,
@@ -169,7 +171,7 @@ const pieChartOption = {
       }
     }
   ]
-};
+}));
 
 const handleScroll = useDebounceFn((e: WheelEvent) => {
     const { target } = e;

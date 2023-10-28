@@ -17,8 +17,6 @@
 
 <script lang="ts" setup>
 
-import type { CSSProperties } from 'vue';
-
 const props = defineProps<{
   title: string;
   isGrid?: boolean;

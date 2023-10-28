@@ -18,6 +18,9 @@ import {
 } from 'echarts/components';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
+import { isDarkInjectionKey } from '@/tokens';
+
+import type { ECharts } from 'echarts/core';
 import type {
   BarSeriesOption, 
   LineSeriesOption,
@@ -25,16 +28,13 @@ import type {
   RadarSeriesOption
 } from 'echarts/charts';
 import type {
+  RadarComponentOption,
   TitleComponentOption,
   TooltipComponentOption,
   GridComponentOption,
   LegendComponentOption
 } from 'echarts/components';
-import type { 
-  ComposeOption,
-  ECharts
-} from 'echarts/core';
-import { isDarkInjectionKey } from '@/tokens';
+import type { ComposeOption } from 'echarts/core';
 
 type ECSeriesOption = 
   | BarSeriesOption
@@ -44,6 +44,7 @@ type ECSeriesOption =
 
 export type ECOption = ComposeOption<
   | ECSeriesOption
+  | RadarComponentOption
   | TitleComponentOption
   | TooltipComponentOption
   | GridComponentOption
@@ -85,8 +86,13 @@ onMounted(() => {
       ? 'customed'
       : isDark.value ? 'myDark' : undefined);
 
-  chart.setOption(props.option);
+  props.option && chart.setOption(props.option);
 });
+
+watch(
+  () => props.option, 
+  () => props.option && chart.setOption(props.option)
+);
 
 !isIndex && watch(isDark, val => {
   chart.dispose();

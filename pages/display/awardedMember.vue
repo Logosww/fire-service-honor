@@ -32,7 +32,7 @@
 <script lang="ts" setup>
 
 definePageMeta({
-  layout: 'index'
+  layout: 'landing-page'
 });
 
 const route = useRoute();

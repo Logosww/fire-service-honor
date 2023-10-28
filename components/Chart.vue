@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { ECOption } from './ChartConent.vue';
+import type { ECOption } from './ChartContent.vue';
 
 defineProps<{
   option: ECOption;
