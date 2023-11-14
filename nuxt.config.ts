@@ -9,7 +9,10 @@ export default defineNuxtConfig({
     noStylesComponents: ['el-tree']
   },
   routeRules: {
-    '/login': { prerender: true }
+    '/': { swr: true },
+    '/admin': { swr: true },
+    '/login': { prerender: true },
+    '/display/**': { swr: true },
   },
   vite: {
     ssr: {
