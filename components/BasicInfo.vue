@@ -40,7 +40,6 @@
 <script lang="ts" setup>
 import type { ECOption } from './ChartContent.vue';
 
-
 const props = defineProps<{
   id: number;
 }>();
@@ -48,10 +47,9 @@ const props = defineProps<{
 const { id } = props;
 
 const { data: profile } = await useGetMemberProfile({ employeeId: id });
-const radarData = profile.value.radar;
 
 const isSwitching = ref(false);
-const isAwarded = ref(profile.value.typicalLevel >= 0);
+const isAwarded = computed(() => profile.value?.typicalLevel >= 0);
 
 const handleIsAwardedChange = () => {
   isSwitching.value = true;
@@ -73,12 +71,12 @@ const handleIsAwardedChange = () => {
   }).finally(() => isSwitching.value = false);
 };
 
-const radarOption = computed<ECOption>(() => ({
+const radarOption = computed<ECOption>(() => (profile.value?.radar && {
   title: {
     text: '个人维度数据'
   },
   radar: {
-    indicator: radarData && Object.keys(radarData).map(key => ({ name: key }))
+    indicator: Object.keys(profile.value.radar).map(key => ({ name: key }))
   },
   series: [
     {
@@ -86,7 +84,7 @@ const radarOption = computed<ECOption>(() => ({
       name: '个人维度数据',
       data: [
         {
-          value: radarData && Object.values(radarData),
+          value: Object.values(profile.value.radar),
           label: {
             show: true,
           },
