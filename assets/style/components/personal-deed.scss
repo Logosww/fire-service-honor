@@ -1,0 +1,15 @@
+.el-dialog.personal-deed-dialog {
+  width: auto;
+  max-width: 50%;
+  min-width: 600px;
+  border-radius: 12px;
+
+  .el-dialog__title {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  .el-dialog__body {
+    padding-top: 0;
+  }
+}

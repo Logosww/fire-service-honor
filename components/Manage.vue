@@ -147,7 +147,7 @@ const handlePageChange = (page: number) => {
 };
 
 onMounted(() => {
-  fetchDataMethod().then(() => setTimeout(() => tableLoading.value = false, 500));
+  fetchDataMethod().then(() => setTimeout(() => tableLoading.value = false, 450));
 });
 
 </script>

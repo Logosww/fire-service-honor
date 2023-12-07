@@ -5,7 +5,6 @@
         ref="manageRef"
         composable-path="/honorAudit/undealt"
         :table-column-props="undealtTableColumnProps"
-        multiple-select
       >
         <template #query>
           <el-form inline>
@@ -60,7 +59,6 @@
         ref="returnManageRef"
         composable-path="/honorAudit/dealt"
         :table-column-props="dealtTableColumnProps"
-        multiple-select
       >
         <template #query>
           <el-form inline>

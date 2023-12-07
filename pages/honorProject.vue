@@ -2,7 +2,6 @@
   <Manage
     ref="manageRef"
     :table-column-props="tableColumnProps"
-    multiple-select
   >
     <template #query>
       <el-form inline>

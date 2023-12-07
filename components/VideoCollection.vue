@@ -46,6 +46,8 @@
       v-model="dialogVisible"
       @open="handleOpen"
       @closed="player?.pause();"
+      append-to-body
+      align-center
       draggable
     >
       <video
@@ -208,5 +210,5 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss">
-  @use '@/assets/style/video-collection' as *;
+  @use '@/assets/style/components/video-collection' as *;
 </style>

@@ -19,7 +19,8 @@ import type {
   TypicalHonor,
   AwardedMemberDisplay,
   AwardedMemberDisplayDetail,
-  Video
+  Video,
+  PersonalDeed
 } from './use-api-types';
 import type { SearchParameters } from 'ofetch';
 import type { AnnualAssessment } from './use-api-types';
@@ -336,13 +337,19 @@ export const useGetDepartmentSubHonorData = (params: { departmentId: number }) =
 export const useGetDepartmentHonorLevelData = (params: { departmentId: number }) =>
   get<Record<string, number>>('/homeOverview/countDepartmentHonorByLevel', params);
 
-export const useGetPersonalDeed = (params: { employeeId: number }) =>
-  get<string>('/employeeDeed/queryEmployeeDeed', params);
+export const useGetPersonalDeedsList = (params: { employeeId: number }) =>
+  get<PersonalDeed[]>('/employeeDeed/listEmployeeDeed', params);
 
-export const useModifyPersonalDeed = (params: { employeeId: number; content: string }) =>
+export const useGetPersonalDeed = (params: { id: number }) =>
+  get<PersonalDeed>('/employeeDeed/queryEmployeeDeed', params);
+
+export const useAddPersonalDeed = (params: Omit<PersonalDeed, 'id' | 'digest'> & { employeeId: number }) =>
   nativeFetch('/employeeDeed/editEmployeeDeed', 'post', params);
 
-export const useDeletePersonalDeed = (params: { employeeId: number }) =>
+export const useModifyPersonalDeed = (params: Omit<PersonalDeed, 'digest'>) =>
+  put('/employeeDeed/modifyEmployeeDeed', params);
+
+export const useDeletePersonalDeed = (params: { id: number }) =>
   del('/employeeDeed/deleteEmployeeDeed', params);
 
 export const useGetMemberHonors = (params: { employeeId: number }) =>
@@ -425,5 +432,5 @@ export const useAddVideo = (params: {
   videoCoverUrl: string;
 }) => nativeFetch('/addEmployeeVideo', 'post', params);
 
-export const useDeleteVideos = (ids: number[]) => 
+export const useDeleteVideos = (ids: number[]) =>
   put('/deleteEmployeeVideo', ids);

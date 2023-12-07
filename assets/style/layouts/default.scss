@@ -64,6 +64,7 @@
           .form-pic-uploader__pic {
             width: 100%;
             height: 100%;
+            object-fit: cover;
           }
       
           .el-icon {
@@ -79,6 +80,10 @@
         .el-upload-list__item {
           width: 124px; 
           height: 124px;
+
+          .el-upload-list__item-thumbnail {
+            object-fit: cover;
+          }
         }
       }
     }

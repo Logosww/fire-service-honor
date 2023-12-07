@@ -1,0 +1,47 @@
+.personal-deed-item {
+  display: flex;
+  justify-content: center;
+  height: 120px;
+  animation: fade-in .3s;
+
+  .personal-deed-item-left {
+    width: 560px;
+    margin-right: 100px;
+
+    .personal-deed-item__title {
+      width: 50%;
+      margin: 8px 0;
+      height: 24px;
+      cursor: pointer;
+
+      &:hover {
+        transition: color .3s;
+        color: var(--color-primary);
+      }
+    }
+
+    .personal-deed-item__paragraph-row {
+      margin: 3px 0;
+
+      &:last-child {
+        width: 60%;
+      }
+    }
+
+    .personal-deed-item__paragraph {
+      width: 100%;
+      white-space: normal;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .personal-deed-item-right {
+    width: 200px;
+    height: 100%;
+    border-radius: 8px;
+  }
+}

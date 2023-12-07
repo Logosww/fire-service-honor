@@ -2,25 +2,25 @@
   <div class="member-detail-container">
     <BasicInfo :id="id" />
     <el-tabs v-model="activeTab">
-      <el-tab-pane label="岗位履历">
+      <el-tab-pane label="岗位履历" name="岗位履历" lazy>
         <JobHistory :id="id" @append="handleAppend" @modify="handleModify" @delete="handleDelete" />
       </el-tab-pane>
-      <el-tab-pane label="重大经历">
+      <el-tab-pane label="重大经历" name="重大经历" lazy>
         <Experience :id="id" @append="handleAppend" @modify="handleModify" @delete="handleDelete" />
       </el-tab-pane>
-      <el-tab-pane label="荣耀之路">
+      <el-tab-pane label="荣耀之路" name="荣耀之路" lazy>
         <HonorRoute :id="id" />
       </el-tab-pane>
-      <el-tab-pane label="能力跃升">
+      <el-tab-pane label="能力跃升" name="能力跃升" lazy>
         <Training :id="id" @append="handleAppend" @modify="handleModify" @delete="handleDelete" />
       </el-tab-pane>
-      <el-tab-pane label="典型路线">
+      <el-tab-pane label="典型路线" name="典型路线" lazy>
         <Typical :id="id" @append="handleAppend" @modify="handleModify" @delete="handleDelete" />
       </el-tab-pane>
-      <el-tab-pane label="个人事迹">
+      <el-tab-pane label="个人事迹" name="个人事迹" lazy>
         <PersonalDeed :id="id" />
       </el-tab-pane>
-      <el-tab-pane label="视频集锦">
+      <el-tab-pane label="视频集锦" name="视频集锦" lazy>
         <VideoCollection :id="id" />
       </el-tab-pane>
     </el-tabs>
@@ -56,7 +56,7 @@ definePageMeta({
 const route = useRoute();
 const id = parseInt(route.query.id as unknown as string);
 
-const activeTab = ref('0');
+const activeTab = ref(route.hash.slice(1) || '岗位履历');
 const dialogVisible = ref(false);
 const dialogTitle = ref();
 

@@ -219,6 +219,15 @@ export interface Video {
   videoDuration: string;
 };
 
+export interface PersonalDeed {
+  id?: number;
+  employeeId?: number;
+  title: string;
+  digest: string;
+  coverPathUrl?: string;
+  content?: string;
+};
+
 export type FetchTableDataComposable = (params: ParamsForPagingFetch) => FetchResult<PagingTableData>;
 export type QueryTableDataMethod = (params: Record<string, any>) => Promise<any[]>;
 

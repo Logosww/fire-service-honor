@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper">
     <div class="container">
-      <!-- <img src="https://pams-1318030356.cos.ap-shanghai.myqcloud.com/bg_head.png" class="bg-image"> -->
       <header class="header">
         <div class="logo">
           <img src="https://pams-1318030356.cos.ap-shanghai.myqcloud.com/logo.png" alt="">

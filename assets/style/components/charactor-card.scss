@@ -36,6 +36,7 @@
       cursor: pointer;
       
       .el-image {
+        height: 100%;
         transition: transform .3s ease-out;
 
         &:hover {

@@ -1,25 +1,64 @@
 <template>
-  <div>
-    <el-button :icon="ElIconSelect" style="margin-bottom: 10px;" type="primary" @click="handleSave">保存</el-button>
-    <Editor
-      v-model="content"
-      api-key="qkzruwok1b2w0xv38p723m9rjdtl8lcfaj7yiegxks5wdmx2"
-      :init="editInit"
-    />
+  <div style="padding-right: 32px;" v-loading="isMceLoading">
+    <el-form ref="formRef" :model="personalDeed" :rules="formRules" style="overflow: hidden; margin-bottom: 6px;">
+      <el-form-item prop="title" style="float: left; width: 85%;">
+        <el-input v-model="personalDeed.title" placeholder="请输入">
+          <template #prepend>标题</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item style="overflow: hidden; float: right;">
+        <ClientOnly>
+          <el-dropdown type="primary" @click="handleAppendOrModify" @command="handleCommand" split-button>
+            <el-icon style="margin-right: 8px;"><ElIconCheck/></el-icon>
+              保存
+            <template #dropdown>
+              <el-dropdown-item command="deletePeronsalDeed" :icon="ElIconDelete">
+                删除
+              </el-dropdown-item>
+            </template>
+          </el-dropdown>
+        </ClientOnly>
+      </el-form-item>
+    </el-form>
+    <ClientOnly>
+      <Editor
+        v-model="personalDeed.content"
+        api-key="qkzruwok1b2w0xv38p723m9rjdtl8lcfaj7yiegxks5wdmx2"
+        :init="editInit"
+        @vue:mounted="isMceLoading = false"
+      />
+    </ClientOnly>
   </div>
 </template>
 
 <script lang="ts" setup>
 import Editor from '@tinymce/tinymce-vue';
 
+import type { FormInstance, FormRules } from 'element-plus';
+
 definePageMeta({
   middleware: 'auth'
 });
 
-const route = useRoute();
-const id = parseInt(route.query.id as unknown as string);
-const { data: content } = await useGetPersonalDeed({ employeeId: id });
+const isMceLoading = ref(true);
+const formRef = ref<FormInstance>();
+const formRules: FormRules = {
+  title: { required: true, message: '个人事迹标题不能为空', trigger: 'blur' }
+};
 
+const route = useRoute();
+const isAppend = route.query.append === 'true';
+const personalDeedId = parseInt(route.query.id as string);
+const personalDeed = !isAppend && personalDeedId 
+  ? (await useGetPersonalDeed({ id: personalDeedId })).data
+  : ref<Omit<PersonalDeed, 'id' | 'digest'>>({
+      title: '',
+      content: '',
+      coverPathUrl: ''
+    });
+const employeeId = isAppend
+    ? parseInt(route.query.employeeId as string)
+    : personalDeed.value.employeeId!;
 
 let progressHandler: (percent: number) => void;
 
@@ -60,9 +99,30 @@ const editInit = {
   images_upload_handler: uploadImage,
 };
 
-const handleSave = async () => {
-  await useModifyPersonalDeed({ employeeId: id, content: content.value });
-  ElMessage({ type: 'success', message: '保存成功' });
-  await navigateTo(`/memberDetail?id=${id}`);
+const handleAppendOrModify = () => {
+  formRef.value?.validate(async isValid => {
+    if(!isValid) return;
+    
+    const { content } = personalDeed.value;
+    personalDeed.value.coverPathUrl = 
+      content?.match(/<img.*?(?:>|\/>)/gi)?.at(0)
+      ?.match(/src=[\'\"]?([^\'\"]*)[\'\"]?/i)?.at(1);
+
+    isAppend 
+      ? await useAddPersonalDeed({ employeeId, ...personalDeed.value})
+      : await useModifyPersonalDeed(personalDeed.value);
+    ElMessage({ type: 'success', message: '保存成功' });
+    await navigateTo(`/memberDetail?id=${employeeId}#个人事迹`);
+  });
+};
+
+const handleCommand = (commond: string) => {
+  if(commond === 'deletePeronsalDeed') {
+    ConfirmDelete('个人事迹', async () => {
+      await useDeletePersonalDeed({ id: personalDeedId });
+      ElMessage({ type: 'success', message: '删除成功' });
+      await navigateTo(`/memberDetail?id=${employeeId}#个人事迹`);
+    });
+  }
 };
 </script>

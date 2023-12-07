@@ -3,7 +3,11 @@
     <el-row>
       <el-col :span="10">
         <div class="charactor-pic">
-          <el-image style="height: 100%;" :src="detail.typicalEmployeePhoto" fit="cover" :preview-src-list="[detail.typicalEmployeePhoto]" preview-teleported @click.stop />
+          <el-image :src="detail.typicalEmployeePhoto" fit="fill" :preview-src-list="[detail.typicalEmployeePhoto]" preview-teleported @click.stop>
+            <template #error>
+              <img style="height: 100%; object-fit: cover;" src="https://pams-1318030356.cos.ap-shanghai.myqcloud.com/default-typical.png" />
+            </template>
+          </el-image>
         </div>
       </el-col>
       <el-col :span="14">

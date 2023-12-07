@@ -2,35 +2,51 @@
   <div class="basic-table-title">
     <span class="basic-table-title__bar"></span>
     <h3 class="basic-table-title__content">个人事迹</h3>
-    <div v-if="!isIndex && content">
-      <el-button-group>
-        <el-button :icon="ElIconEdit" type="primary" @click="navigateTo(`/personalDeed?id=${id}`)" text bg round>编辑</el-button>
-        <el-button :icon="ElIconDelete" type="danger" @click="handleClick" text bg round>删除</el-button>
-      </el-button-group>
+    <div v-if="!isIndexPage && personalDeedsList.length">
+      <el-button type="primary" :icon="ElIconPlus" @click="navigateTo(`/personalDeed?append=true&employeeId=${id}`)" text round v-if="!isIndexPage">新增</el-button>
     </div>
   </div>
-  <div style="border: 1px solid var(--el-border-color); background-color: #fff; border-radius: 4px; padding: 10px 50px;" v-html="content" v-if="content"></div>
+  <el-card shadow="never" v-if="personalDeedsList.length">
+    <div v-for="(item, index) in personalDeedsList">
+      <PersonalDeedListItem :key="index" :item="item" @view="handleView" />
+      <el-divider v-if="index < personalDeedsList.length - 1" />
+    </div>
+  </el-card>
   <el-empty :image-size="150" v-else>
-    <el-button type="primary" :icon="ElIconPlus" @click="navigateTo(`/personalDeed?id=${id}`)" v-if="!isIndex">新增</el-button>
+    <el-button type="primary" :icon="ElIconPlus" @click="navigateTo(`/personalDeed?append=true&employeeId=${id}`)" v-if="!isIndexPage">新增</el-button>
   </el-empty>
+  <ClientOnly>
+    <el-dialog class="personal-deed-dialog" v-model="dialogVisible" :title="deedTitle" append-to-body destroy-on-close align-center center>
+      <div v-loading="isLoadingDeed" v-html="deedContent"></div>
+    </el-dialog>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>
-import { useGetPersonalDeed } from '~/composables/use-api';
-
 
 const props = defineProps<{ id: number }>();
 const { id } = props;
 
-const isIndex = useRoute().path.startsWith('/display');
+const dialogVisible = ref(false);
+const deedTitle = ref('');
+const deedContent = ref('');
+const isLoadingDeed = ref(false);
+const isIndexPage = useRoute().path.startsWith('/display');
 
-const { data: content } = await useGetPersonalDeed({ employeeId: id });
+const { data: personalDeedsList } = await useGetPersonalDeedsList({ employeeId: id });
 
-const handleClick = () => {
-  ConfirmDelete('个人事迹', async () => {
-    await useDeletePersonalDeed({ employeeId: id });
-    content.value = '';
-    ElMessage({ type: 'success', message: '删除成功' });
-  })
+const handleView = async (id: number) => {
+  if(isIndexPage) {
+    isLoadingDeed.value = true;
+    dialogVisible.value = true;
+    const { value: personalDeed } = (await useGetPersonalDeed({ id })).data;
+    deedTitle.value = personalDeed.title;
+    deedContent.value = personalDeed.content!;
+    isLoadingDeed.value = false;
+  } else await navigateTo(`/personalDeed?id=${id}`);
 };
 </script>
+
+<style lang="scss">
+  @use '@/assets/style/components/personal-deed' as *;
+</style>

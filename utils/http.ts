@@ -105,7 +105,7 @@ export const nativeFetch = async <T = void>(
   params?: SearchParameters | PostRequestBody,
   headers?: HeadersInit
 ) => {
-  const resolvedParams = method === 'get'
+  const resolvedParams = method === 'get' || method === 'delete'
     ? { query: params as SearchParameters }
     : { body: params as PostRequestBody };
   
@@ -149,7 +149,7 @@ export const put = <T = void>(
 
 export const del = <T = void>(
   url: string,
-  body?: PostRequestBody,
+  params?: SearchParameters,
   headers?: HeadersInit
 ) =>
-  nativeFetch<T>(url, 'delete', body, headers);
+  nativeFetch<T>(url, 'delete', params, { 'Content-Type': 'application/x-www-form-urlencoded', ...headers });

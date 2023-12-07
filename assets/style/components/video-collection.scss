@@ -85,9 +85,10 @@
   }
 }
 
-.video-dialog {
-  border-radius: 16px;
+.el-dialog.video-dialog {
+  border-radius: 12px;
   overflow: hidden;
+  
   .el-dialog__body {
     padding: 0;
     aspect-ratio: 16 / 9;

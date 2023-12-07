@@ -34,7 +34,7 @@
       </el-form>
       <template #footer>
         <el-button type="primary" :icon="ElIconCheck" @click="handleModifyPwd">确认</el-button>
-        <el-button :icon="ElIconClose" @click="dialogVisible = false">取消</el-button>>
+        <el-button :icon="ElIconClose" @click="dialogVisible = false">取消</el-button>
       </template>
     </el-dialog>
   </ClientOnly>

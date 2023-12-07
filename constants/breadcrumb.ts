@@ -117,7 +117,7 @@ export const breadcrumbMap: BreadcrumbMap = {
       to: '/addPersonalDeeds',
       replace: true
     },
-    { title: '添加个人事迹' }
+    { title: '个人事迹' }
   ],
   '/typicalCharactor': [
     {
