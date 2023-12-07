@@ -1,5 +1,5 @@
 <template>
-  <ContentCard title="人员详情" style="margin-bottom: 150px;" content-style="background-color: rgba(255, 255, 255, .8); min-height: 1300px;">
+  <ContentCard title="人员详情" style="margin-bottom: 150px;" content-class="basic-info">
     <div class="member-detail-container">
       <BasicInfo :id="id" />
       <el-tabs v-model="activeTab">

@@ -72,6 +72,11 @@
         margin-top: 20px;
       }
     }
+
+    &.basic-info {
+      background-color: rgba(255, 255, 255, .8);
+      min-height: 1300px;
+    }
   }
 
   .play-btn {
@@ -90,4 +95,10 @@
       margin-right: 5px;
     }
   }
+}
+
+@at-root .dark {
+ .content-card-main.basic-info {
+    background-color: rgba(18, 18, 18, .88)
+ }
 }

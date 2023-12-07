@@ -30,7 +30,7 @@ const props = defineProps<{
 const containerRef = ref();
 
 const styles = props.isGrid
-  ? `--content-card-grid-gap: ${props.gridGap}px; --content-card-grid-column: ${props.gridColumn}; ${props.contentStyle}`
+  ? `--content-card-grid-gap: ${props.gridGap}px; --content-card-grid-column: ${props.gridColumn}; ${props.contentStyle ?? ''}`
   : props.contentStyle;
 
 </script>

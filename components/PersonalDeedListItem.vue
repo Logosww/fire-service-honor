@@ -13,7 +13,7 @@
     <div class="personal-deed-item">
       <div class="personal-deed-item-left">
         <h2 class="personal-deed-item__title" @click="emit('view', item.id!)">{{ item.title }}</h2>
-        <el-text tag="p" class="personal-deed-item__paragraph">{{ item.digest }}</el-text>
+        <el-text tag="p" class="personal-deed-item__paragraph">{{ item.digest }}...</el-text>
       </div>
       <el-image class="personal-deed-item-right" :src="item.coverPathUrl" fit="cover" v-if="item.coverPathUrl" />
     </div>

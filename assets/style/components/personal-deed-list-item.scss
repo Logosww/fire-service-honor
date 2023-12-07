@@ -11,6 +11,7 @@
     .personal-deed-item__title {
       width: 50%;
       margin: 8px 0;
+      margin-bottom: 12px;
       height: 24px;
       cursor: pointer;
 
@@ -31,11 +32,12 @@
     .personal-deed-item__paragraph {
       width: 100%;
       white-space: normal;
-      -webkit-line-clamp: 4;
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       display: -webkit-box;
       overflow: hidden;
       text-overflow: ellipsis;
+      line-height: 1.5;
     }
   }
 
