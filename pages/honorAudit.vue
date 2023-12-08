@@ -24,13 +24,13 @@
               <ClientOnly>
                 <el-date-picker
                   v-model="undealtQueryForm.timeRange"
-                  type="daterange"
+                  type="monthrange"
                   unlink-panels
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  value-format="YYYY-MM-DD"
-                  :shortcuts="datePickerShortcuts"
+                  value-format="YYYY-MM"
+                  :shortcuts="monthPickerShortcuts"
                 />
               </ClientOnly>
             </el-form-item>
@@ -78,13 +78,13 @@
               <ClientOnly>
                 <el-date-picker
                   v-model="dealtQueryForm.timeRange"
-                  type="daterange"
+                  type="monthrange"
                   unlink-panels
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  value-format="YYYY-MM-DD"
-                  :shortcuts="datePickerShortcuts"
+                  value-format="YYYY-MM"
+                  :shortcuts="monthPickerShortcuts"
                 />
               </ClientOnly>
             </el-form-item>
@@ -113,7 +113,7 @@
 </template>
 
 <script lang="ts" setup>
-import { datePickerShortcuts, tableColumnPropsMap } from '@/constants';
+import { monthPickerShortcuts, tableColumnPropsMap } from '@/constants';
 
 import Manage from '@/components/Manage.vue';
 import type { ElTableRowScope } from '@/composables/use-api-types';

@@ -24,12 +24,12 @@
         </el-form-item>
         <el-form-item prop="employeeBirthdayDate" label="出生日期">
           <ClientOnly>
-            <el-date-picker v-model="form.employeeBirthdayDate" value-format="YYYY-MM-DD" />
+            <el-date-picker v-model="form.employeeBirthdayDate" type="month" value-format="YYYY-MM" />
           </ClientOnly>
         </el-form-item>
         <el-form-item prop="employeeJoinDate" label="入伍时间">
           <ClientOnly>
-            <el-date-picker v-model="form.employeeJoinDate" value-format="YYYY-MM-DD" />
+            <el-date-picker v-model="form.employeeJoinDate" type="month" value-format="YYYY-MM" />
           </ClientOnly>
         </el-form-item>
         <el-form-item prop="employeeTypeName" label="人员类别">

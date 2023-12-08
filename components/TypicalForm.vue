@@ -1,7 +1,7 @@
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="120">
     <el-form-item label="典型确定日期" prop="typicalDate">
-      <el-date-picker v-model="form.typicalDate" value-format="YYYY-MM-DD" />
+      <el-date-picker v-model="form.typicalDate" type="month" value-format="YYYY-MM" />
     </el-form-item>
     <el-form-item label="典型类别" prop="typicalType">
       <Select v-model="form.typicalType" select-target="典型路线类别" />

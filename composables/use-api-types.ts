@@ -63,9 +63,9 @@ export interface HonorDetail {
   honorDesc: string;
   honorPhoto: string;
   honorType: string;
-  honorDepartment: string;
   issueUnit: string;
   issueNumber: string;
+  honorDepartment?: string;
 };
 
 export interface HonorProject {

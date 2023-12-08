@@ -1,7 +1,7 @@
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="80">
     <el-form-item label="竞赛日期" prop="competitionDate">
-      <el-date-picker v-model="form.competitionDate" value-format="YYYY-MM-DD" />
+      <el-date-picker v-model="form.competitionDate" type="month" value-format="YYYY-MM" />
     </el-form-item>
     <el-form-item label="竞赛类别" prop="competitionType">
       <Select v-model="form.competitionType" select-target="竞赛/比武类别" />

@@ -24,9 +24,6 @@
           <Select v-model="form.honorPerson" select-target="EmployeeName" :multiple="!honorId" v-if="isHonorForPerson" />
           <Select v-model="form.honorPerson" select-target="DepartmentTree" :multiple="!honorId" is-tree v-else />
         </el-form-item>
-        <!-- <el-form-item label="荣誉获得者所在部门">
-          <Select v-model="form.honorPersonDepartment" select-target="DepartmentTree" is-tree />
-        </el-form-item> -->
         <el-form-item label="荣誉级别" prop="honorLevel">
           <Select v-model="form.honorLevel" select-target="荣誉级别" />
         </el-form-item>
@@ -35,7 +32,7 @@
         </el-form-item>
         <el-form-item label="颁发日期" prop="issueDate">
           <ClientOnly>
-            <el-date-picker v-model="form.issueDate" value-format="YYYY-MM-DD" />
+            <el-date-picker v-model="form.issueDate" type="month" value-format="YYYY-MM" />
           </ClientOnly>
         </el-form-item>
         <el-form-item label="颁发单位" prop="issueUnit">

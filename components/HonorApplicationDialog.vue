@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { HonorDetail } from '@/composables/use-api-types';
+import type { HonorDetail } from '@/composables/use-api-types';
 
 const props = defineProps<{
   modelValue: boolean;
@@ -69,7 +69,6 @@ const data = reactive<Omit<HonorDetail, 'id'>>({
   honorPersonType: '',
   honorPhoto: '',
   honorType: '',
-  honorDepartment: '',
   issueDate: '',
   issueNumber: '',
   issueUnit: ''

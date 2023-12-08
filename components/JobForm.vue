@@ -1,17 +1,17 @@
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="120">
     <el-form-item label="开始日期" prop="startDate">
-      <el-date-picker v-model="form.startDate" value-format="YYYY-MM-DD" />
+      <el-date-picker v-model="form.startDate" type="month" value-format="YYYY-MM" />
     </el-form-item>
     <el-form-item label="结束日期" prop="endDate">
-      <el-date-picker v-model="form.endDate" value-format="YYYY-MM-DD" :disabled="form.endDate === '至今'" />
-      <el-checkbox v-model="form.endDate" true-label="至今">至今</el-checkbox>
+      <el-date-picker v-model="form.endDate" type="month" value-format="YYYY-MM" :disabled="form.endDate === '至今'" />
+      <el-checkbox style="margin-left: 16px;" v-model="form.endDate" true-label="至今">至今</el-checkbox>
     </el-form-item>
     <el-form-item label="工作单位" prop="unit">
-      <Select v-model="form.unit" select-target="DepartmentTree" is-tree filterable />
+      <el-input v-model="form.unit" style="width: 220px;" placeholder="请输入" clearable />
     </el-form-item>
     <el-form-item label="职务" prop="position">
-      <el-input v-model="form.position" placeholder="请输入" />
+      <el-input v-model="form.position" style="width: 220px;" placeholder="请输入" clearable />
     </el-form-item>
   </el-form>
 </template>

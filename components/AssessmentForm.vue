@@ -38,7 +38,7 @@ const form = reactive<AnnualAssessment>(
 );
 
 const rules: FormRules = {
-  annual: { required: true, trigger: 'blur', message: '请选择年度' },
+  annual: { required: true, trigger: 'blur', message: '请输入年度' },
   assessmentUnit: { required: true, trigger: 'blur', message: '请输入考评单位' },
   assessmentLevel: { required: true, trigger: 'blur', message: '请输入考评等级' },
 };

@@ -1,7 +1,7 @@
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="80">
     <el-form-item label="事件日期" prop="eventTime">
-      <el-date-picker v-model="form.eventTime" value-format="YYYY-MM-DD" />
+      <el-date-picker v-model="form.eventTime" type="month" value-format="YYYY-MM" />
     </el-form-item>
     <el-form-item label="事件类别" prop="eventType">
       <Select v-model="form.eventType" select-target="重大事件类别" />

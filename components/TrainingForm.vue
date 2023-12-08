@@ -1,11 +1,11 @@
 <template>
   <el-form ref="formRef" :model="form" :rules="rules" label-width="80">
     <el-form-item label="开始日期" prop="startDate">
-      <el-date-picker v-model="form.startDate" value-format="YYYY-MM-DD" />
+      <el-date-picker v-model="form.startDate" type="month" value-format="YYYY-MM" />
     </el-form-item>
     <el-form-item label="结束日期" prop="endDate">
-      <el-date-picker v-model="form.endDate" value-format="YYYY-MM-DD" :disabled="form.endDate === '至今'" />
-      <el-checkbox v-model="form.endDate" true-label="至今">至今</el-checkbox>
+      <el-date-picker v-model="form.endDate" type="month" value-format="YYYY-MM" :disabled="form.endDate === '至今'" />
+      <el-checkbox style="margin-left: 16px;" v-model="form.endDate" true-label="至今">至今</el-checkbox>
     </el-form-item>
     <el-form-item label="培训类别" prop="trainType">
       <Select v-model="form.trainType" select-target="培训学习类别" />
