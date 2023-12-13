@@ -13,11 +13,11 @@
         <el-form-item prop="password">
           <el-input placeholder="密码" type="password" v-model="form.password" @keydown.enter="handleLogin" />
         </el-form-item>
-        <el-form-item prop="keepLogin">
-          <el-checkbox v-model="form.rememberMe">记住我</el-checkbox>
-        </el-form-item>
       </el-form>
-      <el-button class="login-btn" type="primary" @click="handleLogin">登录</el-button>
+      <el-form-item>
+        <el-button class="login-btn" type="primary" size="large" @click="handleLogin" :loading="isSubmiting">登录</el-button>
+      </el-form-item>
+      <el-checkbox v-model="form.rememberMe">记住我</el-checkbox>
     </el-card>
   </div>
 </template>
@@ -32,6 +32,8 @@ definePageMeta({
 
 const auth = useAuth().value;
 if(auth) await navigateTo('/admin');
+
+const isSubmiting = ref(false);
 
 const form = reactive({
   username: '',
@@ -57,7 +59,8 @@ const handleLogin = () => {
   formRef.value?.validate(async valid => {
     if(!valid) return;
     
-    const isAdmin = await useLogin(form);
+    isSubmiting.value = true;
+    const isAdmin = await useLogin(form).finally(() => isSubmiting.value = false);
     useAuth().value = true;
     useAdmin().value = isAdmin;
     ElNotification({ type: 'success', message: '登录成功' });

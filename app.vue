@@ -15,7 +15,6 @@ import { COSBucketBaseUrl } from '@/constants';
 import { isDarkInjectionKey } from '@/tokens';
 
 import 'normalize.css';
-import 'element-plus/theme-chalk/dark/css-vars.css';
 
 useHead({
   title: '杭州市消防救援支队',

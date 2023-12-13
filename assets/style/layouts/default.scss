@@ -1,6 +1,12 @@
 @use '../_var' as *;
 @use '../_mixin' as *;
 
+:root {
+  --color-header: #{$color-primary};
+  --padding-horizontal: 0;
+  --padding-header: 20px;
+}
+
 .container {
   position: absolute;
   width: 100%;
@@ -16,7 +22,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--color-primary);
+    background-color: var(--color-header);
     color: #fff;
     transition: background-color .3s;
   }
@@ -108,7 +114,7 @@
   }
 
   .header {
-    --color-primary: #3375b9;
+    --color-header: #3375b9;
   }
 
   .form-pic-uploader {

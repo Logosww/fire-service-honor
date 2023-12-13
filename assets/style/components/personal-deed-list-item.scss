@@ -1,3 +1,5 @@
+@use '../_var' as *;
+
 .personal-deed-item {
   display: flex;
   justify-content: center;
@@ -17,7 +19,7 @@
 
       &:hover {
         transition: color .3s;
-        color: var(--color-primary);
+        color: $color-primary;
       }
     }
 

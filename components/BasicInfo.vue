@@ -2,7 +2,7 @@
   <div class="basic-info-container">
     <el-row :gutter="40">
       <el-col :span="16">
-        <el-descriptions :column="4" border>
+        <el-descriptions :column="4" style="border-radius: 8px; overflow: hidden;" border>
           <el-descriptions-item label="姓名">{{ profile.employeeName }}</el-descriptions-item>
           <el-descriptions-item label="性别">{{ profile.employeeSex }}</el-descriptions-item>
           <el-descriptions-item label="集体">{{ profile.employeeDepartment }}</el-descriptions-item>

@@ -1,0 +1,23 @@
+@use '../_var' as *;
+
+@forward 'element-plus/theme-chalk/src/common/var' with (
+  $colors: (
+    'primary': (
+      'base': $color-primary,
+    ),
+  ),
+  $border-radius: (
+    'base': $border-radius,
+  ),
+  $card: (
+    'border-radius': $border-radius-lg,
+  ),
+  $dialog: (
+    'border-radius': $border-radius-lg,
+  ),
+  $messagebox: (
+    'border-radius': $border-radius-lg,
+  )
+);
+
+@use 'element-plus/theme-chalk/src/dark/css-vars' as *;

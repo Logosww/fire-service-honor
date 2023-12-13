@@ -1,3 +1,6 @@
+$color-primary: #549ae0;
+$border-radius: 6px;
+$border-radius-lg: 8px;
 $font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","\5fae\8f6f\96c5\9ed1",Arial,sans-serif;
 
 $responsive-breakpoint-max: 2160px !default;
@@ -8,10 +11,3 @@ $responsive-breakpoint-xl: 1280px !default;
 $responsive-breakpoint-lg: 960px !default;
 $responsive-breakpoint-md: 768px !default;
 $responsive-breakpoint-sm: 480px !default;
-
-:root {
-  --color-primary: #409EFF;
-
-  --padding-horizontal: 0;
-  --padding-header: 20px;
-}

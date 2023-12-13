@@ -4,7 +4,7 @@
     <h3 class="basic-table-title__content" v-if="title">{{ title }}</h3>
     <el-button :icon="ElIconPlus" @click="emit('append')" type="primary" round text v-if="!isIndex && data.length && !readOnly">新增</el-button>
   </div>
-  <el-table style="margin-bottom: 20px" table-layout="auto" :data="data" stripe border>
+  <el-table style="margin-bottom: 20px; border-radius: 8px; overflow: hidden;" table-layout="auto" :data="data" stripe border>
     <el-table-column 
       v-for="(item, index) in tableColumnProps"
       :key="index"

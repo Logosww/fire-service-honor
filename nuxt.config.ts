@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt'
   ],
   elementPlus: {
-    // components: ['ElTree']
+    importStyle: 'scss',
     noStylesComponents: ['el-tree']
   },
   routeRules: {
@@ -17,6 +17,13 @@ export default defineNuxtConfig({
   vite: {
     ssr: {
       noExternal: ['@popperjs/core', 'echarts']
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@use "@/assets/style/element-plus/index" as *;`,
+        }
+      }
     }
   },
   devtools: {

@@ -6,6 +6,7 @@
       text-color="#fff"
       :default-openeds="['1', '2', '3']"
       :default-active="activeMenu"
+      style="height: 100%;"
       router
     >
       <el-sub-menu index="1">
