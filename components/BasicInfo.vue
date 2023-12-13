@@ -71,12 +71,15 @@ const handleIsAwardedChange = () => {
   }).finally(() => isSwitching.value = false);
 };
 
-const radarOption = computed<ECOption>(() => (profile.value?.radar && {
+const { value: { radar } } = profile; 
+const radarMax = Object.values(radar).sort((prev, curr) => curr - prev).at(0)! * 1.25;
+
+const radarOption = computed<ECOption>(() => (radar && {
   title: {
     text: '个人维度数据'
   },
   radar: {
-    indicator: Object.keys(profile.value.radar).map(key => ({ name: key }))
+    indicator: Object.keys(radar).map(key => ({ name: key, max: radarMax }))
   },
   series: [
     {
@@ -84,7 +87,7 @@ const radarOption = computed<ECOption>(() => (profile.value?.radar && {
       name: '个人维度数据',
       data: [
         {
-          value: Object.values(profile.value.radar),
+          value: Object.values(radar),
           label: {
             show: true,
           },

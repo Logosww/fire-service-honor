@@ -36,16 +36,17 @@
 import type { AwardedMemberDisplayDetail } from '@/composables/use-api-types';
 import type { ECOption } from './ChartContent.vue';
 
-const props = defineProps<{
+const { detail: { radarMap: radar } } = defineProps<{
   detail: AwardedMemberDisplayDetail;
   clickable?: boolean;
   height?: string;
 }>();
-const detail = props.detail;
 
-const radarOption = computed<ECOption>(() => ({
+const radarMax = Object.values(radar).sort((prev, curr) => curr - prev).at(0)! * 1.25;
+
+const radarOption = computed<ECOption>(() => radar && {
   radar: {
-    indicator: detail.radarMap && Object.keys(detail.radarMap).map(key => ({ name: key }))
+    indicator: Object.keys(radar).map(key => ({ name: key, max: radarMax }))
   },
   series: [
     {
@@ -53,7 +54,7 @@ const radarOption = computed<ECOption>(() => ({
       name: '个人维度数据',
       data: [
         {
-          value: detail.radarMap && Object.values(detail.radarMap),
+          value: Object.values(radar),
           label: {
             show: true,
           },
@@ -65,7 +66,7 @@ const radarOption = computed<ECOption>(() => ({
     }
   ],
   tooltip: {}
-}));
+});
 </script>
 
 <style lang="scss">
