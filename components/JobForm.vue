@@ -40,7 +40,12 @@ const form = reactive<JobHitory>(
 
 const rules: FormRules = {
   startDate: { required: true, trigger: 'blur', message: '请选择开始日期' },
-  endDate: { required: true, trigger: 'blur', message: '请选择结束日期' },
+  endDate: { 
+    required: true, 
+    trigger: 'blur', 
+    message: '请选择结束日期',
+    validator: (_, value, callback) => callback(isDateAfter(value, form.startDate) ? void 0 : new Error('结束日期不能早于开始日期')),
+  },
   unit: { required: true, trigger: 'blur', message: '请选择工作单位' },
   position: { required: true, trigger: 'blur', message: '请输入职务' },
 };
