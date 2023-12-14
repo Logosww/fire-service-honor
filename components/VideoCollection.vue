@@ -125,7 +125,8 @@ const handleDelete = async () => {
 
 const handleChange = () => {
   const { files } = uploadInput.value!;
-  files?.length && upload(files[0]);
+  // files?.length && upload(files[0]);
+  files?.length && upload(files[0])
 };
 
 const upload = async (rawFile: File) => {
@@ -146,6 +147,7 @@ const upload = async (rawFile: File) => {
     '视频标题', 
     { inputPlaceholder: '请输入', inputValidator: val => val ? true : '视频标题不能为空' }
   ).then(async ({ value: videoName }) => {
+    const duration = await getVideoDuration(rawFile);
     const progress = ref(0);
     const status = ref();
     const messageInstance = ElMessage({
@@ -167,8 +169,9 @@ const upload = async (rawFile: File) => {
     await useAddVideo({
       videoUrl,
       videoName,
+      duration,
       employeeId: props.id,
-      videoCoverUrl: coverUrl
+      videoCoverUrl: coverUrl,
     });
 
     status.value = 'success';

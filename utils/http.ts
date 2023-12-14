@@ -39,7 +39,6 @@ const interceptors: Pick<FetchOptions<'json'>, 'onResponse' | 'onResponseError'>
   },
   onResponseError: ({ request, response }) => {
     const { status } = response;
-    console.log(request, response.status)
     if(status === 401 || status === 409) {
       message?.({ type: 'error', message: '登录信息过期，请重新登录' });
       redirectToLogin();

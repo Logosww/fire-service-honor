@@ -430,6 +430,7 @@ export const useAddVideo = (params: {
   videoName: string;
   videoUrl: string;
   videoCoverUrl: string;
+  duration: string;
 }) => nativeFetch('/addEmployeeVideo', 'post', params);
 
 export const useDeleteVideos = (ids: number[]) =>
