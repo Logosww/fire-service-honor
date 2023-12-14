@@ -84,6 +84,7 @@ const uploadImage = (
 
 const editInit = {
   language: 'zh_CN',
+  content_css: 'dark',
   plugins: ['link', 'image', 'autolink', 'preview', 'autoresize', 'autosave', 'fullscreen', 'media', 'insertdatetime', 'wordcount', 'searchreplace'],
   toolbar: [
     { name: '历史', items: [ 'undo', 'redo' ] },

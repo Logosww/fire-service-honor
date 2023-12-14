@@ -1,7 +1,7 @@
 <template>
   <NuxtLayout>
     <div id="app">
-      <NuxtLoadingIndicator />
+      <NuxtLoadingIndicator color="#5ca6f0" />
       <el-config-provider :button="{ autoInsertSpace: true }" :locale="zhCN">
         <NuxtPage />
       </el-config-provider>

@@ -21,7 +21,10 @@
 
   .table-container {
     animation: fade-in .3s;
-    border-radius: $border-radius;
-    overflow: hidden;
+    
+    .el-table {
+      border-radius: $border-radius;
+      overflow: hidden;
+    }
   }
 }

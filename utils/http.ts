@@ -24,7 +24,7 @@ export type WatchOption = OtherUseFetchOptions<unknown>['watch'];
 
 let message: typeof ElMessage | undefined;
 
-const baseURL = 'https://api.pams.ishortv.top';
+const baseURL = process.env.NODE_ENV === 'production' ? 'https://api.pams.ishortv.top': '/api';
 
 const interceptors: Pick<FetchOptions<'json'>, 'onResponse' | 'onResponseError'> = {
   onResponse: ({ response }) => {
