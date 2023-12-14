@@ -196,7 +196,7 @@ export const useCancelApplication = (params: { honorApplyId: number }) =>
 export const useSubmitApplication = (params: Record<string, any>) =>
   nativeFetch('/honorAuditApply/applyHonor', 'post', params);
 
-export const useSwitchService = (params: Record<string, any> & { id: number }) =>
+export const useSwitchService = (params: Record<string, any> & { employeeId: number }) =>
   put('/employeeChange/changeDepartment', params);
 
 export const useGetHonorCount = () =>

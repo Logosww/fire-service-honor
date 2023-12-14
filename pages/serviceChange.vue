@@ -95,8 +95,8 @@ const handleConfirm = () => {
   switchFormRef.value?.validate(async valid => {
     if(!valid) return;
 
-    const { value: id } = memberId;
-    await useSwitchService({ id, ...switchForm });
+    const { value: employeeId } = memberId;
+    await useSwitchService({ employeeId, ...switchForm });
     manageRef.value?.refreshData();
     ElMessage({ type: 'success', message: '调动成功' });
     dialogVisible.value = false;
