@@ -1,6 +1,6 @@
 <template>
   <el-tabs>
-    <el-tab-pane label="大队典型">
+    <el-tab-pane label="大队典型" lazy>
       <Manage
         ref="level0ManageRef"
         composable-path="typicalCharactor-level-0"
@@ -37,7 +37,7 @@
         </template>
       </Manage>
     </el-tab-pane>
-    <el-tab-pane label="支队典型" v-if="isAdmin">
+    <el-tab-pane label="支队典型" v-if="isAdmin" lazy>
       <Manage
         ref="level1ManageRef"
         composable-path="typicalCharactor-level-1"
@@ -63,38 +63,6 @@
                 </template>
               </el-popconfirm >
               <el-popconfirm title="确定降级为大队典型吗？" width="240px" @confirm="handleDemote(scope)">
-                <template #reference>
-                  <el-button type="danger" :icon="ElIconArrowDownBold" round text>降级</el-button>
-                </template>
-              </el-popconfirm>
-              <el-button :icon="ElIconEdit" type="primary" @click="handleEdit(scope)" text round>编辑典型</el-button>
-              <el-button :icon="ElIconView" type="info" @click="handleView(scope)" text round>查看详情</el-button>
-            </template>
-          </el-table-column>
-        </template>
-      </Manage>
-    </el-tab-pane>
-    <el-tab-pane label="年度重点" v-if="isAdmin">
-      <Manage
-        ref="level2ManageRef"
-        composable-path="typicalCharactor-level-2"
-        :table-column-props="tableColumnsProps"
-        :query-form="queryForm"
-      >
-        <template #query>
-          <el-form inline>
-            <el-form-item label="姓名"><AutoComplete v-model="queryForm.employeeName" query-target="EmployeeName" /></el-form-item>
-            <el-form-item label="部门"><Select v-model="queryForm.departmentName" select-target="DepartmentTree" is-tree /></el-form-item>
-            <el-form-item>
-              <el-button :icon="ElIconSearch" type="primary" @click="level2ManageRef?.queryData(queryForm)">查询</el-button>
-              <el-button :icon="ElIconRefresh" @click="level2ManageRef?.restoreQuery(queryForm)">重置</el-button>
-            </el-form-item>
-          </el-form>
-        </template>
-        <template #tableOperationColumn>
-          <el-table-column label="操作" align="center" width="360px">
-            <template #default="scope">
-              <el-popconfirm title="确定降级为支队典型吗？" width="240px" @confirm="handleDemote(scope)">
                 <template #reference>
                   <el-button type="danger" :icon="ElIconArrowDownBold" round text>降级</el-button>
                 </template>

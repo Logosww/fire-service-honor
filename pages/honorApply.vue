@@ -1,6 +1,6 @@
 <template>
   <el-tabs v-model="activeTab" @tab-change="handleTabChange">
-    <el-tab-pane label="提交记录">
+    <el-tab-pane label="提交记录" lazy>
       <Manage
         ref="manageRef"
         composable-path="/honorApply/undealt"
@@ -56,7 +56,7 @@
         </template>
       </Manage>
     </el-tab-pane>
-    <el-tab-pane label="退回记录">
+    <el-tab-pane label="退回记录" lazy>
       <Manage
         ref="returnedManageRef"
         composable-path="/honorApply/dealt"
