@@ -45,7 +45,7 @@ const form = reactive<Training>(
 const rules: FormRules = {
   startDate: { required: true, trigger: 'blur', message: '请选择开始日期' },
   endDate: {
-    trigger: 'blur',
+    trigger: 'change',
     validator: (_, value, callback) => {
       if(!value) return callback(new Error('请选择结束日期'));
       return callback(value === '至今' || isDateAfter(value, form.startDate) ? void 0 : new Error('结束日期不能早于开始日期'));
