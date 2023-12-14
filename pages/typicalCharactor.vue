@@ -37,7 +37,7 @@
         </template>
       </Manage>
     </el-tab-pane>
-    <el-tab-pane label="支队典型" v-if="isAdmin" lazy>
+    <el-tab-pane label="支队典型" lazy>
       <Manage
         ref="level1ManageRef"
         composable-path="typicalCharactor-level-1"
@@ -54,14 +54,9 @@
             </el-form-item>
           </el-form>
         </template>
-        <template #tableOperationColumn>
+        <template #tableOperationColumn v-if="isAdmin">
           <el-table-column label="操作" align="center" width="480px">
             <template #default="scope">
-              <el-popconfirm title="确定升级为年度重点人物吗？" width="240px" @confirm="handlePromote(scope)">
-                <template #reference>
-                  <el-button type="success" :icon="ElIconArrowUpBold" round text>升级</el-button>
-                </template>
-              </el-popconfirm >
               <el-popconfirm title="确定降级为大队典型吗？" width="240px" @confirm="handleDemote(scope)">
                 <template #reference>
                   <el-button type="danger" :icon="ElIconArrowDownBold" round text>降级</el-button>
