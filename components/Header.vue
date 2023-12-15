@@ -80,8 +80,8 @@ const handleLogout = async () => {
   await useLogout();
   useAuth().value = false;
   useAdmin().value = false;
-  navigateTo('/');
   ElNotification({ type: 'success', message: '登出成功' });
+  return navigateTo('/');
 };
 
 const handleModifyPwd = () => {

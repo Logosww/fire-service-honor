@@ -1,7 +1,7 @@
 <template>
   <el-tree
     ref="treeRef"
-    :props="{ class: () => 'my-tree-node' }"
+    :props="treeProps"
     :data="data"
     node-key="id"
     @node-click="menuVisible = false"
@@ -39,12 +39,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ElTree } from 'element-plus';
 import TreeNode from '@/components/TreeNode.vue';
 
 import 'element-plus/theme-chalk/el-tree.css';
 
-import type { TreeNodeData } from '@/composables/use-api-types';
+import type { ElTree } from 'element-plus';
+import type { TreeOptionProps } from 'element-plus/es/components/tree/src/tree.type';
+import type { TreeNodeData } from '@/components/TreeNode.vue';
 
 definePageMeta({
   middleware: ['auth', 'admin']
@@ -59,6 +60,10 @@ const { data } = await useGetDictionaries();
 const menuTriggerRef = ref();
 const treeRef = ref<InstanceType<typeof ElTree>>();
 const emptyNodeRef = ref<InstanceType<typeof TreeNode>>();
+
+const treeProps: TreeOptionProps = { 
+  class: () => 'my-tree-node'
+};
 
 onClickOutside(treeRef as any, () => menuVisible.value = false);
 

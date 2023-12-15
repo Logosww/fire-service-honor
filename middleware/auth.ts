@@ -1,7 +1,6 @@
 export default defineNuxtRouteMiddleware(() => {
-  const auth = useAuth().value;
-  if(!auth) {
-    ElMessage({ type: 'error', message: '你还未登录' });
-    return navigateTo('/login');
-  }
-})
+  if(process.client) return;
+  
+  const auth = useCookie('token').value;
+  if(!auth) return navigateTo('/login');
+});

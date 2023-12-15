@@ -28,10 +28,9 @@ export interface COSBucketSecret {
 
 export interface TreeNodeData {
   id: number;
-  parentId: number;
   label: string;
+  parentId: number;
   children?: TreeNodeData[];
-  focusOnSpawn?: boolean;
 };
 
 export interface DepartmentDetail {

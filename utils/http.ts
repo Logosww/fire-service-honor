@@ -7,8 +7,6 @@ import type {
 import type { MaybeRef } from '@vueuse/core';
 import type { SearchParameters, FetchOptions, FetchResponse } from 'ofetch';
 
-enum _ {};
-
 interface ResOptions<T> {
   data: T;
   code: number;
@@ -37,7 +35,7 @@ const interceptors: Pick<FetchOptions<'json'>, 'onResponse' | 'onResponseError'>
       return Promise.reject(msg);
     }
   },
-  onResponseError: ({ request, response }) => {
+  onResponseError: ({ response }) => {
     const { status } = response;
     if(status === 401 || status === 409) {
       message?.({ type: 'error', message: '登录信息过期，请重新登录' });

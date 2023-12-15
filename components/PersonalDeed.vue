@@ -16,7 +16,7 @@
     <el-button type="primary" :icon="ElIconPlus" @click="navigateTo(`/personalDeed?append=true&employeeId=${id}`)" v-if="!isIndexPage">新增</el-button>
   </el-empty>
   <ClientOnly>
-    <el-dialog class="personal-deed-dialog" v-model="dialogVisible" :title="deedTitle" append-to-body destroy-on-close align-center center>
+    <el-dialog class="personal-deed-dialog" v-model="dialogVisible" :title="deedTitle" append-to-body align-center center>
       <div v-loading="isLoadingDeed" v-html="deedContent"></div>
     </el-dialog>
   </ClientOnly>

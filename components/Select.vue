@@ -1,24 +1,5 @@
 <template>
   <ClientOnly>
-    <el-select 
-      :modelValue="input"
-      @update:modelValue="handleInputChange"
-      @clear="handleClear"
-      placeholder="请选择" 
-      :multiple="multiple"
-      :filterable="filterable"
-      :disabled="disabled"
-      allow-create
-      clearable
-      v-if="!isTree"
-    >
-      <el-option
-        v-for="(item, index) in resolvedOptions"
-        :key="index"
-        :value="(item as any).label ?? item"
-        clearable
-      />
-    </el-select>
     <el-tree-select
       :modelValue="input"
       @update:modelValue="handleInputChange"
@@ -33,8 +14,28 @@
       check-on-click-node
       check-strictly
       clearable
-      v-else
+      v-if="isTree || isOptionsAsTree"
     />
+    <el-select 
+      :modelValue="input"
+      @update:modelValue="handleInputChange"
+      @clear="handleClear"
+      placeholder="请选择" 
+      :multiple="multiple"
+      :filterable="filterable"
+      :disabled="disabled"
+      allow-create
+      clearable
+      v-else
+    >
+      <el-option
+        v-for="(item, index) in resolvedOptions"
+        :key="index"
+        :value="(item as any).label ?? item"
+        clearable
+      />
+    </el-select>
+  
   </ClientOnly>
 </template>
 
@@ -55,6 +56,7 @@ const emit = defineEmits<{
 }>();
 
 const resolvedOptions = props.options ?? (await useGetSelectOptions(props.selectTarget)).data;
+const isOptionsAsTree = unref(resolvedOptions).some(data => data?.children && data.children.length);
 
 const treeProps = {
   value: 'label',

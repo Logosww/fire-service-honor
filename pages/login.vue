@@ -27,11 +27,9 @@
 import type { FormInstance, FormRules } from 'element-plus';
 
 definePageMeta({
-  layout: false
+  layout: false,
+  middleware: 'login',
 });
-
-const auth = useAuth().value;
-if(auth) await navigateTo('/admin');
 
 const isSubmiting = ref(false);
 

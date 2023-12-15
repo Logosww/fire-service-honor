@@ -43,13 +43,13 @@ export const useGetAutoCompleteItems = (url: string, params: SearchParameters) =
   nativeFetch<string[]>(url, 'get', params);
 
 export const useGetDepartmentTree = () =>
-  get<Record<string, any>[]>('/selection/queryListDepartmentTree');
+  get<TreeNodeData[]>('/selection/queryListDepartmentTree');
 
 export const useGetEmployeeNames = () =>
-  get<any[]>('/selection/queryListEmployeeName');
+  get<Omit<TreeNodeData, 'parentId' | 'children'>[]>('/selection/queryListEmployeeName');
 
 export const useGetSelectOptionsByDict = (dictType: string) =>
-  get<Record<string, any>[]>('/selection/queryListDictTreeByType', { dictType })
+  get<TreeNodeData[]>('/selection/queryListDictTreeByType', { dictType })
 
 export const useGetSelectOptions = (selectTarget: string) =>
   selectTarget === 'DepartmentTree'

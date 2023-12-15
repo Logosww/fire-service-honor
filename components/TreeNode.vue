@@ -40,7 +40,11 @@
 <script lang="ts" setup>
 import { ElInput } from 'element-plus';
 
-import type { TreeNodeData } from '@/composables/use-api-types';
+import type { TreeNodeData as _TreeNodeData } from '@/composables/use-api-types';
+
+export interface TreeNodeData extends _TreeNodeData {
+  focusOnSpawn?: boolean;
+};
 
 const props = defineProps<{
   data: TreeNodeData;

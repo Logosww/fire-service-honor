@@ -1,7 +1,6 @@
 export default defineNuxtRouteMiddleware(() => {
-  const admin = useAdmin().value;
-  if(!admin) {
-    ElMessage({ type: 'error', message: '你未被授权' });
-    return navigateTo('/login');
-  }
+  if(process.client) return;
+  
+  const admin = useCookie('is_admin').value;
+  if(!admin) return navigateTo('/login');
 });
