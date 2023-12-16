@@ -2,7 +2,7 @@
   <ClientOnly>
     <el-tree-select
       :modelValue="input"
-      @update:modelValue="handleInputChange"
+      @change="handleInputChange"
       @clear="handleClear"
       :data="resolvedOptions"
       :multiple="multiple"
@@ -18,20 +18,22 @@
     />
     <el-select 
       :modelValue="input"
-      @update:modelValue="handleInputChange"
+      @change="handleInputChange"
       @clear="handleClear"
       placeholder="请选择" 
       :multiple="multiple"
       :filterable="filterable"
       :disabled="disabled"
+      :value-key="valueKey"
       allow-create
       clearable
       v-else
     >
       <el-option
         v-for="(item, index) in resolvedOptions"
-        :key="index"
-        :value="(item as any).label ?? item"
+        :key="valueKey ? item[valueKey] : index"
+        :value="valueKey ? item : item['label']"
+        :label="valueKey && item['label']"
         clearable
       />
     </el-select>
@@ -41,18 +43,23 @@
 
 <script lang="ts" setup>
 
+type Arrayable<T> = T | T[];
+type IUnitModelValue = string | number;
+type IModelValue = Arrayable<IUnitModelValue>;
+
 const props = defineProps<{
-  modelValue: string | string[];
+  modelValue: IModelValue;
   selectTarget: string;
   options?: any[];
   isTree?: boolean;
   multiple?: boolean;
   filterable?: boolean;
   disabled?: boolean;
+  valueKey?: string;
 }>();
 
 const emit = defineEmits<{
-  (event: 'update:modelValue', val: string | string[]): void;
+  (event: 'update:modelValue', val: IModelValue): void;
 }>();
 
 const resolvedOptions = props.options ?? (await useGetSelectOptions(props.selectTarget)).data;
@@ -65,10 +72,17 @@ const treeProps = {
 
 const input = ref();
 
-const handleInputChange = (val: string | string[]) => {
+const handleInputChange = (val: IModelValue | Arrayable<Record<string, IUnitModelValue>>) => {
   if(!val || (Array.isArray(val) && val.some(value => !value))) return;
+
+  val = typeof val === 'string' ? resolveDepartmentString(val) : val;
   input.value = val;
-  emit('update:modelValue', val);
+
+  const { valueKey } = props;
+  valueKey && (val = 
+    Array.isArray(val) ? (val as Record<string, IUnitModelValue>[]).map(item => item[valueKey] ?? item) : (val as Record<string, IModelValue>)[valueKey]
+  );
+  emit('update:modelValue', val as IModelValue);
 };
 
 const handleClear = () => {
@@ -82,8 +96,7 @@ const resolveDepartmentString = (val: string) =>
 
 watchEffect(() => {
   const { modelValue } = props;
-  const val = modelValue && resolveDepartmentString(modelValue as string);
-  input.value = val;
+  if(!modelValue || (Array.isArray(modelValue) && !modelValue.length)) input.value = modelValue;
 });
 
 </script>

@@ -351,10 +351,6 @@ export const tableColumnPropsMap: TableColumnPropsMap = {
       label: '发文号'
     },
     {
-      prop: 'honorDepartment',
-      label: '获奖时所在部门'
-    },
-    {
       prop: 'honorDesc',
       label: '描述',
       width: '240'

@@ -15,14 +15,34 @@
         v-loading="isLoading"
       >
         <el-form-item label="荣誉者类别" prop="honorPersonType">
-          <Select :modelValue="form.honorPersonType" select-target="荣誉者类别" @update:modelValue="handlePersonTypeChange" />
+          <Select :modelValue="form.honorPersonType" select-target="荣誉者类别" @update:modelValue="val => (form.honorPersonType = val as string) && (form.honorPerson = [])" />
         </el-form-item>
         <el-form-item label="荣誉项目" prop="honorName">
           <Select v-model="form.honorName" select-target="荣誉名称类别" filterable />
         </el-form-item>
         <el-form-item label="荣誉获得者" prop="honorPerson" v-if="form.honorPersonType">
-          <Select v-model="form.honorPerson" select-target="EmployeeName" :multiple="!honorId" v-if="isHonorForPerson" />
-          <Select v-model="form.honorPerson" select-target="DepartmentTree" :multiple="!honorId" is-tree v-else />
+          <Select v-model="form.honorPerson" select-target="EmployeeName" value-key="id" :multiple="!honorId" v-if="isHonorForPerson" />
+          <ClientOnly>
+            <el-popover
+              width="300"
+              placement="bottom"
+              trigger="click"
+              @show="handleShowPhotos"
+            >
+              <template #reference>
+                <el-button type="primary" style="margin-left: 8px;" :icon="ElIconQuestionFilled" v-if="isHonorForPerson && form.honorPerson?.length" link>查看证件照</el-button>
+              </template>
+              <el-table max-height="400" :data="personNameAndPhotosData" v-loading="isTableLoading" stripe>
+                <el-table-column prop="name" label="姓名" width="120" header-align="center" align="center" />
+                <el-table-column prop="photo" label="证件照" width="140" header-align="center" align="center">
+                  <template #default="scope">
+                    <el-image :src="scope.row.photoUrl" fit="cover" style="width: 100%; height: 160px; border-radius: 6px;" loading="lazy" />
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-popover>
+          </ClientOnly>
+          <Select v-model="form.honorPerson" select-target="DepartmentTree" :multiple="!honorId" is-tree v-if="!isHonorForPerson" />
         </el-form-item>
         <el-form-item label="荣誉级别" prop="honorLevel">
           <Select v-model="form.honorLevel" select-target="荣誉级别" />
@@ -87,6 +107,8 @@ const emit = defineEmits<{
 
 const isLoading = ref(false);
 const isSubmit = ref(false);
+const isTableLoading = ref(false);
+const personNameAndPhotosData = ref<{ name: string; photoUrl: string }[]>([]);
 
 const dialogVisible = computed({
   get() {
@@ -135,7 +157,7 @@ const rules: FormRules = {
 const { upload } = await useCOSUpload();
 
 const doUpload = async (
-  options: UploadRequestOptions, 
+  options: UploadRequestOptions,
   cb: (key: string) => void
 ) => {
   const { file } = options;
@@ -156,9 +178,21 @@ const handleConfirm = () => {
   });
 };
 
-const handlePersonTypeChange = (val: string | string[]) => {
-  form.honorPersonType = val as string;
-  form.honorPerson = '';
+let honorPersonCache: number[];
+
+const handleShowPhotos = () => {
+  const { honorPerson } = form;
+  if(
+    honorPersonCache 
+    && honorPerson.length === honorPersonCache?.length 
+    && honorPerson.every((id, index) => id === honorPersonCache[index])
+  ) return;
+
+  honorPersonCache = honorPerson as number[];
+  isTableLoading.value = true;
+  useGetEmployeeNamesAndPhotos(form.honorPerson as number[])
+  .then(tableData => personNameAndPhotosData.value = tableData)
+  .finally(() => isTableLoading.value = false);
 };
 
 watch(

@@ -55,7 +55,7 @@ export interface Honor {
 export interface HonorDetail {
   id: number;
   honorPersonType: string;
-  honorPerson: string | string[];
+  honorPerson: string[] | number[];
   honorName: string;
   issueDate: string;
   honorLevel: string;
@@ -64,7 +64,6 @@ export interface HonorDetail {
   honorType: string;
   issueUnit: string;
   issueNumber: string;
-  honorDepartment?: string;
 };
 
 export interface HonorProject {

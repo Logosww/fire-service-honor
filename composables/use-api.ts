@@ -59,10 +59,10 @@ export const useGetSelectOptions = (selectTarget: string) =>
     : useGetSelectOptionsByDict(selectTarget);
 
 export const useGetCOSSecret = () =>
-  get<COSBucketSecret>('/cos/querySecret', undefined, undefined, { immediate: false });
+  get<COSBucketSecret>('/cos/querySecret', void 0, void 0, { immediate: false });
 
 export const useGetMembers = (params: ParamsForPagingFetch) =>
-  get<PagingTableData>('/employee/queryPageEmployeeList', params, undefined, { immediate: false });
+  get<PagingTableData>('/employee/queryPageEmployeeList', params, void 0, { immediate: false });
 
 export const useQueryMemebers = (params: Record<string, any>) =>
   nativeFetch<any[]>('/employee/queryListEmployByCondition', 'post', params);
@@ -77,7 +77,7 @@ export const useModifyMember = (params: Record<string, any> & { id: number }) =>
   put('/employee/modifyEmployee', params);
 
 export const useGetDepartments = (params: ParamsForPagingFetch) =>
-  get<PagingTableData>('/department/queryPageDepartment', params, undefined, { immediate: false });
+  get<PagingTableData>('/department/queryPageDepartment', params, void 0, { immediate: false });
 
 export const useQueryDepartments = (params: Record<string, any>) =>
   nativeFetch<any[]>('/department/queryListDepartmentByCondition', 'get', params);
@@ -95,13 +95,13 @@ export const useModifyDepartment = (params: Record<string, any> & { id: number }
   put('/department/modifyDepartment', params);
 
 export const useGetLogs = (params: ParamsForPagingFetch) =>
-  get<PagingTableData>('/operaLog/queryPageOperaLog', params, undefined, { immediate: false });
+  get<PagingTableData>('/operaLog/queryPageOperaLog', params, void 0, { immediate: false });
 
 export const useQueryLogs = (params: Record<string, any>) =>
   nativeFetch<any[]>('/operaLog/queryListOperaLogByCondition', 'post', params);
 
 export const useGetUsers = (params: ParamsForPagingFetch) =>
-  get<PagingTableData>('/user/queryPageUser', params, undefined, { immediate: false });
+  get<PagingTableData>('/user/queryPageUser', params, void 0, { immediate: false });
 
 export const useQueryUsers = (params: Record<string, any>) =>
   nativeFetch<any[]>('/user/queryListUserByCondition', 'post', params);
@@ -137,7 +137,7 @@ export const useModifyDictionary = (params: {
   put('/dict/modifyDict', params);
 
 export const useGetHonors = (params: ParamsForPagingFetch) =>
-  get<PagingTableData>('/honor/queryPageHonor', params, undefined, { immediate: false });
+  get<PagingTableData>('/honor/queryPageHonor', params, void 0, { immediate: false });
 
 export const useQueryHonors = (params: Record<string, any>) =>
   nativeFetch<Honor[]>('/honor/queryListHonorByCondition', 'post', params);
@@ -155,7 +155,7 @@ export const useModifyHonor = (params: Record<string, any> & { id: number }) =>
   put('/honor/modifyHonor', params);
 
 export const useGetHonorProjects = (params: ParamsForPagingFetch) => 
-  get<PagingTableData>('/honorProject/queryPageHonorProject', params, undefined, { immediate: false });
+  get<PagingTableData>('/honorProject/queryPageHonorProject', params, void 0, { immediate: false });
 
 export const useQueryHonorProjects = (params: Record<string, any>) =>
   nativeFetch('/honorProject/queryListHonorProject', 'post', params) as Promise<HonorProject[]>;
@@ -170,7 +170,7 @@ export const useModifyHonorProject = (params: Record<string, any> & { id: number
   put('/honorProject/modifyHonorProject', params);
 
 export const useGetApplications = (params: ParamsForPagingFetch) =>
-  get<PagingTableData>('/honorAuditApply/queryPageHonorAuditApply', params, undefined, { immediate: false });
+  get<PagingTableData>('/honorAuditApply/queryPageHonorAuditApply', params, void 0, { immediate: false });
 
 export const useGetReturnedApplications = (params: ParamsForPagingFetch) =>
   get<PagingTableData>('/honorAuditApply/queryPageHonorAuditApplyDone', params);
@@ -359,13 +359,13 @@ export const useSetMemberAwarded = (params: { employeeId: number }) =>
   nativeFetch('/typicalCharacter/confirm', 'post', params);
 
 export const useGetLevel0AwardedMembers = (parmas: ParamsForPagingFetch) =>
-  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 0, ...unref(parmas) }), undefined, { key: 'level-0' });
+  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 0, ...unref(parmas) }), void 0, { key: 'level-0' });
 
 export const useGetLevel1AwardedMembers = (parmas: ParamsForPagingFetch) =>
-  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 1, ...unref(parmas) }), undefined, { key: 'level-1' });
+  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 1, ...unref(parmas) }), void 0, { key: 'level-1' });
 
 export const useGetLevel2AwardedMembers = (parmas: ParamsForPagingFetch) =>
-  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 2, ...unref(parmas) }), undefined, { key: 'level-2' });
+  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 2, ...unref(parmas) }), void 0, { key: 'level-2' });
 
 export const useQueryAwardedMember = (params: Record<string, any>) =>
   nativeFetch<AwardedMemberDetail[]>('/typicalCharacter/listByCondition', 'post', params);
@@ -411,10 +411,10 @@ export const useSortAwardedMemberDisplay = (params: number[]) =>
   put('/editTypicalSort', params);
 
 export const useGetLevel1AwardedMembersDiplay = () =>
-  get<AwardedMemberDisplayDetail[]>('/public/listTypicalCharacterCardVos', { typicalLevel: 1 }, undefined, { key: 'typical-level-1' });
+  get<AwardedMemberDisplayDetail[]>('/public/listTypicalCharacterCardVos', { typicalLevel: 1 }, void 0, { key: 'typical-level-1' });
 
 export const useGetLevel2AwardedMembersDiplay = () =>
-  get<AwardedMemberDisplayDetail[]>('/public/listTypicalCharacterCardVos', { typicalLevel: 2 }, undefined, { key: 'typical-level-2' });
+  get<AwardedMemberDisplayDetail[]>('/public/listTypicalCharacterCardVos', { typicalLevel: 2 }, void 0, { key: 'typical-level-2' });
 
 export const useGetDepartmentsDisplay = () =>
   get<{ departmentId: number; departmentName: string; }[]>('/public/listPortalDepartmentVos');
@@ -435,3 +435,6 @@ export const useAddVideo = (params: {
 
 export const useDeleteVideos = (ids: number[]) =>
   put('/deleteEmployeeVideo', ids);
+
+export const useGetEmployeeNamesAndPhotos = (params: number[]) =>
+  nativeFetch<{ name: string; photoUrl: string }[]>('/employee/listEmployeePhoto', 'post', params);
