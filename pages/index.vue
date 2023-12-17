@@ -7,7 +7,7 @@
         <input class="search-box-input__original" type="text" v-model="searchInput">
       </div>
     </div>
-    <ContentCard title="支队先锋典型" :grid-column="3" :grid-gap="20" content-height="60vh" is-grid>
+    <ContentCard title="支队先进个人" :grid-column="3" :grid-gap="20" content-height="60vh" is-grid>
       <CharactorCard height="340px" v-for="item in filterCharactors" :key="item.employeeId" :detail="item" @click="navigateTo(`/display/awardedMember?id=${item.employeeId}`, { open: { target: '_blank' } })" clickable />
       <template #extra>
         <span class="play-btn" @click="pptRef?.play()"><el-icon><ElIconVideoPlay /></el-icon>轮播展示</span>
@@ -15,7 +15,7 @@
     </ContentCard>
   </div>
   <div class="display-container" v-show="currIndex === 1">
-    <ContentCard title="大队典型名册">
+    <ContentCard title="支队大队名册">
       <div class="department-list">
         <a class="department-item" v-for="(item, index) in departments" :key="index" :href="`/display/department?id=${item.departmentId}&name=${encodeURIComponent(item.departmentName)}`" target="_blank">
           <img class="department-bg" src="https://pams-1318030356.cos.ap-shanghai.myqcloud.com/book.png">
@@ -26,7 +26,7 @@
     </ContentCard>
   </div>
   <div class="display-container" v-show="currIndex === 2">
-    <ContentCard title="数据统计" content-class="statistics">
+    <ContentCard title="支队数据概览" content-class="statistics">
       <el-row :gutter="20">
         <el-col :span="8">
           <div class="counts">
@@ -84,7 +84,7 @@ const { data: loginCount } = await useGetLoginCount();
 
 const { data: lastDecadeHonorData } = await useGetLastDecadeHonorData();
 
-const { data: departmentHonorsCount } = await useGetDeparmentHonorsCount();
+const { data: departmentHonorsCount } = await useGetDepartmentHonorsCount();
 const { data: honorLevelsData } = await useGetHonorLevelsData();
 
 const filterCharactors = computed(() =>

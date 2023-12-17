@@ -3,17 +3,17 @@
     :tableColumnProps="jobColumnProps"
     :data="jobData"
     title="工作经历"
-    @modify="data => emit('modify', JobForm, data)"
-    @delete="id => emit('delete', 'job', id)"
-    @append="emit('append', JobForm)"
+    @modify="data => emit('modify', JobForm, data, '工作经历')"
+    @delete="id => emit('delete', 'job', id, '工作经历')"
+    @append="emit('append', JobForm, '工作经历')"
   />
   <BasicTable 
     :tableColumnProps="assessmentColumnProps"
     :data="assessmentData"
     title="年度考核"
-    @modify="data => emit('modify', AssessmentForm, data)"
-    @delete="id => emit('delete', 'assessment', id)"
-    @append="emit('append', AssessmentForm)"
+    @modify="data => emit('modify', AssessmentForm, data, '年度考核')"
+    @delete="id => emit('delete', 'assessment', id, '年度考核')"
+    @append="emit('append', AssessmentForm, '年度考核')"
   />
 </template>
 
@@ -31,9 +31,9 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  delete: [form: string, id: number];
-  append: [formComponent: Component];
-  modify: [formComponent: Component, data: FormData];
+  delete: [form: string, id: number, name: string];
+  append: [formComponent: Component, name: string];
+  modify: [formComponent: Component, data: FormData, name: string];
 }>();
 
 const { id } = props;

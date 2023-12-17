@@ -1,7 +1,7 @@
 <template>
-  <div class="member-detail-container">
+  <div class="detail-container">
     <BasicInfo :id="id" />
-    <el-tabs v-model="activeTab">
+    <el-tabs v-model="activeTab" @tab-change="handleTabChange">
       <el-tab-pane label="岗位履历" name="岗位履历" lazy>
         <JobHistory :id="id" @append="handleAppend" @modify="handleModify" @delete="handleDelete" />
       </el-tab-pane>
@@ -18,28 +18,28 @@
         <Typical :id="id" @append="handleAppend" @modify="handleModify" @delete="handleDelete" />
       </el-tab-pane>
       <el-tab-pane label="个人事迹" name="个人事迹" lazy>
-        <PersonalDeed :id="id" />
+        <Deed :id="id" />
       </el-tab-pane>
       <el-tab-pane label="视频集锦" name="视频集锦" lazy>
         <VideoCollection :id="id" />
       </el-tab-pane>
     </el-tabs>
-    <ClientOnly>
-      <el-dialog
-        v-model="dialogVisible"
-        :title="dialogTitle"
-        width="500"
-        @closed="formComponent = undefined"
-        align-center
-      >
-        <component ref="formCompRef" :is="formComponent" :id="formId" :data="formData"></component>
-        <template #footer>
-          <el-button type="primary" @click="handleConfirm">确认</el-button>
-          <el-button @click="dialogVisible = false">取消</el-button>
-        </template>
-      </el-dialog>
-    </ClientOnly>
   </div>
+  <ClientOnly>
+    <el-dialog
+      v-model="dialogVisible"
+      :title="dialogTitle"
+      width="500"
+      @closed="formComponent = undefined"
+      align-center
+    >
+      <component ref="formCompRef" :is="formComponent" :id="formId" :data="formData"></component>
+      <template #footer>
+        <el-button :icon="ElIconCheck" type="primary" @click="handleConfirm">确认</el-button>
+        <el-button :icon="ElIconClose" @click="dialogVisible = false">取消</el-button>
+      </template>
+    </el-dialog>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>
@@ -56,7 +56,6 @@ definePageMeta({
 const route = useRoute();
 const id = parseInt(route.query.id as unknown as string);
 
-const activeTab = ref(route.hash.slice(1) || '岗位履历');
 const dialogVisible = ref(false);
 const dialogTitle = ref();
 
@@ -65,18 +64,20 @@ const formComponent = shallowRef<Component>();
 const formData = ref<FormData>();
 const formCompRef = shallowRef();
 
+const activeTab = computed(() => route.hash.slice(1) || '岗位履历');
+
 const eventBus = useEventBus(eventBusKey);
 
-const handleAppend = (formComp: Component) => {
-  dialogTitle.value = '添加';
+const handleAppend = (formComp: Component, name: string) => {
+  dialogTitle.value = `添加${name}`;
   formId.value = 0;
   formData.value = undefined;
   formComponent.value = formComp;
   dialogVisible.value = true;
 };
 
-const handleModify = (formComp: Component, data: FormData) => {
-  dialogTitle.value = '编辑';
+const handleModify = (formComp: Component, data: FormData, name: string) => {
+  dialogTitle.value = `编辑${name}`;
   const { id } = data;
   formId.value = id;
   formData.value = data;
@@ -84,8 +85,8 @@ const handleModify = (formComp: Component, data: FormData) => {
   dialogVisible.value = true;
 };
 
-const handleDelete = (form: string, id: number) => {
-  ConfirmDelete('', () => {
+const handleDelete = (form: string, id: number, name: string) => {
+  ConfirmDelete(name, () => {
     eventBus.emit(['delete', form, id]);
   });
 };
@@ -97,6 +98,10 @@ const handleConfirm = () => {
 
     eventBus.emit(['confirm', id]);
   });
+};
+
+const handleTabChange = (tabName: string | number) => {
+  window.location.hash = tabName as string;
 };
 
 eventBus.on(([event]) => {
@@ -112,5 +117,5 @@ provide(eventBusContextKey, eventBus);
 </script>
 
 <style lang="scss">
-  @use '@/assets/style/member-detail' as *;
+  @use '@/assets/style/detail' as *;
 </style>

@@ -47,7 +47,7 @@ const { data: departmentCount } = await useGetDepartmentCount();
 const { data: loginCount } = await useGetLoginCount();
 
 const { data: lastDecadeHonorData } = await useGetLastDecadeHonorData();
-const { data: departmentHonorsCount } = await useGetDeparmentHonorsCount();
+const { data: departmentHonorsCount } = await useGetDepartmentHonorsCount();
 const { data: honorLevelsData } = await useGetHonorLevelsData();
 
 const lineChartOption = computed<ECOption>(() => ({

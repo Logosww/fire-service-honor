@@ -84,7 +84,7 @@ import type {
   UploadRequestOptions,
   UploadFile
 } from 'element-plus';
-import type { DepartmentDetail, ElTableRowScope } from '@/composables/use-api-types';
+import type { DepartmentProfile, ElTableRowScope } from '@/composables/use-api-types';
 
 definePageMeta({
   middleware: 'auth'
@@ -100,16 +100,13 @@ const departmentId = ref(0);
 const queryForm = reactive({
   departmentName: ''
 });
-const departmentForm = 
-  reactive<
-    Omit<DepartmentDetail, 'id' | 'departmentHonorList'>
-  >({
+const departmentForm = reactive<Omit<DepartmentProfile, 'id' | 'departmentHonorList'>>({
   departmentName: '',
   departmentDescription: '',
   departmentLeader: '',
   departmentPhone: '',
   departmentParent: '',
-  departmentPhoto: []
+  departmentPhoto: [],
 });
 
 const departmentFormRef = ref<FormInstance>();
@@ -203,7 +200,7 @@ watch(
       isLoading.value = true;
 
       const { data } = 
-        await useGetDepartmentDetail({ departmentId: departmentId.value });
+        await useGetDepartmentProfile({ departmentId: departmentId.value });
       setFormValue(departmentForm, data);
       isLoading.value = false;
     } else {

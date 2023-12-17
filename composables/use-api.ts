@@ -3,12 +3,12 @@ import type {
   PagingTableData,
   COSBucketSecret,
   TreeNodeData,
-  DepartmentDetail,
   Honor,
   HonorDetail,
   HonorProject,
   HonorApplication,
   MemberProfile,
+  DepartmentProfile,
   JobHitory,
   Event,
   Contest,
@@ -20,7 +20,10 @@ import type {
   AwardedMemberDisplay,
   AwardedMemberDisplayDetail,
   Video,
-  PersonalDeed
+  PersonalDeed,
+  DepartmentDeed,
+  AwardedDepartmentDetail,
+  AwardedDepartmentDisplayDetail,
 } from './use-api-types';
 import type { SearchParameters } from 'ofetch';
 import type { AnnualAssessment } from './use-api-types';
@@ -82,8 +85,8 @@ export const useGetDepartments = (params: ParamsForPagingFetch) =>
 export const useQueryDepartments = (params: Record<string, any>) =>
   nativeFetch<any[]>('/department/queryListDepartmentByCondition', 'get', params);
 
-export const useGetDepartmentDetail = (params: { departmentId: number }) =>
-  get<DepartmentDetail>('/department/queryDepartmentDetail', params);
+export const useGetDepartmentProfile = (params: { departmentId: number }) =>
+  get<DepartmentProfile>('/department/queryDepartmentDetail', params);
 
 export const useDeleteDepartment = (params: { departmentId: number }) =>
   del('/department/deleteDepartment', params);
@@ -211,7 +214,7 @@ export const useGetDepartmentCount = () =>
 export const useGetLoginCount = () =>
   get<number>('/homeOverview/countLogin');
 
-export const useGetDeparmentHonorsCount = () =>
+export const useGetDepartmentHonorsCount = () =>
   get<Record<string, number>>('/homeOverview/countDepartmentHonor');
 
 export const useGetLastDecadeHonorData = () =>
@@ -247,7 +250,7 @@ export const useAddAssessment = (params: Record<string, any> & { employeeId: num
 export const useModifyAssessment = (params: Record<string, any> & { id: number }) =>
   put('/employeeAnnualAssessment/modifyEmployeeAnnualAssessment', params);
 
-export const useGetEvents= (params: { employeeId: number }) =>
+export const useGetEvents = (params: { employeeId: number }) =>
   get<Event[]>('/employeeEvent/queryListEmployeeEvent', params);
 
 export const useDeleteEvent = (params: { id: number }) =>
@@ -341,7 +344,7 @@ export const useGetPersonalDeedsList = (params: { employeeId: number }) =>
   get<PersonalDeed[]>('/employeeDeed/listEmployeeDeed', params);
 
 export const useGetPersonalDeed = (params: { id: number }) =>
-  get<PersonalDeed>('/employeeDeed/queryEmployeeDeed', params);
+  get<Omit<PersonalDeed, 'digest' | 'employeeId'>>('/employeeDeed/queryEmployeeDeed', params);
 
 export const useAddPersonalDeed = (params: Omit<PersonalDeed, 'id' | 'digest'> & { employeeId: number }) =>
   nativeFetch('/employeeDeed/editEmployeeDeed', 'post', params);
@@ -359,13 +362,10 @@ export const useSetMemberAwarded = (params: { employeeId: number }) =>
   nativeFetch('/typicalCharacter/confirm', 'post', params);
 
 export const useGetLevel0AwardedMembers = (parmas: ParamsForPagingFetch) =>
-  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 0, ...unref(parmas) }), void 0, { key: 'level-0' });
+  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 0, ...unref(parmas) }), void 0, { key: 'member-typical-level-0' });
 
 export const useGetLevel1AwardedMembers = (parmas: ParamsForPagingFetch) =>
-  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 1, ...unref(parmas) }), void 0, { key: 'level-1' });
-
-export const useGetLevel2AwardedMembers = (parmas: ParamsForPagingFetch) =>
-  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 2, ...unref(parmas) }), void 0, { key: 'level-2' });
+  post<PagingTableData>('/typicalCharacter/page', ref({ typicalLevel: 1, ...unref(parmas) }), void 0, { key: 'member-typical-level-1' });
 
 export const useQueryAwardedMember = (params: Record<string, any>) =>
   nativeFetch<AwardedMemberDetail[]>('/typicalCharacter/listByCondition', 'post', params);
@@ -389,18 +389,6 @@ export const useModifyAwardedMemberDisplay = (params: {
 export const useGetLogDetail = (params: { logId: number }) =>
   nativeFetch<LogDetail>('/operaLog/queryOperaLogDetailById', 'get', params);
 
-export const useGetLifePhotos = () =>
-  get<string[]>('/portal/listLifePhoto');
-
-export const useGetAwardedMembersAll = () =>
-  get<(AwardedMemberDetail & { isTypicalDeed: boolean })[]>('/portal/listTypicalCharacter');
-
-export const useGetTypicalHonors = () =>
-  get<TypicalHonor[]>('/portal/listTypicalHonor');
-
-export const useGetDepartmentPhotos = () => 
-  get<{ departmentId: number; departmentPhoto: string; departmentName: string; }[]>('/portal/listBrigade');
-
 export const useGetAwardedMembers = () =>
   get<AwardedMemberDetail[]>('/listTypicalCharacterVos');
 
@@ -411,10 +399,7 @@ export const useSortAwardedMemberDisplay = (params: number[]) =>
   put('/editTypicalSort', params);
 
 export const useGetLevel1AwardedMembersDiplay = () =>
-  get<AwardedMemberDisplayDetail[]>('/public/listTypicalCharacterCardVos', { typicalLevel: 1 }, void 0, { key: 'typical-level-1' });
-
-export const useGetLevel2AwardedMembersDiplay = () =>
-  get<AwardedMemberDisplayDetail[]>('/public/listTypicalCharacterCardVos', { typicalLevel: 2 }, void 0, { key: 'typical-level-2' });
+  get<AwardedMemberDisplayDetail[]>('/public/listTypicalCharacterCardVos', { typicalLevel: 1 });
 
 export const useGetDepartmentsDisplay = () =>
   get<{ departmentId: number; departmentName: string; }[]>('/public/listPortalDepartmentVos');
@@ -438,3 +423,78 @@ export const useDeleteVideos = (ids: number[]) =>
 
 export const useGetEmployeeNamesAndPhotos = (params: number[]) =>
   nativeFetch<{ name: string; photoUrl: string }[]>('/employee/listEmployeePhoto', 'post', params);
+
+export const useGetDepartmentEvents = (params: { departmentId: number }) =>
+  get<Event[]>('/public/departmentEvent/list', params);
+
+export const useAddDepartmentEvent = (params: Record<string, any> & { departmentId: number }) =>
+  nativeFetch('/departmentEvent/add', 'post', params);
+
+export const useModifyDepartmentEvent = (params: Event) =>
+  put('/departmentEvent/update', params);
+
+export const useDeleteDepartmentEvent = (params: { id: number }) =>
+  del('/departmentEvent/delete', params);
+
+export const useGetDepartmentContests = (params: { departmentId: number }) =>
+  get<Contest[]>('/public/departmentCompetition/list', params);
+
+export const useAddDepartmentContest = (params: Record<string, any> & { departmentId: number }) =>
+  nativeFetch('/departmentCompetition/add', 'post', params);
+
+export const useModifyDepartmentContest = (params: Contest) =>
+  put('/departmentCompetition/update', params);
+
+export const useDeleteDepartmentContest = (params: { id: number }) =>
+  del('/departmentCompetition/delete', params);
+
+export const useGetDepartmentDeedsList = (params: { departmentId: number }) =>
+  get<DepartmentDeed[]>('/public/departmentDeed/list', params);
+
+export const useGetDepartmentDeed = (params: { id: number }) =>
+  get<Omit<DepartmentDeed, 'digest' | 'departmentId'>>('/public/departmentDeed/detail', params);
+
+export const useAddDepartmentDeed = (params: Omit<DepartmentDeed, 'id' | 'digest'>) =>
+  nativeFetch('/departmentDeed/add', 'post', params);
+
+export const useModifyDepartmentDeed = (params: Omit<DepartmentDeed, 'departmentId' | 'digest'>) =>
+  put('/departmentDeed/update', params);
+
+export const useDeleteDepartmentDeed = (params: { id: number }) =>
+  del('/departmentDeed/delete', params);
+
+export const useGetLevel0AwardedDepartments = (parmas: ParamsForPagingFetch) =>
+  post<PagingTableData>('/typicalDepartment/page', ref({ typicalLevel: 0, ...unref(parmas) }), void 0, { key: 'department-typical-level-0' });
+
+export const useGetLevel1AwardedDepartments = (parmas: ParamsForPagingFetch) =>
+  post<PagingTableData>('/typicalDepartment/page', ref({ typicalLevel: 1, ...unref(parmas) }), void 0, { key: 'department-typical-level-1' });
+
+export const useQueryAwardedDepartment = (params: Record<string, any>) =>
+  nativeFetch<AwardedDepartmentDetail[]>('/typicalDepartment/listByCondition', 'post', params);
+
+export const useSetDepartmentAwarded = (params: { departmentId: number }) =>
+  nativeFetch('/typicalDepartment/confirm', 'post', params);
+
+export const usePromoteAwardedDepartmentLevel = (params: { departmentId: number }) =>
+  put('/typicalDepartment/promote', params);
+
+export const useDemoteAwardedDepartmentLevel = (params: { departmentId: number }) =>
+  del('/typicalDepartment/cancel', params);
+
+export const useGetAwardedDepartmentDisplay = (params: { departmentId: number }) =>
+  get<AwardedDepartmentDisplay>('/typicalDepartmentDisplay/query', params);
+
+export const useModifyAwardedDepartmentDisplay = (params: Omit<AwardedDepartmentDisplay, 'departmentName'>) =>
+  put('/typicalDepartmentDisplay/edit', params);
+
+export const useGetAwardedDepartments = () =>
+  get<AwardedDepartmentDetail[]>('/listTypicalDepartmentVos');
+
+export const useGetSelectedAwardedDepartments = () =>
+  get<AwardedDepartmentDetail[]>('/listDisplayTypicalDepartmentVos');
+
+export const useSortAwardedDepartmentDisplay = (params: number[]) =>
+  put('/editTypicalDepartmentSort', params);
+
+export const useGetLevel1AwardedDepartmentsDiplay = () =>
+  get<AwardedDepartmentDisplayDetail[]>('/public/listTypicalDepartmentCardVos');

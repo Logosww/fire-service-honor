@@ -21,9 +21,9 @@ import { eventBusContextKey } from '@/tokens';
 import type { FormInstance, FormRules } from 'element-plus';
 import type { Contest } from '@/composables/use-api-types';
 
-const props = defineProps<{ id: number, data?: Contest }>();
+const props = defineProps<{ id: number, data?: Contest; isDepartment?: boolean }>();
 
-const { id, data } = props;
+const { id, data, isDepartment } = props;
 
 const formRef = ref<FormInstance>();
 
@@ -45,11 +45,13 @@ const rules: FormRules = {
 
 const eventBus = inject(eventBusContextKey);
 
-const unsubscribe = eventBus?.on(async ([e, employeeId]) => {
+const unsubscribe = eventBus?.on(async ([e, employeeIdOrDepartmentId]) => {
   if(e !== 'confirm') return;
   
-  if(id) await useModifyContest(form);
-  else await useAddContest({ employeeId: employeeId! as number, ...filterFormNull(form) });
+  if(id) isDepartment ? (await useModifyDepartmentContest(form)) :(await useModifyContest(form));
+  else isDepartment 
+    ? (await useAddDepartmentContest({ departmentId: employeeIdOrDepartmentId! as number, ...filterFormNull(form) }))
+    : (await useAddContest({ employeeId: employeeIdOrDepartmentId! as number, ...filterFormNull(form) }));
   eventBus.emit(['submit', 'contest']);
 });
 

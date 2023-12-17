@@ -5,7 +5,7 @@
     </el-form-item>
     <el-form-item label="结束日期" prop="endDate">
       <el-date-picker v-model="form.endDate" type="month" value-format="YYYY-MM" :disabled="form.endDate === '至今'" />
-      <el-switch style="margin-left: 16px;" v-model="form.endDate" active-text="至今" active-value="至今" />
+      <el-checkbox style="margin-left: 16px;" v-model="form.endDate" true-label="至今" false-label="">至今</el-checkbox>
     </el-form-item>
     <el-form-item label="培训类别" prop="trainType">
       <Select v-model="form.trainType" select-target="培训学习类别" />
@@ -45,7 +45,7 @@ const form = reactive<Training>(
 const rules: FormRules = {
   startDate: { required: true, trigger: 'blur', message: '请选择开始日期' },
   endDate: {
-    trigger: 'change',
+    trigger: 'blur',
     validator: (_, value, callback) => {
       if(!value) return callback(new Error('请选择结束日期'));
       return callback(value === '至今' || isDateAfter(value, form.startDate) ? void 0 : new Error('结束日期不能早于开始日期'));

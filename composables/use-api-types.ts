@@ -1,6 +1,13 @@
 import type { FetchResult } from '@/utils';
 import type { Ref } from 'vue';
 
+export type TypicalLevel =  -1 | 0 | 1;
+
+export type ParamsForPagingFetch = Ref<{
+  page: number;
+  size?: number
+}>;
+
 export interface PagingTableData {
   page: number;
   size: number;
@@ -11,10 +18,6 @@ export interface PagingTableData {
   records: any[];
 };
 
-export type ParamsForPagingFetch = Ref<{
-  page: number;
-  size?: number
-}>;
 
 export interface COSBucketSecret {
   credentials: {
@@ -33,7 +36,7 @@ export interface TreeNodeData {
   children?: TreeNodeData[];
 };
 
-export interface DepartmentDetail {
+export interface DepartmentProfile {
   id: number;
   departmentName: string;
   departmentLeader: string;
@@ -42,6 +45,7 @@ export interface DepartmentDetail {
   departmentDescription: string;
   departmentHonorList: Honor[];
   departmentPhoto: string[];
+  typicalLevel?: TypicalLevel;
 };
 
 export interface Honor {
@@ -96,7 +100,7 @@ export interface MemberProfile {
   employeeTitleRank: string[];
   employeeStatus: string;
   employeeQuitDate: string;
-  typicalLevel: -1 | 0 | 1 | 2;
+  typicalLevel?: TypicalLevel;
   radar: {
     '劳': number;
     '绩': number;
@@ -106,6 +110,8 @@ export interface MemberProfile {
     '政': number;
   }
 };
+
+
 
 export interface JobHitory {
   id: number;
@@ -169,6 +175,13 @@ export interface AwardedMemberDetail {
   employeeDepartmentName: string;
 };
 
+export interface AwardedDepartmentDetail {
+  id: number;
+  departmentName: string;
+  departmentParentName: string;
+  departmentLeader: string;
+};
+
 export interface LogDetail {
   operaUsername: string;
   departmentName: string;
@@ -187,14 +200,17 @@ export interface TypicalHonor {
   issueDate: string;
 };
 
-export interface AwardedMemberDisplay {
-  employeeName: string;
+interface AwardDetail {
   displayImgUrl: string;
   displayContent: string;
 };
 
-export interface AwardedMemberDisplayDetail extends AwardedMemberDisplay {
+export interface AwardedMemberDisplay extends AwardDetail {
   employeeId: number;
+  employeeName: string;
+};
+
+export interface AwardedMemberDisplayDetail extends AwardedMemberDisplay {
   employeePosition: string;
   employeeDepartmentName: string;
   typicalEmployeePhoto: string;
@@ -209,6 +225,17 @@ export interface AwardedMemberDisplayDetail extends AwardedMemberDisplay {
   }
 };
 
+export interface AwardedDepartmentDisplay extends AwardDetail {
+  departmentId: number;
+  departmentName: string;
+};
+
+export interface AwardedDepartmentDisplayDetail extends AwardedDepartmentDisplay {
+  departmentPhoto: string;
+  departmentHonors: string[];
+};
+
+
 export interface Video {
   id: number;
   videoUrl: string;
@@ -217,13 +244,20 @@ export interface Video {
   videoDuration: string;
 };
 
-export interface PersonalDeed {
+export interface Deed {
   id?: number;
-  employeeId?: number;
   title: string;
   digest: string;
   coverPathUrl?: string;
   content?: string;
+}
+
+export interface PersonalDeed extends Deed {
+  employeeId?: number;
+};
+
+export interface DepartmentDeed extends Deed {
+  departmentId?: number;
 };
 
 export type FetchTableDataComposable = (params: ParamsForPagingFetch) => FetchResult<PagingTableData>;

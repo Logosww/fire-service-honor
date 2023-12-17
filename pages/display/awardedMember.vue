@@ -1,6 +1,6 @@
 <template>
   <ContentCard title="人员详情" style="margin-bottom: 150px;" content-class="basic-info">
-    <div class="member-detail-container">
+    <div class="detail-container">
       <BasicInfo :id="id" />
       <el-tabs v-model="activeTab">
         <el-tab-pane label="岗位履历" lazy>
@@ -42,7 +42,7 @@ const activeTab = ref('0');
 </script>
 
 <style lang="scss">
-  @use '@/assets/style/member-detail' as *;
+  @use '@/assets/style/detail' as *;
 </style>
 
 <style>

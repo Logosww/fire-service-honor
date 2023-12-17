@@ -1,8 +1,8 @@
 <template>
   <div style="padding-right: 32px;" v-loading="isMceLoading">
-    <el-form ref="formRef" :model="personalDeed" :rules="formRules" style="overflow: hidden; margin-bottom: 6px;">
+    <el-form ref="formRef" :model="deed" :rules="formRules" style="overflow: hidden; margin-bottom: 6px;">
       <el-form-item prop="title" style="float: left; width: 85%;">
-        <el-input v-model="personalDeed.title" placeholder="请输入">
+        <el-input v-model="deed.title" placeholder="请输入">
           <template #prepend>标题</template>
         </el-input>
       </el-form-item>
@@ -11,8 +11,8 @@
           <el-dropdown type="primary" @click="handleAppendOrModify" @command="handleCommand" split-button>
             <el-icon style="margin-right: 8px;"><ElIconCheck/></el-icon>
               保存
-            <template #dropdown>
-              <el-dropdown-item command="deletePeronsalDeed" :icon="ElIconDelete">
+            <template #dropdown v-if="target">
+              <el-dropdown-item command="deleteDeed" :icon="ElIconDelete">
                 删除
               </el-dropdown-item>
             </template>
@@ -22,7 +22,7 @@
     </el-form>
     <ClientOnly>
       <Editor
-        v-model="personalDeed.content"
+        v-model="deed.content"
         api-key="qkzruwok1b2w0xv38p723m9rjdtl8lcfaj7yiegxks5wdmx2"
         :init="editInit"
         @vue:mounted="isMceLoading = false"
@@ -43,22 +43,21 @@ definePageMeta({
 const isMceLoading = ref(true);
 const formRef = ref<FormInstance>();
 const formRules: FormRules = {
-  title: { required: true, message: '个人事迹标题不能为空', trigger: 'blur' }
+  title: { required: true, message: '事迹标题不能为空', trigger: 'blur' }
 };
 
 const route = useRoute();
-const isAppend = route.query.append === 'true';
-const personalDeedId = parseInt(route.query.id as string);
-const personalDeed = !isAppend && personalDeedId 
-  ? (await useGetPersonalDeed({ id: personalDeedId })).data
-  : ref<Omit<PersonalDeed, 'id' | 'digest'>>({
+const deedId = parseInt(route.query.id as string);
+const target = route.query.target;
+const employeeId = parseInt(route.query.employeeId as string);
+const departmentId = parseInt(route.query.departmentId as string);
+const deed = deedId
+  ? (target === 'person' ? (await useGetPersonalDeed({ id: deedId })).data : (await useGetDepartmentDeed({ id: deedId })).data)
+  : ref<Omit<Deed, 'id' | 'digest'>>({
       title: '',
       content: '',
       coverPathUrl: ''
     });
-const employeeId = isAppend
-    ? parseInt(route.query.employeeId as string)
-    : personalDeed.value.employeeId!;
 
 let progressHandler: (percent: number) => void;
 
@@ -103,25 +102,25 @@ const handleAppendOrModify = () => {
   formRef.value?.validate(async isValid => {
     if(!isValid) return;
     
-    const { content } = personalDeed.value;
-    personalDeed.value.coverPathUrl = 
+    const { content } = deed.value;
+    deed.value.coverPathUrl = 
       content?.match(/<img.*?(?:>|\/>)/gi)?.at(0)
       ?.match(/src=[\'\"]?([^\'\"]*)[\'\"]?/i)?.at(1);
 
-    isAppend 
-      ? await useAddPersonalDeed({ employeeId, ...personalDeed.value})
-      : await useModifyPersonalDeed(personalDeed.value);
+    target 
+      ? (employeeId ? (await useModifyPersonalDeed(deed.value)) : (await useModifyDepartmentDeed(deed.value)))
+      : (employeeId ? (await useAddPersonalDeed({ employeeId, ...deed.value})) : (await useAddDepartmentDeed({ departmentId, ...deed.value})));
     ElMessage({ type: 'success', message: '保存成功' });
-    await navigateTo(`/memberDetail?id=${employeeId}#个人事迹`);
+    history.length ? history.back() : (await navigateTo('/admin'));
   });
 };
 
 const handleCommand = (commond: string) => {
-  if(commond === 'deletePeronsalDeed') {
-    ConfirmDelete('个人事迹', async () => {
-      await useDeletePersonalDeed({ id: personalDeedId });
+  if(commond === 'deleteDeed') {
+    ConfirmDelete('事迹', async () => {
+      target === 'person' ? (await useDeletePersonalDeed({ id: deedId })) : (await useDeleteDepartmentDeed({ id: deedId }));
       ElMessage({ type: 'success', message: '删除成功' });
-      await navigateTo(`/memberDetail?id=${employeeId}#个人事迹`);
+      history.length ? history.back() : (await navigateTo('/admin'));
     });
   }
 };

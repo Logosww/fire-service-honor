@@ -3,9 +3,9 @@
     :tableColumnProps="columnProps"
     :data="data"
     title="能力跃升"
-    @modify="data => emit('modify', trainingForm, data)"
-    @delete="id => emit('delete', 'training', id)"
-    @append="emit('append', trainingForm)"
+    @modify="data => emit('modify', trainingForm, data, '能力跃升')"
+    @delete="id => emit('delete', 'training', id, '能力跃升')"
+    @append="emit('append', trainingForm, '能力跃升')"
   />
 </template>
 
@@ -22,9 +22,9 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  delete: [form: string, id: number];
-  append: [formComponent: Component];
-  modify: [formComponent: Component, data: FormData];
+  delete: [form: string, id: number, name: string];
+  append: [formComponent: Component, name: string];
+  modify: [formComponent: Component, data: FormData, name: string];
 }>();
 
 const { id } = props;

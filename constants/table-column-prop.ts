@@ -367,7 +367,7 @@ export const tableColumnPropsMap: TableColumnPropsMap = {
     },
     {
       prop: 'employeePosition',
-      label: '职级'
+      label: '职位'
     }
   ],
 };

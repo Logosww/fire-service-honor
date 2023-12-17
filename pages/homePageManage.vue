@@ -35,19 +35,19 @@
 <script lang="ts" setup>
 import { useSortable } from '@vueuse/integrations/useSortable';
 
-import type { AwardedMemberDisPlayDetail } from '@/composables/use-api-types';
+import type { AwardedMemberDisplayDetail } from '@/composables/use-api-types';
 
 const dialogVisible = ref(false);
 const containerRef = ref();
-const details = ref<(AwardedMemberDisPlayDetail & { id: number })[]>([]);
+const details = ref<(AwardedMemberDisplayDetail & { id: number })[]>([]);
 let sortableInstanceCache: ReturnType<typeof useSortable>;
 
 const { data } = await useGetAwardedMembers();
 const { data: selectedMembers } = await useGetSelectedAwardedMembers(); 
 const selectedData = ref(selectedMembers.value.map(({ id }) => id));
 
-const handleChange = async (data: number[]) => {
-  await useSortAwardedMemberDisplay(data);
+const handleChange = async (data: (number | string)[]) => {
+  await useSortAwardedMemberDisplay(data as number[]);
 }
 
 const handleDialogOpen = async () => {

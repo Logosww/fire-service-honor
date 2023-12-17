@@ -21,9 +21,9 @@ import { eventBusContextKey } from '@/tokens';
 import type { FormInstance, FormRules } from 'element-plus';
 import type { Event } from '@/composables/use-api-types';
 
-const props = defineProps<{ id: number, data?: Event }>();
+const props = defineProps<{ id: number, data?: Event; isDepartment?: boolean }>();
 
-const { id, data } = props;
+const { id, data, isDepartment } = props;
 
 const formRef = ref<FormInstance>();
 
@@ -45,11 +45,13 @@ const rules: FormRules = {
 
 const eventBus = inject(eventBusContextKey);
 
-const unsubscribe = eventBus?.on(async ([e, employeeId]) => {
+const unsubscribe = eventBus?.on(async ([e, employeeIdOrDepartmentId]) => {
   if(e !== 'confirm') return;
-  
-  if(id) await useModifyEvent(form);
-  else await useAddEvent({ employeeId: employeeId! as number, ...filterFormNull(form) });
+
+  if(id) isDepartment ? (await useModifyDepartmentEvent(form)) : (await useModifyEvent(form));
+  else isDepartment
+    ? (await useAddDepartmentEvent({ departmentId: employeeIdOrDepartmentId! as number, ...filterFormNull(form) }))
+    : (await useAddEvent({ employeeId: employeeIdOrDepartmentId! as number, ...filterFormNull(form) }));
   eventBus.emit(['submit', 'event']);
 });
 
