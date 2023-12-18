@@ -1,8 +1,8 @@
 <template>
   <ClientOnly>
-    <el-dialog width="480px" title="编辑典型" v-model="dialogVisible" @closed="restoreForm(form, formRef)" align-center>
-      <el-form ref="formRef" style="padding: 0 20px;" :model="form" :rules="formRequired ? rules : undefined">
-        <el-form-item label="典型风采">
+    <el-dialog width="480px" :title="`编辑典型${targetMap[target]}`" v-model="dialogVisible" @closed="restoreForm(form, formRef)" align-center>
+      <el-form ref="formRef" style="padding: 0 20px;" :model="form" :rules="rules" v-loading="isLoading">
+        <el-form-item prop="displayImgUrl" label="典型风采">
           <el-upload
             class="form-pic-uploader"
             accept="image/png, image/jpeg"
@@ -13,7 +13,7 @@
             <img :src="form.displayImgUrl" class="form-pic-uploader__pic" v-else>
           </el-upload>
         </el-form-item>
-        <el-form-item label="人物简介">
+        <el-form-item prop="displayContent" :label="`${targetMap[target]}简介`">
           <el-input type="textarea" placeholder="请输入" maxlength="350" v-model="form.displayContent" :autosize="{ minRows: 4 }" show-word-limit />
         </el-form-item>
       </el-form>
@@ -30,7 +30,12 @@ import { COSBucketBaseUrl } from '@/constants';
 
 import type { FormRules, FormInstance, UploadRequestOptions } from 'element-plus';
 
-const props = defineProps<{ modelValue: boolean; id: number, formRequired?: boolean }>();
+const targetMap = {
+  charactor: '人物',
+  department: '集体',
+};
+
+const props = defineProps<{ modelValue: boolean; id: number, target: keyof typeof targetMap }>();
 const emit = defineEmits<{ 'update:modelValue': [boolean] }>();
 
 const dialogVisible = computed({
@@ -41,17 +46,17 @@ const dialogVisible = computed({
   }
 });
 
+const isLoading = ref(false);
 const formRef = ref<FormInstance>();
 
-const form = reactive({
-  employeeName: '',
+const form = reactive<AwardDisplay>({
   displayImgUrl: '',
   displayContent: ''
 });
 
 const rules: FormRules = {
-  pic: { required: true, trigger: 'blur', message: '请上传典型风采照片' },
-  introduction: { required: true, trigger: 'blur', message: '请填写人物简介' }
+  displayImgUrl: { required: true, trigger: 'blur', message: '请上传典型风采照片' },
+  displayContent: { required: true, trigger: 'blur', message: `请填写${targetMap[props.target]}简介` }
 };
 
 const { upload } = await useCOSUpload();
@@ -67,11 +72,10 @@ const handleConfirm = () => {
   formRef.value?.validate(async valid => {
     if(!valid) return;
 
-    await useModifyAwardedMemberDisplay({
-      employeeId: props.id,
-      displayImgUrl: form.displayImgUrl,
-      displayContent: form.displayContent
-    });
+    const { id, target } = props;
+    target === 'charactor'
+      ? (await useModifyAwardedMemberDisplay({ employeeId: id, ...form }))
+      : (await useModifyAwardedDepartmentDisplay({departmentId: id, ...form}));
     ElMessage({ type: 'success', message: '编辑成功' });
     dialogVisible.value = false;
   });
@@ -81,8 +85,11 @@ watch(
   () => dialogVisible.value,
   async val => {
     if(val) {
-      const { id } = props;
-      const { data } = await useGetAwardedMemberDisplay({ employeeId: id });
+      isLoading.value = true;
+      const { id, target } = props;
+      const { data } = target === 'charactor'
+        ? (await useGetAwardedMemberDisplay({ employeeId: id }).finally(() => isLoading.value = false))
+        : (await useGetAwardedDepartmentDisplay({ departmentId: id }).finally(() => isLoading.value = false));
       setFormValue(form, data);
     }
   }

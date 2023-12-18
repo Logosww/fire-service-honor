@@ -370,4 +370,18 @@ export const tableColumnPropsMap: TableColumnPropsMap = {
       label: '职位'
     }
   ],
+  '/typicalDepartment': [
+    {
+      prop: 'departmentName',
+      label: '集体名称'
+    },
+    {
+      prop: 'departmentParentName',
+      label: '上级部门'
+    },
+    {
+      prop: 'departmentLeader',
+      label: '集体负责人'
+    }
+  ],
 };

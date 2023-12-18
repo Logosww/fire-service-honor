@@ -114,11 +114,11 @@ export const breadcrumbMap: BreadcrumbMap = {
   '/deed': [ { title: '事迹详情' } ],
   '/typicalCharactor': [
     {
-      title: '人员',
+      title: '典型管理',
       to: '/typicalCharactor',
       replace: true
     },
-    { title: '典型人物管理' }
+    { title: '典型人物' }
   ],
   '/homePageManage': [
     {
@@ -127,5 +127,13 @@ export const breadcrumbMap: BreadcrumbMap = {
       replace: true
     },
     { title: '游客首页管理' }
-  ]
+  ],
+  '/typicalDepartment': [
+    {
+      title: '典型管理',
+      to: '/typicalDepartment',
+      replace: true
+    },
+    { title: '典型集体' }
+  ],
 };

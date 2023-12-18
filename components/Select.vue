@@ -50,7 +50,7 @@ type IModelValue = Arrayable<IUnitModelValue>;
 const props = defineProps<{
   modelValue: IModelValue;
   selectTarget: string;
-  options?: any[];
+  options?: Record<string, any>[];
   isTree?: boolean;
   multiple?: boolean;
   filterable?: boolean;
@@ -96,7 +96,7 @@ const resolveDepartmentString = (val: string) =>
 
 watchEffect(() => {
   const { modelValue } = props;
-  if(!modelValue || (Array.isArray(modelValue) && !modelValue.length)) input.value = modelValue;
+  if(typeof modelValue === 'undefined' || modelValue || (Array.isArray(modelValue) && !modelValue.length)) input.value = modelValue;
 });
 
 </script>

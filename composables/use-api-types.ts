@@ -8,16 +8,15 @@ export type ParamsForPagingFetch = Ref<{
   size?: number
 }>;
 
-export interface PagingTableData {
+export interface PagingTableData<T = Record<string, any>> {
   page: number;
   size: number;
   pages: number;
   total: number;
   hasNext: boolean;
   hasPrevious: boolean;
-  records: any[];
+  records: (T & { id: number })[];
 };
-
 
 export interface COSBucketSecret {
   credentials: {
@@ -200,12 +199,12 @@ export interface TypicalHonor {
   issueDate: string;
 };
 
-interface AwardDetail {
+export interface AwardDisplay {
   displayImgUrl: string;
   displayContent: string;
 };
 
-export interface AwardedMemberDisplay extends AwardDetail {
+export interface AwardedMemberDisplay extends AwardDisplay {
   employeeId: number;
   employeeName: string;
 };
@@ -225,7 +224,7 @@ export interface AwardedMemberDisplayDetail extends AwardedMemberDisplay {
   }
 };
 
-export interface AwardedDepartmentDisplay extends AwardDetail {
+export interface AwardedDepartmentDisplay extends AwardDisplay {
   departmentId: number;
   departmentName: string;
 };
@@ -234,7 +233,6 @@ export interface AwardedDepartmentDisplayDetail extends AwardedDepartmentDisplay
   departmentPhoto: string;
   departmentHonors: string[];
 };
-
 
 export interface Video {
   id: number;

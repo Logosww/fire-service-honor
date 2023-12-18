@@ -3,14 +3,14 @@
     <el-tab-pane label="大队典型" lazy>
       <Manage
         ref="level0ManageRef"
-        composable-path="typicalCharactor-level-0"
+        composable-path="typicalDepartment-level-0"
         :table-column-props="tableColumnsProps"
         :query-form="queryForm"
       >
         <template #query>
           <el-form inline>
-            <el-form-item label="姓名"><AutoComplete v-model="queryForm.employeeName" query-target="EmployeeName" /></el-form-item>
-            <el-form-item label="部门"><Select v-model="queryForm.departmentName" select-target="DepartmentTree" is-tree /></el-form-item>
+            <!-- <el-form-item label="姓名"><AutoComplete v-model="queryForm.employeeName" query-target="EmployeeName" /></el-form-item> -->
+            <el-form-item label="集体名称"><Select v-model="queryForm.departmentName" select-target="DepartmentTree" is-tree /></el-form-item>
             <el-form-item>
               <el-button :icon="ElIconSearch" type="primary" @click="level0ManageRef?.queryData(queryForm)">查询</el-button>
               <el-button :icon="ElIconRefresh" @click="level0ManageRef?.restoreQuery(queryForm)">重置</el-button>
@@ -40,14 +40,14 @@
     <el-tab-pane label="支队典型" lazy>
       <Manage
         ref="level1ManageRef"
-        composable-path="typicalCharactor-level-1"
+        composable-path="typicalDepartment-level-1"
         :table-column-props="tableColumnsProps"
         :query-form="queryForm"
       >
         <template #query>
           <el-form inline>
-            <el-form-item label="姓名"><AutoComplete v-model="queryForm.employeeName" query-target="EmployeeName" /></el-form-item>
-            <el-form-item label="部门"><Select v-model="queryForm.departmentName" select-target="DepartmentTree" is-tree /></el-form-item>
+            <!-- <el-form-item label="姓名"><AutoComplete v-model="queryForm.employeeName" query-target="EmployeeName" /></el-form-item> -->
+            <el-form-item label="集体名称"><Select v-model="queryForm.departmentName" select-target="DepartmentTree" is-tree /></el-form-item>
             <el-form-item>
               <el-button :icon="ElIconSearch" type="primary" @click="level1ManageRef?.queryData(queryForm)">查询</el-button>
               <el-button :icon="ElIconRefresh" @click="level1ManageRef?.restoreQuery(queryForm)">重置</el-button>
@@ -70,7 +70,7 @@
       </Manage>
     </el-tab-pane>
   </el-tabs>
-  <TypicalDisplayDialog target="charactor" v-model="dialogVisible" :id="currentId" />
+  <TypicalDisplayDialog target="department" v-model="dialogVisible" :id="currentId" />
 </template>
 
 <script lang="ts" setup>
@@ -84,7 +84,7 @@ definePageMeta({
   middleware: 'auth'
 });
 
-const tableColumnsProps = tableColumnPropsMap['/typicalCharactor'];
+const tableColumnsProps = tableColumnPropsMap['/typicalDepartment'];
 
 const isAdmin = useAdmin();
 
@@ -92,7 +92,6 @@ const currentId = ref(0);
 const dialogVisible = ref(false);
 
 const queryForm = reactive({
-  employeeName: '',
   departmentName: ''
 });
 
@@ -101,7 +100,7 @@ const level1ManageRef = ref<InstanceType<typeof Manage>>();
 
 const handleView = async (scope: ElTableRowScope) => {
   const { row: { id } } = scope;
-  await navigateTo(`/memberDetail?id=${id}`);
+  await navigateTo(`/departmentDetail?id=${id}`);
 };
 
 const handleEdit = (scope: ElTableRowScope) => {
@@ -111,7 +110,7 @@ const handleEdit = (scope: ElTableRowScope) => {
 
 const handlePromote = async (scope: ElTableRowScope) => {
   const { row: { id } } = scope;
-  await usePromoteAwardedMemberLevel({ employeeId: id });
+  await usePromoteAwardedDepartmentLevel({ departmentId: id });
   level0ManageRef.value?.refreshData();
   level1ManageRef.value?.refreshData();
   ElMessage({ type: 'success', message: '升级成功' });
@@ -119,7 +118,7 @@ const handlePromote = async (scope: ElTableRowScope) => {
 
 const handleDemote = async (scope: ElTableRowScope) => {
   const { row: { id } } = scope;
-  await useDemoteAwardedMemberLevel({ employeeId: id });
+  await useDemoteAwardedDepartmentLevel({ departmentId: id });
   level0ManageRef.value?.refreshData();
   level1ManageRef.value?.refreshData();
   ElMessage({ type: 'success', message: '降级成功' });

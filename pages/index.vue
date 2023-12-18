@@ -1,7 +1,7 @@
 <template>
   <div class="display-container" v-show="currIndex === 0">
     <div class="search-box">
-      <span>典型搜索</span>
+      <span>先进个人搜索</span>
       <div class="search-box-input">
         <el-icon><ElIconSearch /></el-icon>
         <input class="search-box-input__original" type="text" v-model="searchInput">
@@ -10,11 +10,26 @@
     <ContentCard title="支队先进个人" :grid-column="3" :grid-gap="20" content-height="60vh" is-grid>
       <CharactorCard height="340px" v-for="item in filterCharactors" :key="item.employeeId" :detail="item" @click="navigateTo(`/display/awardedMember?id=${item.employeeId}`, { open: { target: '_blank' } })" clickable />
       <template #extra>
-        <span class="play-btn" @click="pptRef?.play()"><el-icon><ElIconVideoPlay /></el-icon>轮播展示</span>
+        <span class="play-btn" @click="(pptDisplayData = awardedCharactors) && pptRef?.play()"><el-icon><ElIconVideoPlay /></el-icon>轮播展示</span>
       </template>
     </ContentCard>
   </div>
   <div class="display-container" v-show="currIndex === 1">
+    <div class="search-box">
+      <span>先进集体搜索</span>
+      <div class="search-box-input">
+        <el-icon><ElIconSearch /></el-icon>
+        <input class="search-box-input__original" type="text" v-model="searchInput">
+      </div>
+    </div>
+    <ContentCard title="支队先进集体" :grid-column="3" :grid-gap="20" content-height="60vh" is-grid>
+      <DepartmentCard height="340px" v-for="item in filterDepartments" :key="item.departmentId" :detail="item" @click="navigateTo(`/display/awardedDepartment?id=${item.departmentId}`, { open: { target: '_blank' } })" clickable />
+      <template #extra>
+        <span class="play-btn" @click="(pptDisplayData = awardedDepartments) && pptRef?.play()"><el-icon><ElIconVideoPlay /></el-icon>轮播展示</span>
+      </template>
+    </ContentCard>
+  </div>
+  <div class="display-container" v-show="currIndex === 2">
     <ContentCard title="支队大队名册">
       <div class="department-list">
         <a class="department-item" v-for="(item, index) in departments" :key="index" :href="`/display/department?id=${item.departmentId}&name=${encodeURIComponent(item.departmentName)}`" target="_blank">
@@ -25,7 +40,7 @@
       </div>
     </ContentCard>
   </div>
-  <div class="display-container" v-show="currIndex === 2">
+  <div class="display-container" v-show="currIndex === 3">
     <ContentCard title="支队数据概览" content-class="statistics">
       <el-row :gutter="20">
         <el-col :span="8">
@@ -54,11 +69,12 @@
     <div :class="['scroll-bar__thumb', currIndex === 0 ? 'active' : '']" @click="currIndex = 0"></div>
     <div :class="['scroll-bar__thumb', currIndex === 1 ? 'active' : '']" @click="currIndex = 1"></div>
     <div :class="['scroll-bar__thumb', currIndex === 2 ? 'active' : '']" @click="currIndex = 2"></div>
+    <div :class="['scroll-bar__thumb', currIndex === 3 ? 'active' : '']" @click="currIndex = 3"></div>
   </div>
   <div class="scroll-tip" v-show="currIndex !== 2">
     <el-icon><ElIconArrowDownBold /></el-icon>
   </div>
-  <PPT ref="pptRef" :data="charactors" />
+  <PPT ref="pptRef" :data="pptDisplayData" :is-department="pptDisplayTarget === 'department'" />
 </template>
 
 <script lang="ts" setup>
@@ -73,8 +89,11 @@ definePageMeta({
 const currIndex = ref(0);
 const searchInput = ref('');
 const pptRef = ref<InstanceType<typeof PPT>>();
+const pptDisplayData = ref<(AwardedMemberDisplay | AwardedDepartmentDisplay)[]>([]);
+const pptDisplayTarget = ref('');
 
-const { data: charactors } = await useGetLevel1AwardedMembersDiplay();
+const { data: awardedCharactors } = await useGetLevel1AwardedMembersDiplay();
+const { data: awardedDepartments } = await useGetLevel1AwardedDepartmentsDiplay();
 const { data: departments } = await useGetDepartmentsDisplay();
 
 const { data: honorCount } = await useGetHonorCount();
@@ -88,10 +107,17 @@ const { data: departmentHonorsCount } = await useGetDepartmentHonorsCount();
 const { data: honorLevelsData } = await useGetHonorLevelsData();
 
 const filterCharactors = computed(() =>
-  charactors.value.filter(
+  awardedCharactors.value.filter(
     item =>
       !searchInput.value ||
       item.employeeName.toLowerCase().includes(searchInput.value.toLowerCase())
+  )
+);
+const filterDepartments = computed(() =>
+  awardedDepartments.value.filter(
+    item =>
+      !searchInput.value ||
+      item.departmentName.toLowerCase().includes(searchInput.value.toLowerCase())
   )
 );
 

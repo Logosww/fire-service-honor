@@ -60,7 +60,7 @@
       @closed="formComponent = undefined"
       align-center
     >
-      <component ref="formCompRef" :is="formComponent" :id="formId" :data="formData" is-department></component>
+      <component ref="formCompRef" :is="formComponent" :id="formId" :data="formData" v-loading="isFormLoading" is-department></component>
       <template #footer>
         <el-button :icon="ElIconCheck" type="primary" @click="handleConfirm">确认</el-button>
         <el-button :icon="ElIconClose" @click="dialogVisible = false">取消</el-button>
@@ -83,8 +83,9 @@ definePageMeta({
 const route = useRoute();
 const id = parseInt(route.query.id as unknown as string);
 
+const isFormLoading = ref(false);
 const dialogVisible = ref(false);
-const dialogTitle = ref();
+const dialogTitle = ref('');
 
 const { data: profile } = await useGetDepartmentProfile({ departmentId: id });
 const shouldUseVirtualList = profile.value.departmentHonorList.length >= 100;
@@ -113,7 +114,8 @@ const handleModify = (formComp: Component, data: FormData, name: string) => {
   formId.value = id;
   formData.value = data;
   formComponent.value = formComp;
-  dialogVisible.value = true;
+  dialogVisible.value = isFormLoading.value = true;
+  setTimeout(() => isFormLoading.value = false, 300);
 };
 
 const handleDelete = (form: string, id: number, name: string) => {

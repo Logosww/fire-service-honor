@@ -2,6 +2,7 @@ import COS from 'cos-js-sdk-v5';
 
 import { nanoid } from 'nanoid';
 import { COSBucketBaseUrl } from '@/constants';
+
 import type { ProgressInfo } from 'cos-js-sdk-v5';
 
 const config = {
@@ -15,6 +16,8 @@ export const useCOSUpload = async (
   onProgress?: (params: ProgressInfo) => void,
   returnUrl?: boolean
 ) => {
+  if(process.server) return { upload: () => Promise.resolve('') };
+
   let globalOnProgress = onProgress;
   const { data: bucketSecret, refresh: getCOSSecret } = await useGetCOSSecret();
 
