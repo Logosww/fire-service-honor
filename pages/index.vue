@@ -7,7 +7,7 @@
         <input class="search-box-input__original" type="text" v-model="searchInput">
       </div>
     </div>
-    <ContentCard title="支队先进个人" :grid-column="3" :grid-gap="20" content-height="60vh" is-grid>
+    <ContentCard title="支队先进个人" :grid-column="3" :grid-gap="32" content-height="60vh" is-grid>
       <CharactorCard height="340px" v-for="item in filterCharactors" :key="item.employeeId" :detail="item" @click="navigateTo(`/display/awardedMember?id=${item.employeeId}`, { open: { target: '_blank' } })" clickable />
       <template #extra>
         <span class="play-btn" @click="(pptDisplayData = awardedCharactors) && pptRef?.play()"><el-icon><ElIconVideoPlay /></el-icon>轮播展示</span>
@@ -22,7 +22,7 @@
         <input class="search-box-input__original" type="text" v-model="searchInput">
       </div>
     </div>
-    <ContentCard title="支队先进集体" :grid-column="3" :grid-gap="20" content-height="60vh" is-grid>
+    <ContentCard title="支队先进集体" :grid-column="3" :grid-gap="32" content-height="60vh" is-grid>
       <DepartmentCard height="340px" v-for="item in filterDepartments" :key="item.departmentId" :detail="item" @click="navigateTo(`/display/awardedDepartment?id=${item.departmentId}`, { open: { target: '_blank' } })" clickable />
       <template #extra>
         <span class="play-btn" @click="(pptDisplayData = awardedDepartments) && pptRef?.play()"><el-icon><ElIconVideoPlay /></el-icon>轮播展示</span>
@@ -203,7 +203,7 @@ const handleScroll = useDebounceFn((e: WheelEvent) => {
     const { target } = e;
     if((target as HTMLElement).classList.contains('content-card-main')) return;
     if(e.deltaY > 0) {
-      if(currIndex.value >= 2) return;
+      if(currIndex.value >= 3) return;
       currIndex.value++;
     } else {
       if(currIndex.value <= 0) return;

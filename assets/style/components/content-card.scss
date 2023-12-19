@@ -1,3 +1,5 @@
+@use '../_var' as *;
+
 .content-card {
   width: 100%;
   border-radius: 16px;
@@ -15,7 +17,7 @@
   ;
 
   .content-card-header {
-    padding: 15px 30px;
+    padding: 15px 32px;
     background-color: rgb(243,7,8, .85);
     color: rgb(252,229,56);
     font-size: 1.2em;
@@ -26,7 +28,7 @@
   }
 
   .content-card-main {
-    padding: 20px;
+    padding: 32px;
     padding-bottom: 40px;
 
     &.is-grid {
@@ -40,12 +42,12 @@
       padding: 30px 40px;
     
       .counts {
-        border: 1px solid #fff;
+        border: 1px solid var(--el-border-color-light);
         display: flex;
         flex-wrap: wrap;
         height: 100%;
         box-sizing: border-box;
-        border-radius: 4px;
+        border-radius: $border-radius-lg;
         padding: 40px;
         justify-content: center;
       }

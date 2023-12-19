@@ -1,9 +1,16 @@
+@use './_var' as *;
+
 .detail-container {
   position: relative;
   box-sizing: border-box;
   width: 100%;
   padding-left: 15px;
   padding-right: 30px;
+
+  .el-descriptions__body {
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+  }
 
   .el-tabs {
     margin-top: 16px;

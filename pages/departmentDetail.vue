@@ -5,7 +5,7 @@
       <el-descriptions-item label="上级部门">{{ profile.departmentParent }}</el-descriptions-item>
       <el-descriptions-item label="负责人">{{ profile.departmentLeader }}</el-descriptions-item>
       <el-descriptions-item label="集体照片">
-        <el-carousel v-if="profile.departmentPhoto.length">
+        <el-carousel height="300px" v-if="profile.departmentPhoto.length">
           <el-carousel-item v-for="(item, index) in profile.departmentPhoto">
             <el-image :src="item" fit="cover" style="width: 100%; height: 100%;" :preview-src-list="profile.departmentPhoto" :initial-index="index" preview-teleported />
           </el-carousel-item>
