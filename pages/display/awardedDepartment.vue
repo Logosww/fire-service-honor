@@ -17,7 +17,7 @@
       </el-descriptions>
       <el-tabs v-model="activeTab">
         <el-tab-pane label="荣誉列表" lazy>
-          <div v-if="profile.departmentHonorList.length" class="honor-list">
+          <el-scrollbar class="honor-list" max-height="850px" v-if="profile.departmentHonorList.length">
             <el-timeline class="honor-list-wrapper" v-if="!shouldUseVirtualList">
               <el-timeline-item v-for="(item, index) in profile.departmentHonorList" :key="index" :timestamp="item.issueDate" style="height: 180px;" placement="top" type="primary" hollow>
                 <el-card style="width: 70%;">
@@ -42,7 +42,7 @@
                 </el-timeline-item>
               </el-timeline>
             </div>
-          </div>
+          </el-scrollbar>
           <el-empty :image-size="240" v-else />
         </el-tab-pane>
         <el-tab-pane label="重大经历" lazy>
