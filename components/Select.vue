@@ -24,7 +24,7 @@
       :multiple="multiple"
       :filterable="filterable"
       :disabled="disabled"
-      :value-key="valueKey"
+      :value-key="valueKey ?? 'label'"
       allow-create
       clearable
       v-else
@@ -72,15 +72,20 @@ const treeProps = {
 
 const input = ref();
 
+// let emitValueCache: IModelValue;
+
 const handleInputChange = (val: IModelValue | Arrayable<Record<string, IUnitModelValue>>) => {
   if(!val || (Array.isArray(val) && val.some(value => !value))) return;
 
   val = typeof val === 'string' ? resolveDepartmentString(val) : val;
   input.value = val;
+  console.log(input.value)
 
   const { valueKey } = props;
   valueKey && (val = 
-    Array.isArray(val) ? (val as Record<string, IUnitModelValue>[]).map(item => item[valueKey] ?? item) : (val as Record<string, IModelValue>)[valueKey]
+    Array.isArray(val) 
+      ? (val as Record<string, IUnitModelValue>[]).map(item => item[valueKey] ?? item) 
+      : (val as Record<string, IModelValue>)[valueKey]
   );
   emit('update:modelValue', val as IModelValue);
 };
@@ -94,9 +99,18 @@ const handleClear = () => {
 const resolveDepartmentString = (val: string) =>
   val.includes('/') ? val.split('/').at(-1)! : val;
 
+const checkIfValueEmitted = (val: IModelValue) => {
+  const { value } = input;
+  const unitVal = Array.isArray(value) ? value[0] : value;
+  if(!unitVal || typeof unitVal !== 'object') return false;
+
+  const valueKey = props.valueKey ?? 'label';
+  return val === unitVal[valueKey];
+};
+
 watchEffect(() => {
   const { modelValue } = props;
-  if(typeof modelValue === 'undefined' || modelValue || (Array.isArray(modelValue) && !modelValue.length)) input.value = modelValue;
+  if(typeof modelValue === 'undefined' || (modelValue && !checkIfValueEmitted)) input.value = modelValue;
 });
 
 </script>
