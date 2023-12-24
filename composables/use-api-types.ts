@@ -55,10 +55,15 @@ export interface Honor {
   issueDate: string;
 };
 
-export interface HonorDetail {
+export interface HonorDetail<T = 
+  number 
+  | string 
+  | { id: number, label: number } 
+  | ({ id: number, label: string }[])
+>{
   id: number;
   honorPersonType: string;
-  honorPerson: string[] | number[];
+  honorPerson: T;
   honorName: string;
   issueDate: string;
   honorLevel: string;

@@ -61,7 +61,7 @@ const dialogVisible = computed({
   }
 });
 
-const data = reactive<Omit<HonorDetail, 'id'>>({
+const data = reactive<Omit<HonorDetail<string>, 'id'>>({
   honorDesc: '',
   honorLevel: '',
   honorName: '',
@@ -80,7 +80,16 @@ watch(
     if(!val) return;
 
     isLoading.value = true;
-    const { data: result } = await useGetApplicationDetail({ honorApplyId: val });
+    const { data: result } = await useGetApplicationDetail(
+      { honorApplyId: val },
+      {
+        transform: resOption => {
+          const { data, data: { honorPerson }} = resOption;
+          data.honorPerson = (honorPerson as unknown as { label: number }).label;
+          return data;
+        }
+      }
+    );
     setFormValue(data, result);
     isLoading.value = false;
   }

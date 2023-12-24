@@ -7,7 +7,7 @@ import type {
 import type { MaybeRef } from '@vueuse/core';
 import type { SearchParameters, FetchOptions, FetchResponse } from 'ofetch';
 
-interface ResOptions<T> {
+interface ResOptions<T = void> {
   data: T;
   code: number;
   msg: string;
@@ -15,7 +15,7 @@ interface ResOptions<T> {
 
 type PostRequestBody = MaybeRef<Record<string, any>>;
 type UseFetchOptions<T> = _UseFetchOptions<ResOptions<T>, T>;
-export type OtherUseFetchOptions<T> = Omit<UseFetchOptions<T>, 'query' | 'body' | 'headers'>;
+export type OtherUseFetchOptions<T = void> = Omit<UseFetchOptions<T>, 'query' | 'body' | 'headers'>;
 type RequestMethodType = 
   "get" | "head" | "patch" | "post" | "put" | "delete" | "connect" | "options" | "trace";
 export type WatchOption = OtherUseFetchOptions<unknown>['watch'];
@@ -63,7 +63,7 @@ const redirectToLogin = async () => {
  * @param { UseFetchOptions } options useFetchOptions
  * @param { object } headers 自定义Headers
  */
-const fetch = <T>(
+const fetch = <T = void>(
   url: string,
   options?: UseFetchOptions<T>,
   headers?: HeadersInit

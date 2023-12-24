@@ -28,7 +28,7 @@
               placement="bottom"
               trigger="click"
               @show="handleShowPhotos"
-              v-if="isHonorForPerson && form.honorPerson?.length"
+              v-if="isHonorForPerson && Array.isArray(form.honorPerson) && form.honorPerson.length"
             >
               <template #reference>
                 <el-button type="primary" style="margin-left: 8px;" :icon="ElIconQuestionFilled" link>查看证件照</el-button>
@@ -131,7 +131,7 @@ const isHonorForPerson = computed(() =>
 
 const formRef = ref<FormInstance>();
 
-const form = reactive<Omit<HonorDetail, 'id'>>({
+const form = reactive<Omit<HonorDetail<number | number[]>, 'id'>>({
   honorDesc: '',
   honorLevel: '',
   honorName: '',
@@ -184,7 +184,8 @@ let honorPersonCache: number[];
 const handleShowPhotos = () => {
   const { honorPerson } = form;
   if(
-    honorPersonCache 
+    honorPersonCache
+    && Array.isArray(honorPerson)
     && honorPerson.length === honorPersonCache?.length 
     && honorPerson.every((id, index) => id === honorPersonCache[index])
   ) return;
@@ -206,8 +207,26 @@ watch(
       isLoading.value = true;
 
       const { data } = isApply
-        ? (await useGetApplicationDetail({ honorApplyId: id }))
-        : (await useGetHonorDetail({ honorId: id }));
+        ? (await useGetApplicationDetail(
+          { honorApplyId: id }, 
+          {
+            transform: resOption => {
+              const { data, data: { honorPerson } } = resOption;
+              data.honorPerson = (honorPerson as unknown as { id: number }).id;
+              return data;
+            }
+          }
+        ))
+        : (await useGetHonorDetail(
+          { honorId: id },
+          {
+            transform: resOption => {
+              const { data, data: { honorPerson } } = resOption;
+              data.honorPerson = (honorPerson as unknown as { id: number }).id;
+              return data;
+            }
+          }
+        ));
       setFormValue(form, data);
       isLoading.value = false;
     } else restoreForm(form, formRef);

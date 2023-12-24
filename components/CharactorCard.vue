@@ -16,7 +16,7 @@
             <h1 class="charactor-name">{{ detail.employeeName }}</h1>
             <h4><el-icon style="margin-right: 10px;"><ElIconCollectionTag /></el-icon>{{ detail.employeePosition }}</h4>
             <h4><el-icon style="margin-right: 10px;"><ElIconHouse /></el-icon>{{ detail.employeeDepartmentName }}</h4>
-            <h4 v-if="detail.typicalHonors.length"><el-icon style="margin-right: 10px;"><ElIconTrophy /></el-icon>
+            <h4 v-if="detail.typicalHonors.length"><el-icon style="margin-right: 8px;"><ElIconTrophy /></el-icon>
               <ul class="charactor-honors">
                 <li v-for="(item, index) in detail.typicalHonors.slice(0, 3)" :key="index">{{ item }}</li>
               </ul>

@@ -145,8 +145,8 @@ export const useGetHonors = (params: ParamsForPagingFetch) =>
 export const useQueryHonors = (params: Record<string, any>) =>
   nativeFetch<Honor[]>('/honor/queryListHonorByCondition', 'post', params);
 
-export const useGetHonorDetail = (params: { honorId: number }) =>
-  get<HonorDetail>('/honor/queryHonorDetailById', params);
+export const useGetHonorDetail = (params: { honorId: number }, options?: OtherUseFetchOptions<HonorDetail>) =>
+  get<HonorDetail>('/honor/queryHonorDetailById', params, void 0, options);
 
 export const useDeleteHonor = (params: { honorId: number }) =>
   del('/honor/deleteHonor', params);
@@ -184,8 +184,8 @@ export const useQueryApplications = (params: Record<string, any>) =>
 export const useQueryReturnedApplications = (params: Record<string, any>) =>
   nativeFetch<HonorApplication[]>('/honorAuditApply/queryPageHonorAuditApplyDone', 'post', params);
 
-export const useGetApplicationDetail = (params: { honorApplyId: number }) =>
-  get<HonorDetail>('/honorAuditApply/queryHonorDetail', params);
+export const useGetApplicationDetail = (params: { honorApplyId: number }, options?: OtherUseFetchOptions<HonorDetail>) =>
+  get<HonorDetail>('/honorAuditApply/queryHonorDetail', params, void 0, options);
 
 export const useReturnApplication = (params: { honorApplyId: number }) =>
   put('/honorAuditApply/auditHonorApply', params);
