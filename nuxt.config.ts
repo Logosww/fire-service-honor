@@ -2,11 +2,15 @@
 export default defineNuxtConfig({
   modules: [
     '@element-plus/nuxt',
-    '@vueuse/nuxt'
+    '@vueuse/nuxt',
+    '@sidebase/nuxt-auth'
   ],
   elementPlus: {
     importStyle: 'scss',
     noStylesComponents: ['el-tree']
+  },
+  auth: {
+    provider: { type: 'local' }
   },
   routeRules: {
     '/': { swr: true },

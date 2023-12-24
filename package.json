@@ -9,6 +9,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@sidebase/nuxt-auth": "^0.6.3",
     "@types/node": "^18.19.3",
     "@vueuse/core": "^10.7.0",
     "@vueuse/nuxt": "^10.7.0",

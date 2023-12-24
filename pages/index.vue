@@ -1,29 +1,15 @@
 <template>
   <div class="display-container" v-show="currIndex === 0">
-    <div class="search-box">
-      <span>先进个人搜索</span>
-      <div class="search-box-input">
-        <el-icon><ElIconSearch /></el-icon>
-        <input class="search-box-input__original" type="text" v-model="searchInput">
-      </div>
-    </div>
     <ContentCard title="支队先进个人" :grid-column="3" :grid-gap="20" content-height="60vh" is-grid>
-      <CharactorCard height="340px" v-for="item in filterCharactors" :key="item.employeeId" :detail="item" @click="navigateTo(`/display/awardedMember?id=${item.employeeId}`, { open: { target: '_blank' } })" clickable />
+      <CharactorCard height="340px" v-for="item in awardedCharactors" :key="item.employeeId" :detail="item" @click="navigateTo(`/display/awardedMember?id=${item.employeeId}`, { open: { target: '_blank' } })" clickable />
       <template #extra>
         <span class="play-btn" @click="(pptDisplayData = awardedCharactors) && pptRef?.play()"><el-icon><ElIconVideoPlay /></el-icon>轮播展示</span>
       </template>
     </ContentCard>
   </div>
   <div class="display-container" v-show="currIndex === 1">
-    <div class="search-box">
-      <span>先进集体搜索</span>
-      <div class="search-box-input">
-        <el-icon><ElIconSearch /></el-icon>
-        <input class="search-box-input__original" type="text" v-model="searchInput">
-      </div>
-    </div>
     <ContentCard title="支队先进集体" :grid-column="3" :grid-gap="20" content-height="60vh" is-grid>
-      <DepartmentCard height="340px" v-for="item in filterDepartments" :key="item.departmentId" :detail="item" @click="navigateTo(`/display/awardedDepartment?id=${item.departmentId}`, { open: { target: '_blank' } })" clickable />
+      <DepartmentCard height="340px" v-for="item in awardedDepartments" :key="item.departmentId" :detail="item" @click="navigateTo(`/display/awardedDepartment?id=${item.departmentId}`, { open: { target: '_blank' } })" clickable />
       <template #extra>
         <span class="play-btn" @click="(pptDisplayData = awardedDepartments) && pptRef?.play()"><el-icon><ElIconVideoPlay /></el-icon>轮播展示</span>
       </template>
@@ -87,7 +73,6 @@ definePageMeta({
 });
 
 const currIndex = ref(0);
-const searchInput = ref('');
 const pptRef = ref<InstanceType<typeof PPT>>();
 const pptDisplayData = ref<(AwardedMemberDisplay | AwardedDepartmentDisplay)[]>([]);
 const pptDisplayTarget = ref('');
@@ -105,21 +90,6 @@ const { data: lastDecadeHonorData } = await useGetLastDecadeHonorData();
 
 const { data: departmentHonorsCount } = await useGetDepartmentHonorsCount();
 const { data: honorLevelsData } = await useGetHonorLevelsData();
-
-const filterCharactors = computed(() =>
-  awardedCharactors.value.filter(
-    item =>
-      !searchInput.value ||
-      item.employeeName.toLowerCase().includes(searchInput.value.toLowerCase())
-  )
-);
-const filterDepartments = computed(() =>
-  awardedDepartments.value.filter(
-    item =>
-      !searchInput.value ||
-      item.departmentName.toLowerCase().includes(searchInput.value.toLowerCase())
-  )
-);
 
 const lineChartOption = computed<ECOption>(() => ({
   title: {
