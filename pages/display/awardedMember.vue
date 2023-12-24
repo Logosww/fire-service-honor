@@ -1,5 +1,5 @@
 <template>
-  <ContentCard title="人员详情" style="margin-bottom: 150px;" content-class="basic-info">
+  <ContentCard title="先进人员详情" style="margin-bottom: 150px;" content-class="basic-info">
     <div class="detail-container">
       <BasicInfo :id="id" />
       <el-tabs v-model="activeTab">
@@ -19,7 +19,7 @@
           <Typical :id="id" />
         </el-tab-pane>
         <el-tab-pane label="个人事迹" lazy>
-          <PersonalDeed :id="id" />
+          <Deed :id="id" />
         </el-tab-pane>
         <el-tab-pane label="视频集锦" lazy>
           <VideoCollection :id="id" />

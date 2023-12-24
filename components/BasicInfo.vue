@@ -2,7 +2,7 @@
   <div class="basic-info-container">
     <el-row :gutter="40">
       <el-col :span="16">
-        <el-descriptions :column="4" style="border-radius: 8px; overflow: hidden;" border>
+        <el-descriptions :column="4" border>
           <el-descriptions-item label="姓名">{{ profile.employeeName }}</el-descriptions-item>
           <el-descriptions-item label="性别">{{ profile.employeeSex }}</el-descriptions-item>
           <el-descriptions-item label="集体">{{ profile.employeeDepartment }}</el-descriptions-item>
@@ -15,12 +15,12 @@
           <el-descriptions-item label="人员状态">{{ profile.employeeStatus }}</el-descriptions-item>
           <el-descriptions-item label="离伍时间" v-if="profile.employeeStatus === '离职'">{{ profile.employeeQuitDate }}</el-descriptions-item>
           <el-descriptions-item label="证件照">
-            <el-image :src="profile.employeeAvatar" :preview-src-list="[profile.employeeAvatar]" style="border-radius: 4px; display: block; margin: 0 auto;" fit="contain" />
+            <el-image :src="profile.employeeAvatar" :preview-src-list="[profile.employeeAvatar]" style="height: 300px; border-radius: 6px; display: block; margin: 0 auto;" fit="contain" />
           </el-descriptions-item>
           <el-descriptions-item label="典型风采">
-            <el-carousel height="300px" style="border-radius: 4px;" autoplay>
+            <el-carousel height="300px" autoplay>
               <el-carousel-item v-for="(item, index) in profile.employeeLifePhoto" :key="index">
-                <el-image :src="item" fit="cover" style="width: 100%; height: 100%;" :preview-src-list="profile.employeeLifePhoto" :initial-index="index" preview-teleported />
+                <el-image :src="item" fit="cover" :preview-src-list="profile.employeeLifePhoto" :initial-index="index" preview-teleported />
               </el-carousel-item>
             </el-carousel>
           </el-descriptions-item>
@@ -31,7 +31,7 @@
       </el-col>
     </el-row>
   </div>
-  <ToggleSetAwarded :id="id" v-model="profile.typicalLevel" />
+  <ToggleSetAwarded :id="id" v-model="profile.typicalLevel" v-if="!isDisplayPage" />
 </template>
 
 <script lang="ts" setup>
@@ -42,6 +42,9 @@ const props = defineProps<{
 }>();
 
 const { id } = props;
+
+const { path } = useRoute();
+const isDisplayPage = path.startsWith('/display');
 
 const { data: profile } = await useGetMemberProfile({ employeeId: id });
 

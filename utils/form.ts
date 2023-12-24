@@ -5,12 +5,14 @@ export const restoreForm = (
   form: Record<string, any>,
   formRef?: MaybeRef<FormInstance | undefined>
 ) => {
+  if(formRef) {
+    const value = unref(formRef);
+    if(value) {
+      const formProps = Object.keys(form);
+      value.resetFields(formProps);
+    }
+  }
   Object.keys(form).forEach(key => form[key] = void 0);
-  if(!formRef) return;
-  const value = unref(formRef);
-  if(!value) return;
-  const formProps = Object.keys(form);
-  value.resetFields(formProps);
 };
 
 export const filterFormNull = (form: Record<string, any>) =>

@@ -173,7 +173,7 @@ const handleScroll = useDebounceFn((e: WheelEvent) => {
     const { target } = e;
     if((target as HTMLElement).classList.contains('content-card-main')) return;
     if(e.deltaY > 0) {
-      if(currIndex.value >= 2) return;
+      if(currIndex.value >= 3) return;
       currIndex.value++;
     } else {
       if(currIndex.value <= 0) return;
