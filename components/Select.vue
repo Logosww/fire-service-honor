@@ -10,6 +10,7 @@
       :disabled="disabled"
       :props="treeProps"
       :render-after-expand="false"
+      :value-key="valueKey ?? 'label'"
       placeholder="请选择"
       check-on-click-node
       check-strictly
@@ -66,20 +67,17 @@ const resolvedOptions = props.options ?? (await useGetSelectOptions(props.select
 const isOptionsAsTree = unref(resolvedOptions).some(data => data?.children && data.children.length);
 
 const treeProps = {
-  value: 'label',
+  value: props.valueKey || 'label',
   expandTrigger: 'hover'
 };
 
 const input = ref();
-
-// let emitValueCache: IModelValue;
 
 const handleInputChange = (val: IModelValue | Arrayable<Record<string, IUnitModelValue>>) => {
   if(!val || (Array.isArray(val) && val.some(value => !value))) return;
 
   val = typeof val === 'string' ? resolveDepartmentString(val) : val;
   input.value = val;
-  console.log(input.value)
 
   const { valueKey } = props;
   valueKey && (val = 
@@ -110,7 +108,7 @@ const checkIfValueEmitted = (val: IModelValue) => {
 
 watchEffect(() => {
   const { modelValue } = props;
-  if(typeof modelValue === 'undefined' || (modelValue && !checkIfValueEmitted)) input.value = modelValue;
+  if(typeof modelValue === 'undefined' || (modelValue && !checkIfValueEmitted(modelValue))) input.value = modelValue;
 });
 
 </script>

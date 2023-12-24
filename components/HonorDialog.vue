@@ -28,9 +28,10 @@
               placement="bottom"
               trigger="click"
               @show="handleShowPhotos"
+              v-if="isHonorForPerson && form.honorPerson?.length"
             >
               <template #reference>
-                <el-button type="primary" style="margin-left: 8px;" :icon="ElIconQuestionFilled" v-if="isHonorForPerson && form.honorPerson?.length" link>查看证件照</el-button>
+                <el-button type="primary" style="margin-left: 8px;" :icon="ElIconQuestionFilled" link>查看证件照</el-button>
               </template>
               <el-table max-height="400" :data="personNameAndPhotosData" v-loading="isTableLoading" stripe>
                 <el-table-column prop="name" label="姓名" width="120" header-align="center" align="center" />
@@ -42,7 +43,7 @@
               </el-table>
             </el-popover>
           </ClientOnly>
-          <Select v-model="form.honorPerson" select-target="DepartmentTree" :multiple="!honorId" is-tree v-if="!isHonorForPerson" />
+          <Select v-model="form.honorPerson" select-target="DepartmentTree" value-key="id" :multiple="!honorId" is-tree v-if="!isHonorForPerson" />
         </el-form-item>
         <el-form-item label="荣誉级别" prop="honorLevel">
           <Select v-model="form.honorLevel" select-target="荣誉级别" />

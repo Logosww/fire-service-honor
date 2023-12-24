@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 
-const props = defineProps<{
+defineProps<{
   detail: AwardedDepartmentDisplayDetail;
   clickable?: boolean;
   height?: string;
