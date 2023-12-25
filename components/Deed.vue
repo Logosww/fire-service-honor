@@ -43,9 +43,9 @@ const handleView = async (id: number) => {
   if(isIndexPage) {
     isLoadingDeed.value = true;
     dialogVisible.value = true;
-    const { value: personalDeed } = (await useGetPersonalDeed({ id })).data;
-    deedTitle.value = personalDeed.title;
-    deedContent.value = personalDeed.content!;
+    const { value: deed } = isDepartment ? ((await useGetDepartmentDeed({ id })).data) : ((await useGetPersonalDeed({ id })).data);
+    deedTitle.value = deed.title;
+    deedContent.value = deed.content!;
     isLoadingDeed.value = false;
   } else await navigateTo(`/deed?id=${id}&target=${isDepartment ? 'department' : 'person'}`);
 };

@@ -33,15 +33,15 @@ export default defineNuxtConfig({
   devtools: {
     enabled: false
   },
-  nitro: {
-    devProxy: {
-      '/api': {
-        target: 'https://api.pams.ishortv.top',
-        changeOrigin: true,
-        cookieDomainRewrite: {
-          'pams.ishortv.top': 'localhost'
-        }
-      } 
-    }
-  }
+  // nitro: {
+  //   devProxy: {
+  //     '/api': {
+  //       target: 'https://api.pams.ishortv.top',
+  //       changeOrigin: true,
+  //       cookieDomainRewrite: {
+  //         'pams.ishortv.top': 'localhost'
+  //       }
+  //     } 
+  //   }
+  // }
 });
