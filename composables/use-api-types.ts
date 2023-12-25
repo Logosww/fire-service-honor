@@ -207,6 +207,7 @@ export interface TypicalHonor {
 export interface AwardDisplay {
   displayImgUrl: string;
   displayContent: string;
+  honors: string[];
 };
 
 export interface AwardedMemberDisplay extends AwardDisplay {

@@ -50,7 +50,7 @@ type IModelValue = Arrayable<IUnitModelValue>;
 
 const props = defineProps<{
   modelValue: IModelValue;
-  selectTarget: string;
+  selectTarget?: string;
   options?: Record<string, any>[];
   isTree?: boolean;
   multiple?: boolean;
@@ -63,8 +63,19 @@ const emit = defineEmits<{
   (event: 'update:modelValue', val: IModelValue): void;
 }>();
 
-const resolvedOptions = props.options ?? (await useGetSelectOptions(props.selectTarget)).data;
-const isOptionsAsTree = unref(resolvedOptions).some(data => data?.children && data.children.length);
+const resolvedOptions = ref();
+const isOptionsAsTree = ref<boolean | undefined>();
+
+watchEffect(async () => {
+  const _resolvedOptions = unref(props.options 
+  ?? (props.selectTarget 
+      ? ((await useGetSelectOptions(props.selectTarget)).data) 
+      : void 0
+      )
+    );
+  resolvedOptions.value = _resolvedOptions;
+  isOptionsAsTree.value = _resolvedOptions?.some(data => data?.children && data.children.length);
+})
 
 const treeProps = {
   value: props.valueKey || 'label',
@@ -102,6 +113,7 @@ const checkIfValueEmitted = (val: IModelValue) => {
   const unitVal = Array.isArray(value) ? value[0] : value;
   if(!unitVal || typeof unitVal !== 'object') return false;
 
+  val = Array.isArray(val) ? val[0] : val;
   const valueKey = props.valueKey ?? 'label';
   return val === unitVal[valueKey];
 };

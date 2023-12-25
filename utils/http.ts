@@ -22,8 +22,8 @@ export type WatchOption = OtherUseFetchOptions<unknown>['watch'];
 
 let message: typeof ElMessage | undefined;
 
-// const baseURL = process.env.NODE_ENV === 'production' ? 'https://api.pams.ishortv.top': '/api';
-const baseURL = 'https://api.pams.ishortv.top';
+const baseURL = process.env.NODE_ENV === 'production' ? 'https://api.pams.ishortv.top': '/api';
+// const baseURL = 'https://api.pams.ishortv.top';
 
 const interceptors: Pick<FetchOptions<'json'>, 'onResponse' | 'onResponseError'> = {
   onResponse: ({ response }) => {
@@ -94,7 +94,7 @@ const fetch = <T = void>(
   ) as AsyncData<T, null>;
 };
 
-export type FetchResult<T> = ReturnType<typeof fetch<T>>;
+export type FetchResult<T = void> = ReturnType<typeof fetch<T>>;
 
 // 封装 ofetch，只用于客户端请求接口，而非 SSR 阶段的 AsyncData。
 export const nativeFetch = async <T = void>(

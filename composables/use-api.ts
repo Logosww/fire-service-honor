@@ -16,7 +16,6 @@ import type {
   Typical,
   AwardedMemberDetail,
   LogDetail,
-  TypicalHonor,
   AwardedMemberDisplay,
   AwardedMemberDisplayDetail,
   Video,
@@ -498,3 +497,9 @@ export const useSortAwardedDepartmentDisplay = (params: number[]) =>
 
 export const useGetLevel1AwardedDepartmentsDiplay = () =>
   get<AwardedDepartmentDisplayDetail[]>('/public/listTypicalDepartmentCardVos');
+
+export const useGetEmployeeHonors = (params: MaybeRefOrGetter<{ employeeId: number }>) =>
+  get<{ id: number; label: string ;}[]>('/selection/queryListEmployeeTypicalHonor', params);
+
+export const useGetDepartmentHonors = (params: MaybeRefOrGetter<{ departmentId: number }>) =>
+  get<{ id: number; label: string ;}[]>('/selection/queryListDepartmentHonor', params);

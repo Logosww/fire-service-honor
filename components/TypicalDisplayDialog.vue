@@ -13,6 +13,9 @@
             <img :src="form.displayImgUrl" class="form-pic-uploader__pic" v-else>
           </el-upload>
         </el-form-item>
+        <el-form-item prop="honors" label="名片荣誉">
+          <Select v-model="form.honors" :options="honorOptions" clearable multiple filterable />
+        </el-form-item>
         <el-form-item prop="displayContent" :label="`${targetMap[target]}简介`">
           <el-input type="textarea" placeholder="请输入" maxlength="350" v-model="form.displayContent" :autosize="{ minRows: 4 }" show-word-limit />
         </el-form-item>
@@ -51,13 +54,19 @@ const formRef = ref<FormInstance>();
 
 const form = reactive<AwardDisplay>({
   displayImgUrl: '',
-  displayContent: ''
+  displayContent: '',
+  honors: [],
 });
 
 const rules: FormRules = {
   displayImgUrl: { required: true, trigger: 'blur', message: '请上传典型风采照片' },
+  honors: { required: true, trigger: 'blur', message: '请选择名片荣誉' },
   displayContent: { required: true, trigger: 'blur', message: `请填写${targetMap[props.target]}简介` }
 };
+
+const { data: honorOptions } = props.target === 'charactor' 
+  ? (await useGetEmployeeHonors(computed(() => ({ employeeId: props.id }))))
+  : (await useGetDepartmentHonors(computed(() => ({ departmentId: props.id }))));
 
 const { upload } = await useCOSUpload();
 
