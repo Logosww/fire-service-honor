@@ -503,3 +503,7 @@ export const useGetEmployeeHonors = (params: MaybeRefOrGetter<{ employeeId: numb
 
 export const useGetDepartmentHonors = (params: MaybeRefOrGetter<{ departmentId: number }>) =>
   get<{ id: number; label: string ;}[]>('/selection/queryListDepartmentHonor', params);
+
+export const useGetAllTypicalMembers = () => nativeFetch<AwardedMemberDisplayDetail[]>('/public/listAllTypicalCharacterCardVos', 'get');
+
+export const useGetAllTypicalDepartments = () => nativeFetch<AwardedDepartmentDisplayDetail[]>('/public/listAllTypicalDepartmentCardVos', 'get');

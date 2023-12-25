@@ -19,12 +19,17 @@
   .content-card-header {
     padding: 15px 32px;
     background-color: rgb(243,7,8, .85);
-    color: rgb(252,229,56);
+    color: #fce538;
     font-size: 1.2em;
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .content-card__title {
+      display: inline-flex;
+      align-items: center;
+    }
   }
 
   .content-card-main {
@@ -89,7 +94,7 @@
     transition: color .3s;
     
     &:hover {
-      color: rgb(252, 255, 80);
+      color: #fcff50;
     }
 
     .el-icon {

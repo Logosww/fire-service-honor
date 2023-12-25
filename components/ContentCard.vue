@@ -1,7 +1,7 @@
 <template>
   <div class="content-card">
     <div class="content-card-header">
-      <span>{{ title }}</span>
+      <span class="content-card__title">{{ title }}<slot name="title-extra" /></span>
       <slot name="extra" />
     </div>
     <el-scrollbar :max-height="contentHeight" v-if="contentHeight">

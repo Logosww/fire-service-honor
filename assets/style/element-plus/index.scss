@@ -27,4 +27,95 @@
   )
 );
 
+
 @use 'element-plus/theme-chalk/src/dark/css-vars' as *;
+
+.el-zoom-in-top {
+  &-enter-from, &-leave-to {
+    opacity: 0;
+    transform-origin: 0 0;
+    transform: scaleY(.8);
+  }
+
+  &-enter-to, &-leave-from {
+    opacity: 1;
+    transform-origin: 0 0;
+    transform: scaleY(1);
+
+    &[data-popper-placement^='top'] {
+      transform-origin: center bottom;
+    }
+  }
+
+  &-enter-active {
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  &-leave-active {
+    transition: all 0.2s ease;
+  }
+}
+
+.el-zoom-in-bottom {
+  &-leave-from, &-enter-to {
+    opacity: 0;
+    transform-origin: 0 0;
+    transform: scaleY(.8);
+  }
+
+  &-leave-to, &-enter-from {
+    opacity: 1;
+    transform-origin: 0 0;
+    transform: scaleY(1);
+
+    &[data-popper-placement^='top'] {
+      transform-origin: center bottom;
+    }
+  }
+
+  &-leave-active {
+    transition: all .5s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  &-enter-active {
+    transition: all .3s ease;
+  }
+}
+
+.dialog-fade-enter-active {
+  .el-dialog {
+    animation: slide-up-in .6s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+}
+
+.dialog-fade-leave-active {
+  .el-dialog {
+    animation: slide-up-out .3s ease;
+  }
+}
+
+@keyframes slide-up-in {
+  0% {
+    opacity: 0;
+    transform-origin: 0 0;
+    transform: scaleY(0.8);
+  }
+  to {
+    opacity: 1;
+    transform-origin: 0 0;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes slide-up-out {
+  0% {
+    opacity: 1;
+    transform-origin: 0 0;
+    transform: scaleY(1);
+  }
+  to {
+    opacity: 0;
+    transform-origin: 0 0;
+    transform: scaleY(0.8);
+  }
+}
