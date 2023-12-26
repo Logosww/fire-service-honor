@@ -75,7 +75,7 @@
     <div :class="['scroll-bar__thumb', currIndex === 2 ? 'active' : '']" @click="currIndex = 2"></div>
     <div :class="['scroll-bar__thumb', currIndex === 3 ? 'active' : '']" @click="currIndex = 3"></div>
   </div>
-  <div class="scroll-tip" v-show="currIndex !== 2">
+  <div class="scroll-tip" v-show="currIndex !== 3">
     <el-icon><ElIconArrowDownBold /></el-icon>
   </div>
   <PPT ref="pptRef" :data="pptDisplayData" :is-department="pptDisplayTarget === 'department'" />
