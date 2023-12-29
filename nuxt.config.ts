@@ -14,8 +14,6 @@ export default defineNuxtConfig({
   // },
   routeRules: {
     '/': { swr: true },
-    '/admin': { swr: true },
-    '/login': { prerender: true },
     '/display/**': { swr: true },
   },
   vite: {

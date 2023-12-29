@@ -1,6 +1,6 @@
-export default defineNuxtRouteMiddleware(async () => {
+export default defineNuxtRouteMiddleware(() => {
   if(process.client) return;
   
-  const auth = useCookie('token').value;
+  const auth = useAuth().value;
   if(auth) return navigateTo('/admin');
 });

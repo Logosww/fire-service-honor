@@ -1,6 +1,6 @@
 export default defineNuxtRouteMiddleware(() => {
   if(process.client) return;
   
-  const admin = useCookie('is_admin').value;
-  if(!admin) return navigateTo('/login');
+  const isAdmin = useAdmin().value;
+  if(!isAdmin) return navigateTo('/login');
 });
