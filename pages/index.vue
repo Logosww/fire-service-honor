@@ -1,6 +1,6 @@
 <template>
-  <div class="display-container" v-show="currIndex === 0">
-    <ContentCard title="支队先进个人" :grid-column="3" :grid-gap="20" content-height="60vh" v-loading="isCharactorsLoading" is-grid>
+  <div ref="displayContainerRef" class="display-container" id="display-container-0">
+    <ContentCard title="支队先进个人" :grid-column="3" :grid-gap="20" content-height="70vh" v-loading="isCharactorsLoading" is-grid>
       <CharactorCard height="340px" v-for="item in awardedCharactors" :key="item.employeeId" :detail="item" @click="navigateTo(`/display/awardedMember?id=${item.employeeId}`, { open: { target: '_blank' } })" clickable />
       <template #extra>
         <span class="play-btn" @click="(pptDisplayData = awardedCharactors) && pptRef?.play()"><el-icon><ElIconVideoPlay /></el-icon>轮播展示</span>
@@ -16,7 +16,7 @@
       </template>
     </ContentCard>
   </div>
-  <div class="display-container" v-show="currIndex === 1">
+  <div class="display-container" id="display-container-1">
     <ContentCard title="支队先进集体" :grid-column="3" :grid-gap="20" content-height="60vh" v-loading="isDepartmentsLoading" is-grid>
       <DepartmentCard height="340px" v-for="item in awardedDepartments" :key="item.departmentId" :detail="item" @click="navigateTo(`/display/awardedDepartment?id=${item.departmentId}`, { open: { target: '_blank' } })" clickable />
       <template #extra>
@@ -33,7 +33,7 @@
       </template>
     </ContentCard>
   </div>
-  <div class="display-container" v-show="currIndex === 2">
+  <div class="display-container" id="display-container-2">
     <ContentCard title="支队大队名册">
       <div class="department-list">
         <a class="department-item" v-for="(item, index) in departments" :key="index" :href="`/display/department?id=${item.departmentId}&name=${encodeURIComponent(item.departmentName)}`" target="_blank">
@@ -44,7 +44,7 @@
       </div>
     </ContentCard>
   </div>
-  <div class="display-container" v-show="currIndex === 3">
+  <div class="display-container" id="display-container-3">
     <ContentCard title="支队数据概览" content-class="statistics">
       <el-row :gutter="20">
         <el-col :span="8">
@@ -70,13 +70,10 @@
     </ContentCard>
   </div>
   <div class="scroll-bar">
-    <div :class="['scroll-bar__thumb', currIndex === 0 ? 'active' : '']" @click="currIndex = 0"></div>
-    <div :class="['scroll-bar__thumb', currIndex === 1 ? 'active' : '']" @click="currIndex = 1"></div>
-    <div :class="['scroll-bar__thumb', currIndex === 2 ? 'active' : '']" @click="currIndex = 2"></div>
-    <div :class="['scroll-bar__thumb', currIndex === 3 ? 'active' : '']" @click="currIndex = 3"></div>
-  </div>
-  <div class="scroll-tip" v-show="currIndex !== 3">
-    <el-icon><ElIconArrowDownBold /></el-icon>
+    <div :class="['scroll-bar__thumb', currIndex === 0 ? 'active' : '']" @click="handleScrollTo('#display-container-0')"></div>
+    <div :class="['scroll-bar__thumb', currIndex === 1 ? 'active' : '']" @click="handleScrollTo('#display-container-1')"></div>
+    <div :class="['scroll-bar__thumb', currIndex === 2 ? 'active' : '']" @click="handleScrollTo('#display-container-2')"></div>
+    <div :class="['scroll-bar__thumb', currIndex === 3 ? 'active' : '']" @click="handleScrollTo('#display-container-3')"></div>
   </div>
   <PPT ref="pptRef" :data="pptDisplayData" :is-department="pptDisplayTarget === 'department'" />
 </template>
@@ -90,16 +87,19 @@ definePageMeta({
   layout: 'landing-page'
 });
 
-const contentCardContainerEles: Element[] = [];
-
-const currIndex = ref(0);
 const pptRef = ref<InstanceType<typeof PPT>>();
 const pptDisplayData = ref<(AwardedMemberDisplay | AwardedDepartmentDisplay)[]>([]);
+const scrollY = ref(0);
 const pptDisplayTarget = ref('');
 const isShowAllCharactors = ref(false);
 const isShowAllDepartments = ref(false);
 const isCharactorsLoading = ref(false);
 const isDepartmentsLoading = ref(false);
+const displayContainerRef = ref<HTMLDivElement>();
+
+const { height: containerHeight } = useElementSize(displayContainerRef);
+
+const currIndex = computed(() => Math.floor(scrollY.value / containerHeight.value));
 
 const { data: awardedCharactors, refresh: refreshAwardedCharactors } = await useGetLevel1AwardedMembersDiplay();
 const { data: awardedDepartments, refresh: refreshAwardedDepartments } = await useGetLevel1AwardedDepartmentsDiplay();
@@ -193,19 +193,6 @@ const pieChartOption = computed<ECOption>(() => ({
   ]
 }));
 
-const handleScroll = useDebounceFn((e: WheelEvent) => {
-  const { target } = e;
-  if(contentCardContainerEles.some(parentEle => parentEle.contains(target as HTMLElement))) return;
-
-  if(e.deltaY > 0) {
-    if(currIndex.value >= 3) return;
-    currIndex.value++;
-  } else {
-    if(currIndex.value <= 0) return;
-    currIndex.value--;
-  }
-}, 50);
-
 const handleToggleShowAllCharactors = () => {
   isCharactorsLoading.value = true;
   if(isShowAllCharactors.value) 
@@ -226,9 +213,13 @@ const handleToggleShowAllDepartments = () => {
       .finally(() => isDepartmentsLoading.value = false);
 };
 
+const handleScrollTo = (id: string) => {
+  const ele = document.querySelector(id);
+  ele?.scrollIntoView(true);
+};
+
 onMounted(() => {
-  window.addEventListener('wheel', handleScroll);
-  document.querySelectorAll('.content-card').forEach(ele => contentCardContainerEles.push(ele));
+  document.querySelector('#app')?.addEventListener('scroll', e => scrollY.value = (e.target as HTMLDivElement).scrollTop);
 });
 </script>
 

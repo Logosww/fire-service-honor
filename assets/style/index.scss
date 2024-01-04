@@ -1,5 +1,5 @@
 .display-container {
-  height: calc(100vh - 6vw - 122px);
+  height: 80vh;
   animation: display .6s;
 
   .department-list {
@@ -82,29 +82,42 @@
   }
 }
 
-.scroll-tip {
-  position: fixed;
-  bottom: 60px;
-  left: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  font-size: 24px;
-  color: #fce08a;
-  animation: bounce 2s infinite;
+body {
+  overflow-y: scroll;
 
-  @keyframes bounce {
-    0%, 100% {
-      transform: translateY(-50%);
-      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-    }
-    50% {
-      transform: translateY(0);
-      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .wrapper {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+
+    .container {
+      position: fixed;
+      height: 100%;
+      width: 100%;
+      background-size: cover;
+
+      .header {
+        position: fixed;
+        min-height: 20vh;
+      }
+
+      .main {
+        margin-top: 20vh;
+
+        #app {
+          height: 80vh;
+          overflow-y: scroll;
+          scroll-behavior: smooth;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+        }
+      }
     }
   }
-}
-
-body {
-  overflow: hidden;
 }

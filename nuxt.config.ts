@@ -12,6 +12,11 @@ export default defineNuxtConfig({
   // auth: {
   //   provider: { type: 'local' }
   // },
+  router: {
+    options: {
+      scrollBehaviorType: 'smooth'
+    }
+  },
   routeRules: {
     '/': { swr: true },
     '/display/**': { swr: true },
