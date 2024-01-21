@@ -49,7 +49,7 @@ const isDisplayPage = path.startsWith('/display');
 const { data: profile } = await useGetMemberProfile({ employeeId: id });
 
 const { value: { radar } } = profile; 
-const radarMax = Object.values(radar).sort((prev, curr) => curr - prev).at(0)! * 1.25;
+const radarMax = Object.values(radar).sort((prev, curr) => curr - prev).at(0)!;
 
 const radarOption = computed<ECOption>(() => (radar && {
   title: {
