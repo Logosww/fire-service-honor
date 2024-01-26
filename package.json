@@ -9,7 +9,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@types/node": "^18.19.8",
+    "@types/node": "^18.19.10",
     "@vueuse/core": "^10.7.2",
     "@vueuse/nuxt": "^10.7.2",
     "normalize.css": "^8.0.1",
@@ -20,11 +20,11 @@
     "@element-plus/nuxt": "^1.0.7",
     "@tinymce/tinymce-vue": "^5.1.1",
     "@vueuse/integrations": "^10.7.2",
-    "cos-js-sdk-v5": "^1.5.0",
+    "cos-js-sdk-v5": "^1.6.0",
     "echarts": "^5.4.3",
     "moment": "^2.30.1",
     "nanoid": "^4.0.2",
     "sortablejs": "^1.15.2",
-    "video.js": "^8.9.0"
+    "video.js": "^8.10.0"
   }
 }

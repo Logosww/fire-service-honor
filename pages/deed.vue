@@ -1,6 +1,6 @@
 <template>
   <div style="padding-right: 32px;" v-loading="isMceLoading">
-    <el-form ref="formRef" :model="deed" :rules="formRules" style="overflow: hidden; margin-bottom: 6px;">
+    <el-form ref="formRef" :model="deed" :rules="formRules" style="overflow: hidden; margin-bottom: 6px; margin-top: 8px;">
       <el-form-item prop="title" style="float: left; width: 85%;">
         <el-input v-model="deed.title" placeholder="请输入">
           <template #prepend>标题</template>
