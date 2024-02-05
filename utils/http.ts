@@ -3,7 +3,7 @@ import { sendRedirect } from 'h3';
 import type {
   AsyncData,
   UseFetchOptions as _UseFetchOptions
-} from 'nuxt/dist/app/composables';
+} from '#app';
 import type { MaybeRef } from '@vueuse/core';
 import type { SearchParameters, FetchOptions, FetchResponse } from 'ofetch';
 

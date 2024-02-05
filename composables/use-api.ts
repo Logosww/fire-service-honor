@@ -361,10 +361,10 @@ export const useSetMemberAwarded = (params: { employeeId: number }) =>
   nativeFetch('/typicalCharacter/confirm', 'post', params);
 
 export const useGetLevel0AwardedMembers = (parmas: ParamsForPagingFetch) =>
-  post<PagingTableData<AwardedMemberDetail>>('/typicalCharacter/page', computed(() => ({ typicalLevel: 0, ...parmas.value })));
+  post<PagingTableData<AwardedMemberDetail>>('/typicalCharacter/page', computed(() => ({ typicalLevel: 0, ...parmas.value })), void 0, { key: 'level-0-charactor' });
 
 export const useGetLevel1AwardedMembers = (parmas: ParamsForPagingFetch) =>
-  post<PagingTableData<AwardedMemberDetail>>('/typicalCharacter/page', computed(() => ({ typicalLevel: 1, ...parmas.value })));
+  post<PagingTableData<AwardedMemberDetail>>('/typicalCharacter/page', computed(() => ({ typicalLevel: 1, ...parmas.value })), void 0, { key: 'level-1-charactor' });
 
 export const useQueryAwardedMember = (params: Record<string, any>) =>
   nativeFetch<AwardedMemberDetail[]>('/typicalCharacter/listByCondition', 'post', params);
@@ -463,10 +463,10 @@ export const useDeleteDepartmentDeed = (params: { id: number }) =>
   del('/departmentDeed/delete', params);
 
 export const useGetLevel0AwardedDepartments = (parmas: ParamsForPagingFetch) =>
-  post<PagingTableData<AwardedDepartmentDetail>>('/typicalDepartment/page', computed(() => ({ typicalLevel: 0, ...parmas.value })));
+  post<PagingTableData<AwardedDepartmentDetail>>('/typicalDepartment/page', computed(() => ({ typicalLevel: 0, ...parmas.value })), void 0, { key: 'level-0-department' });
 
 export const useGetLevel1AwardedDepartments = (parmas: ParamsForPagingFetch) =>
-  post<PagingTableData<AwardedDepartmentDetail>>('/typicalDepartment/page', computed(() => ({ typicalLevel: 1, ...parmas.value })));
+  post<PagingTableData<AwardedDepartmentDetail>>('/typicalDepartment/page', computed(() => ({ typicalLevel: 1, ...parmas.value })), void 0, { key: 'level-1-department' });
 
 export const useQueryAwardedDepartment = (params: Record<string, any>) =>
   nativeFetch<AwardedDepartmentDetail[]>('/typicalDepartment/listByCondition', 'post', params);
