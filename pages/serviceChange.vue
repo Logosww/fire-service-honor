@@ -35,7 +35,7 @@
         </el-form-item>
         <el-form-item label="转入部门" prop="changeDepartment">
           <Select v-model="switchForm.changeDepartment" select-target="DepartmentTree" :disabled="switchForm.changeDepartment === '待定'" is-tree />
-          <el-checkbox v-model="switchForm.changeDepartment" true-label="待定" false-label="">待定</el-checkbox>
+          <el-checkbox v-model="switchForm.changeDepartment" true-value="待定" false-value="">待定</el-checkbox>
         </el-form-item>
         <el-form-item label="转入日期" prop="changeDate">
           <el-date-picker v-model="switchForm.changeDate" value-format="YYYY-MM-DD" />
